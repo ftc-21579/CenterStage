@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.mineinjava.quail.differentialSwerveModuleBase;
+import com.mineinjava.quail.util.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +16,31 @@ public class Diffy extends LinearOpMode {
     private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-1, 0), 2, 3, false);
     private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(1, 0), 2, 3, false);
 
-    private static List<differentialSwerveModuleBase> modules = new ArrayList<>();
+    private final static List<differentialSwerveModuleBase> modules = new ArrayList<>();
 
-    private static DcMotor leftUpperMotor, rightUpperMotor;
+    private ElapsedTime time = new ElapsedTime();
+
+    private static DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
+
+    private final PIDController leftUpperPID = new PIDController(0.1, 0, 0, time.seconds());
+    private final PIDController leftLowerPID = new PIDController(0.1, 0, 0, time.seconds());
+
+    private final PIDController rightUpperPID = new PIDController(0.1, 0, 0, time.seconds());
+    private final PIDController rightLowerPID = new PIDController(0.1, 0, 0, time.seconds());
+
+    private final PIDController[] pidControllers = {leftUpperPID, leftLowerPID, rightUpperPID, rightLowerPID};
+    private final DcMotor[] motors = {leftUpperMotor, leftLowerMotor, rightUpperMotor, rightLowerMotor};
+
+    private final double ticksPerDegree = 2.481;
 
     @Override
     public void runOpMode() {
 
         leftUpperMotor = hardwareMap.dcMotor.get("leftUpperMotor");
+        leftLowerMotor = hardwareMap.dcMotor.get("leftLowerMotor");
+
         rightUpperMotor = hardwareMap.dcMotor.get("rightUpperMotor");
+        rightLowerMotor = hardwareMap.dcMotor.get("rightLowerMotor");
 
         swerveDrive<differentialSwerveModuleBase> drive = new swerveDrive<>(modules);
 
@@ -38,7 +56,11 @@ public class Diffy extends LinearOpMode {
             double[] powers = {};
 
             for (int i = 0; i < vectors.length; i++) {
-                powers[i] = modules.get(i).calculateMotorSpeeds(vectors[i]);
+                int current = motors[i].getCurrentPosition();
+                int target = (int) (vectors[i].getAngle() * ticksPerDegree);
+                double power = pidControllers[i].update(current, target, time.seconds());
+                double length = vectors[i].getLength();
+                powers[i] = modules.get(i).calculateMotorSpeeds(length, power);
             }
 
             // Left module motors
