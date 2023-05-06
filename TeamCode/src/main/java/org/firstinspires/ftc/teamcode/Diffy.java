@@ -5,20 +5,22 @@ import com.mineinjava.quail.util.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.Vec2d;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@TeleOp(name="Diffy")
 public class Diffy extends LinearOpMode {
 
-    private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-1, 0), 2, 3, false);
-    private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(1, 0), 2, 3, false);
+    private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-0.454, 0), 0.1563, 0.6250, false);
+    private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(0.454, 0), 0.1563, 0.6250, false);
 
     private final static List<differentialSwerveModuleBase> modules = new ArrayList<>();
 
-    private ElapsedTime time = new ElapsedTime();
+    private final ElapsedTime time = new ElapsedTime();
 
     private static DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
@@ -42,6 +44,9 @@ public class Diffy extends LinearOpMode {
         rightUpperMotor = hardwareMap.dcMotor.get("rightUpperMotor");
         rightLowerMotor = hardwareMap.dcMotor.get("rightLowerMotor");
 
+        modules.add(left);
+        modules.add(right);
+
         swerveDrive<differentialSwerveModuleBase> drive = new swerveDrive<>(modules);
 
         waitForStart();
@@ -53,7 +58,7 @@ public class Diffy extends LinearOpMode {
 
             Vec2d[] vectors = drive.calculateMoveAngles(new Vec2d(x, y), rot, 0, new Vec2d(0, 0));
 
-            double[] powers = {};
+            double[][] powers = {};
 
             for (int i = 0; i < vectors.length; i++) {
                 int current = motors[i].getCurrentPosition();
@@ -70,8 +75,6 @@ public class Diffy extends LinearOpMode {
             // Right module motors
             rightUpperMotor.setPower(powers[1][0]);
             rightLowerMotor.setPower(powers[1][1]);
-
-
         }
 
     }
