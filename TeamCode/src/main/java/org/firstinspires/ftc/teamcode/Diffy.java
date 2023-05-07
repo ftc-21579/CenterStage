@@ -15,6 +15,7 @@ import java.util.List;
 @TeleOp(name="Diffy")
 public class Diffy extends LinearOpMode {
 
+    // Differential swerve modules (vectors in feet, 1ft = 1 unit)
     private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-0.454, 0), 0.1563, 0.6250, false);
     private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(0.454, 0), 0.1563, 0.6250, false);
 
@@ -34,6 +35,7 @@ public class Diffy extends LinearOpMode {
     private final DcMotor[] motors = {leftUpperMotor, leftLowerMotor, rightUpperMotor, rightLowerMotor};
 
     private final double ticksPerDegree = 2.481;
+    private final double ticksPerFullRotation = 893.16;
 
     @Override
     public void runOpMode() {
@@ -52,6 +54,7 @@ public class Diffy extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
+
             double x = gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
             double rot = gamepad1.right_stick_x;
@@ -61,11 +64,13 @@ public class Diffy extends LinearOpMode {
             double[][] powers = {};
 
             for (int i = 0; i < vectors.length; i++) {
-                int current = motors[i].getCurrentPosition();
-                int target = (int) (vectors[i].getAngle() * ticksPerDegree);
-                double power = pidControllers[i].update(current, target, time.seconds());
-                double length = vectors[i].getLength();
-                powers[i] = modules.get(i).calculateMotorSpeeds(length, power);
+                int currentPosition = motors[i].getCurrentPosition();
+                int target = (int) (vectors[i].getAngle() * ticksPerDegree) % ticksPerFullRotation;
+
+                double wheelSpeed = pidControllers[i].update(currentPosition, target, time.seconds());
+                double rotationSpeed = vectors[i].getLength();
+
+                powers[i] = modules.get(i).calculateMotorSpeeds(rotationSpeed, wheelSpeed);
             }
 
             // Left module motors
