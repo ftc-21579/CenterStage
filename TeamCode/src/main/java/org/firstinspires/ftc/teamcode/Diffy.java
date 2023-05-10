@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class Diffy extends LinearOpMode {
     private final PIDController rightLowerPID = new PIDController(0.1, 0, 0, time.seconds());
 
     private final PIDController[] pidControllers = {leftUpperPID, leftLowerPID, rightUpperPID, rightLowerPID};
-    private final DcMotor[] motors = {leftUpperMotor, leftLowerMotor, rightUpperMotor, rightLowerMotor};
+    private final List<DcMotor> motors = new ArrayList<>();
 
     private final double ticksPerDegree = 2.481;
     private final double ticksPerFullRotation = 893.16;
@@ -45,6 +47,11 @@ public class Diffy extends LinearOpMode {
 
         rightUpperMotor = hardwareMap.dcMotor.get("rightUpperMotor");
         rightLowerMotor = hardwareMap.dcMotor.get("rightLowerMotor");
+
+        motors.add(leftUpperMotor);
+        motors.add(leftLowerMotor);
+        motors.add(rightUpperMotor);
+        motors.add(rightLowerMotor);
 
         modules.add(left);
         modules.add(right);
@@ -59,13 +66,17 @@ public class Diffy extends LinearOpMode {
             double y = gamepad1.left_stick_y;
             double rot = gamepad1.right_stick_x;
 
+            telemetry.addLine(x + " " + y + " " + rot);
+
             Vec2d[] vectors = drive.calculateMoveAngles(new Vec2d(x, y), rot, 0, new Vec2d(0, 0));
 
-            double[][] powers = {};
+            double[][] powers = {{0, 0}, {0, 0}};
 
             for (int i = 0; i < vectors.length; i++) {
-                int currentPosition = motors[i].getCurrentPosition();
-                int target = (int) (vectors[i].getAngle() * ticksPerDegree) % ticksPerFullRotation;
+                DcMotor motor = motors.get(i);
+                int currentPosition = motor.getCurrentPosition();
+                int target = (int) ((int) (vectors[i].getAngle() * ticksPerDegree) % ticksPerFullRotation);
+
 
                 double wheelSpeed = pidControllers[i].update(currentPosition, target, time.seconds());
                 double rotationSpeed = vectors[i].getLength();
@@ -80,6 +91,11 @@ public class Diffy extends LinearOpMode {
             // Right module motors
             rightUpperMotor.setPower(powers[1][0]);
             rightLowerMotor.setPower(powers[1][1]);
+
+            telemetry.addData("Powers", powers[0][0] + " " + powers[0][1] + " " + powers[1][0] + " " + powers[1][1]);
+            telemetry.addData("Vectors", vectors[0] + " " + vectors[1]);
+
+            telemetry.update();
         }
 
     }
