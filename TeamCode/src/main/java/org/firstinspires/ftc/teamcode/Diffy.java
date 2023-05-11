@@ -25,8 +25,8 @@ import java.util.List;
 public class Diffy extends LinearOpMode {
 
     // Differential swerve modules (vectors in feet, 1ft = 1 unit)
-    private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-0.454, 0), 0.1563, 0.6250, false);
-    private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(0.454, 0), 0.1563, 0.6250, false);
+    private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-0.454, 0), 6, 1.5, false);
+    private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(0.454, 0), 6, 1.5, false);
 
     private final List<differentialSwerveModuleBase> modules = new ArrayList<>();
 
@@ -34,17 +34,18 @@ public class Diffy extends LinearOpMode {
 
     private static DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
-    public static double kp = 0.2;
-    public static double ki = 0;
-    public static double kd = 0;
+    public static double leftkp = 0.2;
+    public static double leftki = 0;
+    public static double leftkd = 0;
 
-    private final PIDController leftUpperPID = new PIDController(kp, ki, kd, time.seconds());
-    private final PIDController leftLowerPID = new PIDController(kp, ki, kd, time.seconds());
+    public static double rightkp = 0.2;
+    public static double rightki = 0;
+    public static double rightkd = 0;
 
-    private final PIDController rightUpperPID = new PIDController(kp, ki, kd, time.seconds());
-    private final PIDController rightLowerPID = new PIDController(kp, ki, kd, time.seconds());
+    private final PIDController leftPID = new PIDController(leftkp, leftki, leftkd, time.seconds());
+    private final PIDController rightPID = new PIDController(rightkp, rightki, rightkd, time.seconds());
 
-    private final PIDController[] pidControllers = {leftUpperPID, leftLowerPID, rightUpperPID, rightLowerPID};
+    private final PIDController[] pidControllers = {leftPID, rightPID};
     private final List<DcMotor> motors = new ArrayList<>();
 
     private final double ticksPerDegree = 2.481;
