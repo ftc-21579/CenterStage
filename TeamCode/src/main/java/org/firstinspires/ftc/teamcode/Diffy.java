@@ -23,10 +23,13 @@ import java.util.List;
 @TeleOp(name="Diffy")
 @Config
 public class Diffy extends LinearOpMode {
+    
+    public static final double steeringGearRatio = 6.4;
+    public static final double driveGearRatio = 1.5;
 
     // Differential swerve modules (vectors in feet, 1ft = 1 unit)
-    private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-0.454, 0), 6, 1.5, false);
-    private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(0.454, 0), 6, 1.5, false);
+    private static final differentialSwerveModuleBase left = new differentialSwerveModuleBase(new Vec2d(-0.454, 0), steeringGearRatio, driveGearRatio, false);
+    private static final differentialSwerveModuleBase right = new differentialSwerveModuleBase(new Vec2d(0.454, 0), steeringGearRatio, driveGearRatio, false);
 
     private final List<differentialSwerveModuleBase> modules = new ArrayList<>();
 
@@ -47,9 +50,6 @@ public class Diffy extends LinearOpMode {
 
     private final PIDController[] pidControllers = {leftPID, rightPID};
     private final List<DcMotor> motors = new ArrayList<>();
-
-    private final double ticksPerDegree = 2.481;
-    private final double ticksPerFullRotation = 893.16;
 
     DecimalFormat df = new DecimalFormat("##.0000");
 
@@ -78,11 +78,6 @@ public class Diffy extends LinearOpMode {
         leftUpperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightLowerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightUpperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        motors.add(leftUpperMotor);
-        motors.add(leftLowerMotor);
-        motors.add(rightUpperMotor);
-        motors.add(rightLowerMotor);
 
         modules.add(left);
         modules.add(right);
@@ -122,8 +117,6 @@ public class Diffy extends LinearOpMode {
                 normalizedVectors = drive.normalizeModuleVectors(vectors, 1.0);
             }
 
-
-
             double[][] powers = {{0, 0}, {0, 0}};
             // 11.83
 
@@ -135,23 +128,23 @@ public class Diffy extends LinearOpMode {
             double leftPod = (leftUpperPos + leftLowerPos) / 2;
             double rightPod = (rightUpperPos + rightLowerPos) / 2;
 
-            double leftOdometry = (leftPod / 6) % 360;
-            double rightOdometry = (rightPod / 6) % 360;
+            double leftOdometryDeg = (leftPod / steeringGearRatio) % 360;
+            double rightOdometryDeg = (rightPod / steeringGearRatio) % 360;
 
-            telemetry.addData("leftOdo", df.format(leftOdometry));
-            telemetry.addData("rightOdo", df.format(rightOdometry));
-            packet.put("leftOdo", df.format(leftOdometry));
-            packet.put("rightOdo", df.format(rightOdometry));
+            telemetry.addData("leftOdo", df.format(leftOdometryDeg));
+            telemetry.addData("rightOdo", df.format(rightOdometryDeg));
+            packet.put("leftOdo", df.format(leftOdometryDeg));
+            packet.put("rightOdo", df.format(rightOdometryDeg));
 
-            packet.put("leftUpperMotor", leftUpperMotor.getCurrentPosition());
-            packet.put("leftLowerMotor", leftLowerMotor.getCurrentPosition());
-            packet.put("rightUpperMotor", rightUpperMotor.getCurrentPosition());
-            packet.put("rightLowerMotor", rightLowerMotor.getCurrentPosition());
+            packet.put("leftUpperMotor", leftUpperPos);
+            packet.put("leftLowerMotor", leftLowerPos);
+            packet.put("rightUpperMotor", rightUpperPos);
+            packet.put("rightLowerMotor", rightLowerPos);
 
-            double[] odometry = {leftOdometry, rightOdometry};
+            double[] odometry = {leftOdometryDeg, rightOdometryDeg};
 
             for (int i = 0; i < normalizedVectors.length; i++) {
-                DcMotor motor = motors.get(i);
+                //DcMotor motor = motors.get(i);
                 //int target = (int) ((int) (normalizedVectors[i].getAngle() * ticksPerDegree) % ticksPerFullRotation);
 
                 double rotationSpeed = pidControllers[i].update(odometry[i], normalizedVectors[i].getAngle(), time.seconds());
