@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.mineinjava.quail.differentialSwerveModuleBase;
 import com.mineinjava.quail.util.PIDController;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.Vec2d;
@@ -20,6 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 @TeleOp(name="Diffy")
 @Config
 public class Diffy extends LinearOpMode {
@@ -36,6 +38,7 @@ public class Diffy extends LinearOpMode {
     private ElapsedTime time = new ElapsedTime();
 
     private static DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
+    private boolean isZeroMovement = true;
 
     public static double leftkp = 0.2;
     public static double leftki = 0;
@@ -45,10 +48,14 @@ public class Diffy extends LinearOpMode {
     public static double rightki = 0;
     public static double rightkd = 0;
 
-    private final PIDController leftPID = new PIDController(leftkp, leftki, leftkd, time.seconds());
-    private final PIDController rightPID = new PIDController(rightkp, rightki, rightkd, time.seconds());
+    //private final PIDController leftPID = new PIDController(leftkp, leftki, leftkd, time.seconds());
+    //private final PIDController rightPID = new PIDController(rightkp, rightki, rightkd, time.seconds());
 
-    private final PIDController[] pidControllers = {leftPID, rightPID};
+    private final MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
+    private final MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
+
+    //private final PIDController[] pidControllers = {leftPID, rightPID};
+    private final MiniPID[] pidControllers = {leftPID, rightPID};
     private final List<DcMotor> motors = new ArrayList<>();
 
     DecimalFormat df = new DecimalFormat("##.0000");
@@ -87,34 +94,31 @@ public class Diffy extends LinearOpMode {
         waitForStart();
 
         time.reset();
+        leftPID.reset();
+        rightPID.reset();
 
         while(opModeIsActive()) {
 
             TelemetryPacket packet = new TelemetryPacket();
 
-            double x = gamepad1.left_stick_x * 0.8;
-            double y = gamepad1.left_stick_y * 0.8;
-            double rot = gamepad1.right_stick_x * 0.8;
+            double x = gamepad1.left_stick_x;
+            double y = gamepad1.left_stick_y;
+            double rot = gamepad1.right_stick_x;
+
+            if (x == 0 && y == 0 && rot == 0) {
+                isZeroMovement = true;
+            }
+            else {
+                isZeroMovement = false;
+            }
 
             telemetry.addLine("Gamepad: " + x + " | " + y + " | " + rot);
 
+            Vec2d[] normalizedVectors = {new Vec2d(0, 0), new Vec2d(0, 0)};
 
-            //Vec2d[] vectors = drive.calculateMoveAngles(new Vec2d(x, y), rot, 0, new Vec2d(0, 0));
-            //Vec2d[] normalizedVectors = drive.normalizeModuleVectors(vectors, 0.25);
-
-
-            Vec2d[] normalizedVectors;
-            if (gamepad1.a) {
-                Vec2d[] vectors = {new Vec2d(1,0), new Vec2d(1,0)};
-                normalizedVectors = drive.normalizeModuleVectors(vectors, 1.0);
-            }
-            else if (gamepad1.b) {
-                Vec2d[] vectors = {new Vec2d(0,1), new Vec2d(0,1)};
-                normalizedVectors = drive.normalizeModuleVectors(vectors, 1.0);
-            }
-            else {
-                Vec2d[] vectors = {new Vec2d(0, 0), new Vec2d(0, 0)};
-                normalizedVectors = drive.normalizeModuleVectors(vectors, 1.0);
+            if (!isZeroMovement) {
+                Vec2d[] vectors = drive.calculateMoveAngles(new Vec2d(x, y), rot, 0, new Vec2d(0, 0));
+                normalizedVectors = drive.normalizeModuleVectors(vectors, 0.5);
             }
 
             double[][] powers = {{0, 0}, {0, 0}};
@@ -143,34 +147,52 @@ public class Diffy extends LinearOpMode {
 
             double[] odometry = {leftOdometryDeg, rightOdometryDeg};
 
-            for (int i = 0; i < normalizedVectors.length; i++) {
-                //DcMotor motor = motors.get(i);
-                //int target = (int) ((int) (normalizedVectors[i].getAngle() * ticksPerDegree) % ticksPerFullRotation);
+            if (!isZeroMovement) {
+                for (int i = 0; i < normalizedVectors.length; i++) {
 
-                double rotationSpeed = pidControllers[i].update(odometry[i], normalizedVectors[i].getAngle(), time.seconds());
-                double wheelSpeed = normalizedVectors[i].getLength();
+                    // Speed at which the pod should rotate
+                    double rotationSpeed = 0.0;
 
-                telemetry.addData(i + "", df.format(normalizedVectors[i].getAngle()) + " | " + df.format(rotationSpeed) + " | " + df.format(wheelSpeed));
-                packet.put(i + " ", df.format(normalizedVectors[i].getAngle()) + " | " + df.format(rotationSpeed) + " | " + df.format(wheelSpeed) + " | " + pidControllers[i].ERROR);
+                    // If there is no movement, don't try to get the angle......
+                    double target = Math.toDegrees(normalizedVectors[i].getAngle());
 
-                powers[i] = modules.get(i).calculateMotorSpeeds(wheelSpeed, rotationSpeed);
+                    double current = odometry[i];
+
+                    MiniPID pid = pidControllers[i];
+
+                    pid.setSetpoint(target);
+                    rotationSpeed = pid.getOutput(current);
+
+                    rotationSpeed = Math.min(-1, Math.max(1, rotationSpeed));
+
+                    double wheelSpeed = 0.0;
+
+                    if (x != 0 && y != 0) {
+                        wheelSpeed = normalizedVectors[i].getLength();
+                    }
+
+                    telemetry.addData(i + "", df.format(normalizedVectors[i].getAngle()) + " | " + df.format(rotationSpeed) + " | " + df.format(wheelSpeed));
+                    packet.put(i + " ", df.format(normalizedVectors[i].getAngle()) + " | " + df.format(rotationSpeed) + " | " + df.format(wheelSpeed) + " | ");
+
+                    powers[i] = modules.get(i).calculateMotorSpeeds(rotationSpeed, wheelSpeed);
+                }
+                        }
+            else {
+                for (int i = 0; i < normalizedVectors.length; i++) {
+                    powers[i] = modules.get(i).calculateMotorSpeeds(0, 0);
+                }
             }
-
-            //powers[0][0] = Math.max(-1, Math.min(1, powers[0][0]));
-            //powers[0][1] = Math.max(-1, Math.min(1, powers[0][1]));
-            //powers[1][0] = Math.max(-1, Math.min(1, powers[1][0]));
-            //powers[1][1] = Math.max(-1, Math.min(1, powers[1][1]));
 
             powers[0] = normalizeWheelSpeeds(powers[0]);
             powers[1] = normalizeWheelSpeeds(powers[1]);
 
             // Left module motors
-            leftUpperMotor.setPower(powers[0][0] * 0.5);
-            leftLowerMotor.setPower(powers[0][1] * 0.5);
+            leftUpperMotor.setPower(powers[0][0]);
+            leftLowerMotor.setPower(powers[0][1]);
 
             // Right module motors
-            rightUpperMotor.setPower(powers[1][0] * 0.5);
-            rightLowerMotor.setPower(powers[1][1] * 0.5);
+            rightUpperMotor.setPower(powers[1][0]);
+            rightLowerMotor.setPower(powers[1][1]);
 
             String[][] powersString = new String[2][2];
 
