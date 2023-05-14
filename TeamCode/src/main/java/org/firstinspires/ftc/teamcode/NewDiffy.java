@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -20,8 +21,8 @@ public class NewDiffy extends LinearOpMode {
     public static final double driveGearRatio = 1.5;
     private DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
-    public static double leftkp = 0.2, leftki = 0, leftkd = 0;
-    public static double rightkp = 0.2, rightki = 0, rightkd = 0;
+    public static double leftkp = 6, leftki = 0, leftkd = 0;
+    public static double rightkp = 6, rightki = 0, rightkd = 0;
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
@@ -38,6 +39,9 @@ public class NewDiffy extends LinearOpMode {
         rightLowerMotor = hardwareMap.get(DcMotor.class, "rightLowerMotor");
         rightUpperMotor = hardwareMap.get(DcMotor.class, "rightUpperMotor");
 
+        leftLowerMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightLowerMotor.setDirection(DcMotor.Direction.REVERSE);
+
         leftLowerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftUpperMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightLowerMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,8 +56,8 @@ public class NewDiffy extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         // Initialize the swerve modules
-        left = new SwerveModule(new Vec2d(-0.454, 0), steeringGearRatio, driveGearRatio, leftPID, leftUpperMotor, leftLowerMotor, telemetry);
-        right = new SwerveModule(new Vec2d(0.454, 0), steeringGearRatio, driveGearRatio, rightPID, rightUpperMotor, rightLowerMotor, telemetry);
+        left = new SwerveModule(new Vec2d(-0.454, 0), steeringGearRatio, driveGearRatio, leftPID, leftUpperMotor, leftLowerMotor, telemetry, "Left");
+        right = new SwerveModule(new Vec2d(0.454, 0), steeringGearRatio, driveGearRatio, rightPID, rightUpperMotor, rightLowerMotor, telemetry, "Right");
 
         // Add the modules to the list of modules
         modules.add(left);
@@ -69,35 +73,12 @@ public class NewDiffy extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            // Get the current position of the motors
-            double leftUpperPosDeg = leftUpperMotor.getCurrentPosition() / 145.1 * 360;
-            double leftLowerPosDeg = leftLowerMotor.getCurrentPosition() / 145.1 * 360;
-            double rightUpperPosDeg = rightUpperMotor.getCurrentPosition() / 145.1 * 360;
-            double rightLowerPosDeg = rightLowerMotor.getCurrentPosition() / 145.1 * 360;
-
-            // Average the positions of the motors to get pod position
-            double leftPodDeg = (leftUpperPosDeg + leftLowerPosDeg) / 2;
-            double rightPodDeg = (rightUpperPosDeg + rightLowerPosDeg) / 2;
-
-            // Calculate the odometry position of the modules
-            double leftOdometryDeg = (leftPodDeg / steeringGearRatio) % 360;
-            double rightOdometryDeg = (rightPodDeg / steeringGearRatio) % 360;
-
-            telemetry.addData("Left Odo", leftOdometryDeg);
-            telemetry.addData("Right Odo", rightOdometryDeg);
-
             // Get the joystick values
             double x = gamepad1.left_stick_x;
             double y = gamepad1.left_stick_y;
             double rot = gamepad1.right_stick_x;
 
-            // Calculate the vectors for each module
-            Vec2d[] vectors = drive.calculateMoveAngles(new Vec2d(x, y), rot, 0);
-            Vec2d[] normalizedVectors = drive.normalizeModuleVectors(vectors, 0.5);
-
-            // Set the vectors for each module
-            left.set(normalizedVectors[0], leftOdometryDeg);
-            right.set(normalizedVectors[1], rightOdometryDeg);
+            drive.move(new robotMovement(rot * 2, new Vec2d(y, x)), 0);
 
             telemetry.update();
         }
