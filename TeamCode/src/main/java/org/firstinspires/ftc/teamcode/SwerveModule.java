@@ -54,8 +54,11 @@ public class SwerveModule extends differentialSwerveModuleBase {
         double targetRad = vector.getAngle();
         telemetry.addData(name + " Target angle", Math.toDegrees(targetRad));
 
+        double distanceToTarget = deltaAngle(odometryRad, targetRad);
+        double setpointRad = odometryRad + distanceToTarget;
+
         // The rotation speed is the output of the PID controller
-        double rotationSpeed = pid.getOutput(odometryRad, targetRad);
+        double rotationSpeed = pid.getOutput(odometryRad, setpointRad);
         telemetry.addData(name + " Rotation speed", rotationSpeed);
 
         // Calculate the motor speeds
