@@ -39,6 +39,10 @@ public class SwerveModule extends differentialSwerveModuleBase {
             return;
         }
 
+        //if (name == "Left") {
+        //    vector = new Vec2d(-vector.x, -vector.y);
+        //}
+
         // Get the current motor angles in radians
         double upperPosRad = upperMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
         double lowerPosRad = lowerMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
@@ -54,7 +58,13 @@ public class SwerveModule extends differentialSwerveModuleBase {
         double targetRad = vector.getAngle();
         telemetry.addData(name + " Target angle", Math.toDegrees(targetRad));
 
+        double wheelFlipper = 1;
         double distanceToTarget = deltaAngle(odometryRad, targetRad);
+        if (Math.abs(distanceToTarget) > Math.PI / 2) {
+            targetRad += Math.PI;
+            wheelFlipper = -1;
+        }
+        distanceToTarget = deltaAngle(odometryRad, targetRad);
         double setpointRad = odometryRad + distanceToTarget;
 
         // The rotation speed is the output of the PID controller
@@ -62,7 +72,10 @@ public class SwerveModule extends differentialSwerveModuleBase {
         telemetry.addData(name + " Rotation speed", rotationSpeed);
 
         // Calculate the motor speeds
-        double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, vector.getLength());
+        double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, vector.getLength() * wheelFlipper);
+
+        motorSpeeds[0] = motorSpeeds[0] * driveRatio;
+        motorSpeeds[1] = motorSpeeds[1] * driveRatio;
 
         motorSpeeds = normalizeWheelSpeeds(motorSpeeds);
 

@@ -41,5 +41,5 @@ dependencies {
 }
 
 dependencies {
-    implementation 'com.github.Mineinjava:quail:15106c4f40'
+    implementation 'com.github.Mineinjava:quail:7c7c241150'
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public class NewDiffy extends LinearOpMode {
 
     public static final double steeringGearRatio = 6.4;
-    public static final double driveGearRatio = 1.5;
+    public static final double driveGearRatio = 1.6;
     private DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
     public static double leftkp = 6, leftki = 0, leftkd = 0;
@@ -78,6 +78,8 @@ public class NewDiffy extends LinearOpMode {
             double y = gamepad1.left_stick_y;
             double rot = gamepad1.right_stick_x;
 
+
+            //drive.move(new robotMovement(y * 2, new Vec2d(rot, x)), 0);
             drive.move(new robotMovement(rot * 2, new Vec2d(y, x)), 0);
 
             telemetry.update();
