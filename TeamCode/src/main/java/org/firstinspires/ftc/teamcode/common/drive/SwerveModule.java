@@ -8,6 +8,7 @@ import com.mineinjava.quail.util.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
 
 public class SwerveModule extends differentialSwerveModuleBase {
@@ -15,12 +16,14 @@ public class SwerveModule extends differentialSwerveModuleBase {
     DcMotor upperMotor, lowerMotor;
     Telemetry telemetry;
     String name;
+    AbsoluteAnalogEncoder encoder;
 
-    public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, Telemetry telemetry, String name) {
+    public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, AbsoluteAnalogEncoder encoder, Telemetry telemetry, String name) {
         super(position, steeringGearRatio, driveGearRatio);
         this.pid = pid;
         this.upperMotor = upperMotor;
         this.lowerMotor = lowerMotor;
+        this.encoder = encoder;
         this.telemetry = telemetry;
         this.name = name;
     }
@@ -46,14 +49,15 @@ public class SwerveModule extends differentialSwerveModuleBase {
         //}
 
         // Get the current motor angles in radians
-        double upperPosRad = upperMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
-        double lowerPosRad = lowerMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
+        //double upperPosRad = upperMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
+        //double lowerPosRad = lowerMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
 
         // The odometry angle is the average of the upper and lower pod angles
-        double podRad = (upperPosRad + lowerPosRad) / 2;
+        //double podRad = (upperPosRad + lowerPosRad) / 2;
 
         // The odometry angle is the angle of the pod divided by the steering ratio
-        double odometryRad = (podRad / super.steeringRatio);
+        //double odometryRad = (podRad / super.steeringRatio);
+        double odometryRad = encoder.getCurrentPosition();
         telemetry.addData(name + " Odometry angle", Math.toDegrees(odometryRad));
 
         // The target angle is the angle of the vector
@@ -66,6 +70,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
             targetRad += Math.PI;
             wheelFlipper = -1;
         }
+
         distanceToTarget = deltaAngle(odometryRad, targetRad);
         double setpointRad = odometryRad + distanceToTarget;
 
