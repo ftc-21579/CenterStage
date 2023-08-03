@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
-
 public class SwerveModule extends differentialSwerveModuleBase {
     public MiniPID pid;
     DcMotor upperMotor, lowerMotor;
@@ -44,19 +43,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
             return;
         }
 
-        //if (name == "Left") {
-        //    vector = new Vec2d(-vector.x, -vector.y);
-        //}
-
-        // Get the current motor angles in radians
-        //double upperPosRad = upperMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
-        //double lowerPosRad = lowerMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
-
-        // The odometry angle is the average of the upper and lower pod angles
-        //double podRad = (upperPosRad + lowerPosRad) / 2;
-
-        // The odometry angle is the angle of the pod divided by the steering ratio
-        //double odometryRad = (podRad / super.steeringRatio);
+        // The position of the pod in radians
         double odometryRad = encoder.getCurrentPosition();
         telemetry.addData(name + " Odometry angle", Math.toDegrees(odometryRad));
 

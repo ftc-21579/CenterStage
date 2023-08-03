@@ -28,6 +28,7 @@ public class NewDiffy extends LinearOpMode {
 
     public static final double steeringGearRatio = 6.4;
     public static final double driveGearRatio = 1.6;
+    public static double movementMultiplier = 2;
     private DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
     private AbsoluteAnalogEncoder leftAbsoluteEncoder, rightAbsoluteEncoder;
@@ -101,9 +102,9 @@ public class NewDiffy extends LinearOpMode {
         while (opModeIsActive()) {
 
             // Get the joystick values
-            double x = gamepad1.left_stick_x;
-            double y = gamepad1.left_stick_y;
-            double rot = -gamepad1.right_stick_x;
+            double x = gamepad1.left_stick_x * movementMultiplier;
+            double y = gamepad1.left_stick_y * movementMultiplier;
+            double rot = gamepad1.right_stick_x * movementMultiplier;
 
             if (gamepad1.options) {
                 imu.resetYaw();
@@ -111,7 +112,7 @@ public class NewDiffy extends LinearOpMode {
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             //drive.move(new robotMovement(y * 2, new Vec2d(rot, x)), 0);
-            drive.move(new robotMovement(rot * 2, new Vec2d(y, x)), -botHeading);
+            drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
 
             telemetry.update();
         }
