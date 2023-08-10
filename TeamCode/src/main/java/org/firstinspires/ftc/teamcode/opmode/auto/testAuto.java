@@ -1,32 +1,32 @@
-package org.firstinspires.ftc.teamcode.opmode.teleop;
+package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.mineinjava.quail.robotMovement;
+import com.mineinjava.quail.odometry.pathFollower;
+import com.mineinjava.quail.odometry.swerveOdometry;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.Vec2d;
+import com.mineinjava.quail.odometry.path;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.teamcode.common.drive.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Config
-@TeleOp(name="NewDiffy")
-public class NewDiffy extends LinearOpMode {
-
-    public static boolean fieldCentric = false;
+@Autonomous(name="TestAuto")
+public class testAuto extends LinearOpMode {
 
     public static final double steeringGearRatio = 6.4;
     public static final double driveGearRatio = 1.6;
@@ -43,13 +43,19 @@ public class NewDiffy extends LinearOpMode {
 
     private SwerveModule left, right;
 
-    private final List<SwerveModule> modules = new ArrayList<>();
+    private final ArrayList<SwerveModule> modules = new ArrayList<>();
+
+    double[] pointone = {0.0, 0.0};
+    double[] pointtwo = {5.0, 5.0};
+    private path testPath = new path(new ArrayList<>(Arrays.asList(pointone, pointtwo)));
+
+    private swerveOdometry odo;
+    private pathFollower pathFollower;
 
     IMU imu;
 
-
-    @Override
     public void runOpMode() {
+
         // Initialize the motors
         leftUpperMotor = hardwareMap.get(DcMotor.class, "leftUpperMotor");
         leftLowerMotor = hardwareMap.get(DcMotor.class, "leftLowerMotor");
@@ -95,6 +101,8 @@ public class NewDiffy extends LinearOpMode {
 
         // Initialize the swerve drive class
         swerveDrive<SwerveModule> drive = new swerveDrive<>(modules);
+        SwerveModule[] mods = {left, right};
+        odo = new swerveOdometry(drive);
 
         waitForStart();
 
@@ -102,32 +110,7 @@ public class NewDiffy extends LinearOpMode {
         rightPID.reset();
 
         while (opModeIsActive()) {
-
-            // Get the joystick values
-            double x = gamepad1.left_stick_x * movementMultiplier;
-            double y = gamepad1.left_stick_y * movementMultiplier;
-            double rot = gamepad1.right_stick_x * movementMultiplier;
-
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-            //drive.move(new robotMovement(y * 2, new Vec2d(rot, x)), 0);
-            if (fieldCentric) {
-                drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
-            }
-            else {
-                drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
-            }
-
-            telemetry.addData("Left Update", Math.toDegrees(leftAbsoluteEncoder.getCurrentPosition()));
-            telemetry.addData("Right Update", Math.toDegrees(rightAbsoluteEncoder.getCurrentPosition()));
-            telemetry.addData("Left Voltage", leftAbsoluteEncoder.getVoltage());
-            telemetry.addData("Right Voltage", rightAbsoluteEncoder.getVoltage());
-
-            telemetry.update();
+            
         }
-
     }
 }
