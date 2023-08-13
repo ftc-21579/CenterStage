@@ -28,8 +28,8 @@ public class NewDiffy extends LinearOpMode {
 
     public static boolean fieldCentric = false;
 
-    public static final double steeringGearRatio = 6.4;
-    public static final double driveGearRatio = 1.6;
+    public static final double steeringGearRatio = 4;
+    public static final double driveGearRatio = 1;
     public static double movementMultiplier = 2;
     private DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
@@ -121,10 +121,10 @@ public class NewDiffy extends LinearOpMode {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
 
-            telemetry.addData("Left Update", Math.toDegrees(leftAbsoluteEncoder.getCurrentPosition()));
-            telemetry.addData("Right Update", Math.toDegrees(rightAbsoluteEncoder.getCurrentPosition()));
-            telemetry.addData("Left Voltage", leftAbsoluteEncoder.getVoltage());
-            telemetry.addData("Right Voltage", rightAbsoluteEncoder.getVoltage());
+            //telemetry.addData("Left Update", Math.toDegrees(leftAbsoluteEncoder.getCurrentPosition()));
+            //telemetry.addData("Right Update", Math.toDegrees(rightAbsoluteEncoder.getCurrentPosition()));
+            //telemetry.addData("Left Voltage", leftAbsoluteEncoder.getVoltage());
+            //telemetry.addData("Right Voltage", rightAbsoluteEncoder.getVoltage());
 
             telemetry.update();
         }

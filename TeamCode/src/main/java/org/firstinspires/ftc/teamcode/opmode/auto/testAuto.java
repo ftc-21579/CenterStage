@@ -28,8 +28,8 @@ import java.util.List;
 @Autonomous(name="TestAuto")
 public class testAuto extends LinearOpMode {
 
-    public static final double steeringGearRatio = 6.4;
-    public static final double driveGearRatio = 1.6;
+    public static final double steeringGearRatio = 4;
+    public static final double driveGearRatio = 1;
     public static double movementMultiplier = 2;
     private DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 

@@ -67,16 +67,25 @@ public class SwerveModule extends differentialSwerveModuleBase {
 
         // Calculate the motor speeds
         double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, vector.getLength() * wheelFlipper);
+        telemetry.addData(name + " Non-normalized Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+
 
         motorSpeeds[0] = motorSpeeds[0] * driveRatio;
         motorSpeeds[1] = motorSpeeds[1] * driveRatio;
+
+        telemetry.addData(name + " Ratio Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+
+        motorSpeeds[0] *= 2;
+        motorSpeeds[1] *= 2;
+
+        telemetry.addData(name + " Multiplied Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
 
         motorSpeeds = normalizeWheelSpeeds(motorSpeeds);
 
         // Set the motor powers
         upperMotor.setPower(motorSpeeds[0]);
         lowerMotor.setPower(motorSpeeds[1]);
-        telemetry.addData(name + " Motor Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+        telemetry.addData(name + " Normalized Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
     }
 
     public double[] normalizeWheelSpeeds(double[] speeds) {
