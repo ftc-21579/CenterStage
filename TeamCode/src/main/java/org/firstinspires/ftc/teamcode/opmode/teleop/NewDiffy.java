@@ -26,7 +26,7 @@ import java.util.List;
 @TeleOp(name="NewDiffy")
 public class NewDiffy extends LinearOpMode {
 
-    public static boolean fieldCentric = false;
+    public static boolean fieldCentric = true;
 
     public static final double steeringGearRatio = 4;
     public static final double driveGearRatio = 1;

@@ -89,8 +89,8 @@ public class SwerveModule extends differentialSwerveModuleBase {
     }
 
     public double[] normalizeWheelSpeeds(double[] speeds) {
-        if (largest(speeds) > 1) {
-            double max = largest(speeds);
+        if (largestAbsolute(speeds) > 1) {
+            double max = largestAbsolute(speeds);
             for (int i = 0; i < speeds.length; i++){
                 speeds[i] /= max;
             }
@@ -98,13 +98,34 @@ public class SwerveModule extends differentialSwerveModuleBase {
         return speeds;
     }
 
-    private double largest(double[] arr) {
-        double largest = 0;
+    //public double[] normalizeWheelSpeeds(double[] speeds) {
+        //double largestAbs = Math.max(Math.abs(largest(speeds)), 1.0); // Find the largest absolute value among speeds
+
+        //for (int i = 0; i < speeds.length; i++) {
+            //speeds[i] /= largestAbs; // Normalize each speed by dividing it by the largest absolute value
+        //}
+
+        //return speeds;
+    //}
+
+    //private double largest(double[] arr) {
+        //double largest = 0;
+        //for (double d : arr) {
+            //if (d > largest) {
+                //largest = d;
+            //}
+        //}
+        //return largest;
+    //}
+
+    private double largestAbsolute(double[] arr) {
+        double largestAbsolute = 0;
         for (double d : arr) {
-            if (d > largest) {
-                largest = d;
+            double absoluteValue = Math.abs(d);
+            if (absoluteValue > largestAbsolute) {
+                largestAbsolute = absoluteValue;
             }
         }
-        return largest;
+        return largestAbsolute;
     }
 }
