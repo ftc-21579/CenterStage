@@ -5,7 +5,6 @@ import com.amarcolini.joos.control.PIDCoefficients;
 import com.amarcolini.joos.hardware.Motor;
 import com.amarcolini.joos.hardware.MotorGroup;
 import com.amarcolini.joos.hardware.drive.DiffSwerveDrive;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class JoosTestBot extends Robot {
 
@@ -25,10 +24,11 @@ public class JoosTestBot extends Robot {
         );
 
         drive = new DiffSwerveDrive(leftGroup, rightGroup, moduleHeadingPID);
+
         drive.motors.resetEncoder();
         drive.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        register(drive);
 
+        register(drive);
     }
 
     @Override
