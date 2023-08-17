@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.mineinjava.quail.odometry.swerveOdometry;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
@@ -44,6 +45,7 @@ public class NewDiffy extends LinearOpMode {
     private SwerveModule left, right;
 
     private final List<SwerveModule> modules = new ArrayList<>();
+    private swerveOdometry odo;
 
     IMU imu;
 
@@ -95,6 +97,10 @@ public class NewDiffy extends LinearOpMode {
 
         // Initialize the swerve drive class
         swerveDrive<SwerveModule> drive = new swerveDrive<>(modules);
+        Vec2d[] vecs = {new Vec2d(-0.454, 0), new Vec2d(0.454, 0)};
+        odo = new swerveOdometry(drive);
+        robotMovement zeroPoint = new robotMovement(0, new Vec2d(0, 0));
+        odo.updateOdometry(zeroPoint.translation, zeroPoint.rotation);
 
         waitForStart();
 
@@ -120,6 +126,12 @@ public class NewDiffy extends LinearOpMode {
             else {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
+
+            robotMovement movement = odo.calculateOdometry(vecs);
+            odo.updateOdometry(movement.translation, movement.rotation);
+
+            telemetry.addData("Odo X", odo.x);
+            telemetry.addData("Odo Y", odo.y);
 
             //telemetry.addData("Left Update", Math.toDegrees(leftAbsoluteEncoder.getCurrentPosition()));
             //telemetry.addData("Right Update", Math.toDegrees(rightAbsoluteEncoder.getCurrentPosition()));
