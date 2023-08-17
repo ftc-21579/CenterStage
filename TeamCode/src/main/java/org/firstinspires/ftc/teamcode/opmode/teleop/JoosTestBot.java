@@ -7,7 +7,6 @@ import com.amarcolini.joos.hardware.MotorGroup;
 import com.amarcolini.joos.hardware.drive.DiffSwerveDrive;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="JoosTest")
 public class JoosTestBot extends Robot {
 
     private PIDCoefficients moduleHeadingPID = new PIDCoefficients(6, 0, 0);
