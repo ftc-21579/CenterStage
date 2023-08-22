@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common.drive;
 
 import static com.mineinjava.quail.util.util.deltaAngle;
 
+import com.amarcolini.joos.dashboard.SuperTelemetry;
 import com.mineinjava.quail.differentialSwerveModuleBase;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.Vec2d;
@@ -13,11 +14,11 @@ import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 public class SwerveModule extends differentialSwerveModuleBase {
     public MiniPID pid;
     DcMotor upperMotor, lowerMotor;
-    Telemetry telemetry;
+    SuperTelemetry telemetry;
     String name;
     AbsoluteAnalogEncoder encoder;
 
-    public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, AbsoluteAnalogEncoder encoder, Telemetry telemetry, String name) {
+    public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, AbsoluteAnalogEncoder encoder, SuperTelemetry telemetry, String name) {
         super(position, steeringGearRatio, driveGearRatio);
         this.pid = pid;
         this.upperMotor = upperMotor;

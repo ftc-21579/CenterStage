@@ -1,32 +1,29 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.mineinjava.quail.odometry.swerveOdometry;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+
+import com.amarcolini.joos.command.Robot;
+import com.amarcolini.joos.dashboard.SuperTelemetry;
+import com.amarcolini.joos.gamepad.MultipleGamepad;
+import com.amarcolini.joos.geometry.Vector2d;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.Vec2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.common.drive.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-@Config
-@TeleOp(name="NewDiffy")
-public class NewDiffy extends LinearOpMode {
+public class DiffySwerve extends Robot {
 
     public static boolean fieldCentric = true;
 
@@ -46,22 +43,24 @@ public class NewDiffy extends LinearOpMode {
     private SwerveModule left, right;
 
     private final List<SwerveModule> modules = new ArrayList<>();
-    private swerveOdometry odo;
+    public swerveDrive<SwerveModule> drive;
 
     IMU imu;
 
+    private final SuperTelemetry telem;
 
-    @Override
-    public void runOpMode() {
+    public DiffySwerve(SuperTelemetry telem) {
+        this.telem = telem;
+
         // Initialize the motors
-        leftUpperMotor = hardwareMap.get(DcMotor.class, "leftUpperMotor");
-        leftLowerMotor = hardwareMap.get(DcMotor.class, "leftLowerMotor");
-        rightLowerMotor = hardwareMap.get(DcMotor.class, "rightLowerMotor");
-        rightUpperMotor = hardwareMap.get(DcMotor.class, "rightUpperMotor");
+        leftUpperMotor = hMap.get(DcMotor.class, "leftUpperMotor");
+        leftLowerMotor = hMap.get(DcMotor.class, "leftLowerMotor");
+        rightLowerMotor = hMap.get(DcMotor.class, "rightLowerMotor");
+        rightUpperMotor = hMap.get(DcMotor.class, "rightUpperMotor");
 
         // Initialize the absolute encoders
-        leftAbsoluteEncoder = new AbsoluteAnalogEncoder(hardwareMap.get(AnalogInput.class, "leftEncoder"));
-        rightAbsoluteEncoder = new AbsoluteAnalogEncoder(hardwareMap.get(AnalogInput.class, "rightEncoder"));
+        leftAbsoluteEncoder = new AbsoluteAnalogEncoder(hMap.get(AnalogInput.class, "leftEncoder"));
+        rightAbsoluteEncoder = new AbsoluteAnalogEncoder(hMap.get(AnalogInput.class, "rightEncoder"));
 
         leftLowerMotor.setDirection(DcMotor.Direction.REVERSE);
         rightLowerMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -76,7 +75,7 @@ public class NewDiffy extends LinearOpMode {
         rightLowerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightUpperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        imu = hardwareMap.get(IMU.class, "imu");
+        imu = hMap.get(IMU.class, "imu");
         imu.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
@@ -86,62 +85,41 @@ public class NewDiffy extends LinearOpMode {
                 )
         );
 
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-
         // Initialize the swerve modules
-        left = new SwerveModule(new Vec2d(-0.454, 0), steeringGearRatio, driveGearRatio, leftPID, leftUpperMotor, leftLowerMotor, leftAbsoluteEncoder, telemetry, "Left");
-        right = new SwerveModule(new Vec2d(0.454, 0), steeringGearRatio, driveGearRatio, rightPID, rightUpperMotor, rightLowerMotor, rightAbsoluteEncoder, telemetry, "Right");
+        left = new SwerveModule(new Vec2d(-0.454, 0), steeringGearRatio, driveGearRatio, leftPID, leftUpperMotor, leftLowerMotor, leftAbsoluteEncoder, telem, "Left");
+        right = new SwerveModule(new Vec2d(0.454, 0), steeringGearRatio, driveGearRatio, rightPID, rightUpperMotor, rightLowerMotor, rightAbsoluteEncoder, telem, "Right");
 
         // Add the modules to the list of modules
         modules.add(left);
         modules.add(right);
 
         // Initialize the swerve drive class
-        swerveDrive<SwerveModule> drive = new swerveDrive<>(modules);
-        Vec2d[] vecs = {new Vec2d(-0.454, 0), new Vec2d(0.454, 0)};
-        odo = new swerveOdometry(drive);
-        robotMovement zeroPoint = new robotMovement(0, new Vec2d(0, 0));
-        odo.updateOdometry(zeroPoint.translation, zeroPoint.rotation);
+        drive = new swerveDrive<>(modules);
 
-        waitForStart();
+    }
 
-        leftPID.reset();
-        rightPID.reset();
+    @Override
+    public void init() {
+        MultipleGamepad gamepad = new MultipleGamepad(gamepad1, gamepad2);
 
-        while (opModeIsActive()) {
 
-            // Get the joystick values
-            double x = gamepad1.left_stick_x * movementMultiplier;
-            double y = gamepad1.left_stick_y * movementMultiplier;
-            double rot = gamepad1.right_stick_x * movementMultiplier;
 
-            if (gamepad1.options) {
-                imu.resetYaw();
-            }
+        if (isInTeleOp) {
+            Vector2d leftStick = gamepad.p1.getLeftStick();
+            double x = leftStick.x;
+            double y = leftStick.y;
+            double rot = gamepad.p1.getRightStick().x;
+
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-            //drive.move(new robotMovement(y * 2, new Vec2d(rot, x)), 0);
             if (fieldCentric) {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
             }
             else {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
-
-            robotMovement movement = odo.calculateOdometry(vecs);
-            odo.updateOdometry(movement.translation, movement.rotation);
-
-            telemetry.addData("Odo X", odo.x);
-            telemetry.addData("Odo Y", odo.y);
-
-            //telemetry.addData("Left Update", Math.toDegrees(leftAbsoluteEncoder.getCurrentPosition()));
-            //telemetry.addData("Right Update", Math.toDegrees(rightAbsoluteEncoder.getCurrentPosition()));
-            //telemetry.addData("Left Voltage", leftAbsoluteEncoder.getVoltage());
-            //telemetry.addData("Right Voltage", rightAbsoluteEncoder.getVoltage());
-
-            telemetry.update();
+            
         }
 
     }
 }
-*/
