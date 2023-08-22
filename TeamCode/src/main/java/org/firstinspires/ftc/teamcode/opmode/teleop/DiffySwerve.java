@@ -100,15 +100,12 @@ public class DiffySwerve extends Robot {
 
     @Override
     public void init() {
-        MultipleGamepad gamepad = new MultipleGamepad(gamepad1, gamepad2);
-
-
 
         if (isInTeleOp) {
-            Vector2d leftStick = gamepad.p1.getLeftStick();
+            Vector2d leftStick = gamepad().p1.getLeftStick();
             double x = leftStick.x;
             double y = leftStick.y;
-            double rot = gamepad.p1.getRightStick().x;
+            double rot = gamepad().p1.getRightStick().x;
 
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
@@ -118,7 +115,7 @@ public class DiffySwerve extends Robot {
             else {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
-            
+
         }
 
     }
