@@ -102,20 +102,23 @@ public class DiffySwerve extends Robot {
     public void init() {
 
         if (isInTeleOp) {
-            Vector2d leftStick = gamepad().p1.getLeftStick();
-            double x = leftStick.x;
-            double y = leftStick.y;
-            double rot = gamepad().p1.getRightStick().x;
+            schedule(true, () -> {
+                Vector2d leftStick = gamepad().p1.getLeftStick();
+                double x = leftStick.x;
+                double y = leftStick.y;
+                double rot = gamepad().p1.getRightStick().x;
 
-            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+                double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-            if (fieldCentric) {
-                drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
-            }
-            else {
-                drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
-            }
+                if (fieldCentric) {
+                    drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
+                }
+                else {
+                    drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
+                }
 
+                telem.addLine("In Drive");
+            });
         }
 
     }
