@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmode.teleop;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
 
+import com.amarcolini.joos.command.Command;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
 import com.amarcolini.joos.gamepad.MultipleGamepad;
@@ -102,24 +103,30 @@ public class DiffySwerve extends Robot {
     public void init() {
 
         if (isInTeleOp) {
-            schedule(true, () -> {
-                Vector2d leftStick = gamepad().p1.getLeftStick();
-                double x = leftStick.x;
-                double y = leftStick.y;
-                double rot = gamepad().p1.getRightStick().x;
-
-                double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
-                if (fieldCentric) {
-                    drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
-                }
-                else {
-                    drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
-                }
-
-                telem.addLine("In Drive");
-            });
+            schedule(true, teleopDrive());
         }
 
+    }
+
+    /** The standard drive command for teleop, supports field centric if fieldCentric
+     * @return Runnable command for teleop
+     */
+    public Runnable teleopDrive() {
+        return () -> {
+            Vector2d leftStick = gamepad().p1.getLeftStick();
+            double x = leftStick.x;
+            double y = leftStick.y;
+            double rot = gamepad().p1.getRightStick().x;
+
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+            if (fieldCentric) {
+                drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
+            } else {
+                drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
+            }
+
+            telem.addLine("In Drive");
+        };
     }
 }
