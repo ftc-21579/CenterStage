@@ -19,7 +19,9 @@ import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.Vec2d;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ public class DifferentialSwerveDrive extends DriveComponent {
     public AbsoluteAnalogEncoder leftEncoder, rightEncoder;
     public double steeringGearRatio, driveGearRatio;
     public Boolean isFieldCentric;
-    public Imu imu;
+    public IMU imu;
     private MiniPID moduleOrientationPID, translationPID, headingPID;
     public PIDCoefficients moduleOrientationCoefficients, translationCoefficients, headingCoefficients;
     private SwerveModule left, right;
@@ -47,7 +49,7 @@ public class DifferentialSwerveDrive extends DriveComponent {
             double steeringGearRatio,
             double driveGearRatio,
             Boolean isFieldCentric,
-            Imu imu,
+            IMU imu,
             PIDCoefficients moduleOrientationCoefficients,
             PIDCoefficients translationCoefficients,
             PIDCoefficients headingCoefficients,
@@ -147,7 +149,7 @@ public class DifferentialSwerveDrive extends DriveComponent {
     @Override
     public void setDrivePower(@NonNull Pose2d pose2d) {
         if (isFieldCentric) {
-            double botHeading = imu.getHeading().value;
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             drive.move(new robotMovement(pose2d.heading.value, new Vec2d(pose2d.y, pose2d.x)),
                     -botHeading);
         } else {
@@ -160,7 +162,7 @@ public class DifferentialSwerveDrive extends DriveComponent {
     public void setDriveSignal(@NonNull DriveSignal driveSignal) {
         Pose2d pose2d = driveSignal.getVel();
         if (isFieldCentric) {
-            double botHeading = imu.getHeading().value;
+            double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
             drive.move(new robotMovement(pose2d.heading.value, new Vec2d(pose2d.y, pose2d.x)),
                     -botHeading);
         } else {
@@ -178,7 +180,7 @@ public class DifferentialSwerveDrive extends DriveComponent {
     @Nullable
     @Override
     protected Imu getImu() {
-        return imu;
+        return null;
     }
 
     @NonNull

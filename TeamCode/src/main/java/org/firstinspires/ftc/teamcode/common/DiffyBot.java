@@ -8,6 +8,8 @@ import com.amarcolini.joos.geometry.Vector2d;
 import com.amarcolini.joos.hardware.Imu;
 import com.amarcolini.joos.hardware.Motor;
 import com.amarcolini.joos.hardware.MotorGroup;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.drive.DifferentialSwerveDrive;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
@@ -23,14 +25,22 @@ public class DiffyBot extends Robot {
     public static PIDCoefficients headingCoefficients = new PIDCoefficients(1, 0, 0);
 
     public final DifferentialSwerveDrive drive;
-    Imu imu;
+    IMU imu;
 
     private final SuperTelemetry telem;
 
     public DiffyBot(SuperTelemetry telem) {
         this.telem = telem;
 
-        imu = new Imu(hMap, "imu");
+        imu = hMap.get(IMU.class, "imu");
+        imu.initialize(
+                new IMU.Parameters(
+                        new RevHubOrientationOnRobot(
+                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                                RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                        )
+                )
+        );
 
         drive = new DifferentialSwerveDrive(
                 new MotorGroup(
