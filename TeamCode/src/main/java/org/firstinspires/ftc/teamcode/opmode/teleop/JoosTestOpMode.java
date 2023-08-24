@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.amarcolini.joos.command.CommandOpMode;
-import com.amarcolini.joos.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.common.DiffyBot;
 
 @TeleOp(name = "JoosTestOpMode")
 public class JoosTestOpMode extends CommandOpMode {
 
     @Override
     public void preInit() {
-        DiffySwerve robot = registerRobot(new DiffySwerve(telem));
+        DiffyBot robot = registerRobot(new DiffyBot(telem));
 
         telem.addLine("Ready?");
     }
