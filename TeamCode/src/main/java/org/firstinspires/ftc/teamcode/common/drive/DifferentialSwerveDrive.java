@@ -54,19 +54,19 @@ public class DifferentialSwerveDrive extends DriveComponent {
         ) {
 
         // Instantiate MiniPIDs for Quail from Joos PIDCoefficients
-        moduleOrientationPID = new MiniPID(
+        this.moduleOrientationPID = new MiniPID(
                 moduleOrientationCoefficients.kP,
                 moduleOrientationCoefficients.kI,
                 moduleOrientationCoefficients.kD
         );
 
-        translationPID = new MiniPID(
+        this.translationPID = new MiniPID(
                 translationCoefficients.kP,
                 translationCoefficients.kI,
                 translationCoefficients.kD
         );
 
-        headingPID = new MiniPID(
+        this.headingPID = new MiniPID(
                 headingCoefficients.kP,
                 headingCoefficients.kI,
                 headingCoefficients.kD
