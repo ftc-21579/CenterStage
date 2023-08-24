@@ -30,6 +30,8 @@ public class DiffyBot extends Robot {
     public DiffyBot(SuperTelemetry telem) {
         this.telem = telem;
 
+        imu = new Imu(hMap, "imu");
+
         drive = new DifferentialSwerveDrive(
                 new MotorGroup(
                         new Motor(hMap, "leftUpperMotor", Motor.Kind.GOBILDA_1150),
