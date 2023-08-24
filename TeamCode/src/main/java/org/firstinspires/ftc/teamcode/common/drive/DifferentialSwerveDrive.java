@@ -37,6 +37,7 @@ public class DifferentialSwerveDrive extends DriveComponent {
     public final List<SwerveModule> modules = new ArrayList<>();
     public swerveDrive<SwerveModule> drive;
     private final SuperTelemetry telem;
+    private TrajectoryFollower trajectoryFollower;
 
     public DifferentialSwerveDrive(
             MotorGroup leftMotorGroup,
@@ -112,6 +113,11 @@ public class DifferentialSwerveDrive extends DriveComponent {
         // Create the swerve drive
         drive = new swerveDrive<>(modules);
 
+        // Create the trajectory follower
+        this.trajectoryFollower = new HolonomicPIDVAFollower(translationCoefficients,
+                translationCoefficients,
+                headingCoefficients);
+
         // Assign the parameters to the class variables
         this.leftMotorGroup = leftMotorGroup;
         this.rightMotorGroup = rightMotorGroup;
@@ -126,8 +132,6 @@ public class DifferentialSwerveDrive extends DriveComponent {
         this.headingCoefficients = headingCoefficients;
         this.telem = telem;
     }
-
-    public TrajectoryFollower trajectoryFollower = new HolonomicPIDVAFollower(translationCoefficients, translationCoefficients, headingCoefficients);
 
     @NonNull
     @Override
