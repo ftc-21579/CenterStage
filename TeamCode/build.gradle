@@ -37,6 +37,7 @@ dependencies {
 }
 
 dependencies {
-    implementation 'com.github.Mineinjava:quail:7c7c241150'
+    implementation 'com.github.Mineinjava:quail:main-SNAPSHOT'
     implementation 'com.acmerobotics.roadrunner:core:0.5.5'
+    implementation 'com.github.Eeshwar-Krishnan:PhotonFTC:v2.0.4'
 }
