@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
 import com.amarcolini.joos.geometry.Vector2d;
+import com.mineinjava.quail.odometry.swerveOdometry;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
@@ -45,6 +46,8 @@ public class DiffySwerve extends Robot {
 
     private final SuperTelemetry telem;
 
+    public swerveOdometry odometry;
+
     public DiffySwerve(SuperTelemetry telem) {
         this.telem = telem;
 
@@ -82,8 +85,27 @@ public class DiffySwerve extends Robot {
         );
 
         // Initialize the swerve modules
-        left = new SwerveModule(new Vec2d(-0.454, 0), steeringGearRatio, driveGearRatio, leftPID, leftUpperMotor, leftLowerMotor, leftAbsoluteEncoder, telem, "Left");
-        right = new SwerveModule(new Vec2d(0.454, 0), steeringGearRatio, driveGearRatio, rightPID, rightUpperMotor, rightLowerMotor, rightAbsoluteEncoder, telem, "Right");
+        left = new SwerveModule(new Vec2d(-0.454, 0),
+                steeringGearRatio,
+                driveGearRatio,
+                leftPID,
+                leftUpperMotor,
+                leftLowerMotor,
+                leftAbsoluteEncoder,
+                telem,
+                "Left"
+        );
+
+        right = new SwerveModule(new Vec2d(0.454, 0),
+                steeringGearRatio,
+                driveGearRatio,
+                rightPID,
+                rightUpperMotor,
+                rightLowerMotor,
+                rightAbsoluteEncoder,
+                telem,
+                "Right"
+        );
 
         // Add the modules to the list of modules
         modules.add(left);
@@ -92,6 +114,8 @@ public class DiffySwerve extends Robot {
         // Initialize the swerve drive class
         drive = new swerveDrive<>(modules);
 
+        odometry = new swerveOdometry(drive);
+        odometry.updateOdometry(new Vec2d(0, 0));
     }
 
     @Override
@@ -101,6 +125,7 @@ public class DiffySwerve extends Robot {
             schedule(true, teleopDrive());
         }
 
+        schedule(true, updateSwerveOdo());
     }
 
     /** The standard drive command for teleop, supports field centric if fieldCentric
@@ -122,6 +147,29 @@ public class DiffySwerve extends Robot {
             }
 
             telem.addLine("In Drive");
+        };
+    }
+
+    public Runnable updateSwerveOdo() {
+        return () -> {
+            double leftSpeed = (leftLowerMotor.getCurrentPosition() +
+                                leftUpperMotor.getCurrentPosition()) /
+                                driveGearRatio;
+            double rightSpeed = (rightLowerMotor.getCurrentPosition() +
+                                rightUpperMotor.getCurrentPosition()) /
+                                driveGearRatio;
+
+            double leftHeading = Math.toRadians(leftAbsoluteEncoder.getCurrentPosition());
+            double rightHeading = Math.toRadians(rightAbsoluteEncoder.getCurrentPosition());
+
+            ArrayList<Vec2d> vecs = new ArrayList<>();
+            vecs.add(new Vec2d(leftSpeed, leftHeading));
+            vecs.add(new Vec2d(rightSpeed, rightHeading));
+
+            odometry.calculateOdometry(vecs);
+
+            telem.addData("Current Odo X", odometry.x);
+            telem.addData("Current Odo Y", odometry.y);
         };
     }
 }

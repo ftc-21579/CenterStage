@@ -12,6 +12,6 @@ public class JoosTestOpMode extends CommandOpMode {
     public void preInit() {
         DiffySwerve robot = registerRobot(new DiffySwerve(telem));
 
-        telem.addLine("Ready?");
+        telem.addLine("Ready");
     }
 }
