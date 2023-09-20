@@ -46,11 +46,11 @@ public class SwerveModule extends differentialSwerveModuleBase {
 
         // The position of the pod in radians
         double odometryRad = encoder.getCurrentPosition();
-        telemetry.addData(name + " Odometry angle", Math.toDegrees(odometryRad));
+        //telemetry.addData(name + " Odometry angle", Math.toDegrees(odometryRad));
 
         // The target angle is the angle of the vector
         double targetRad = vector.getAngle();
-        telemetry.addData(name + " Target angle", Math.toDegrees(targetRad));
+        //telemetry.addData(name + " Target angle", Math.toDegrees(targetRad));
 
         double wheelFlipper = 1;
         double distanceToTarget = deltaAngle(odometryRad, targetRad);
@@ -64,29 +64,29 @@ public class SwerveModule extends differentialSwerveModuleBase {
 
         // The rotation speed is the output of the PID controller
         double rotationSpeed = pid.getOutput(odometryRad, setpointRad);
-        telemetry.addData(name + " Rotation speed", rotationSpeed);
+        //telemetry.addData(name + " Rotation speed", rotationSpeed);
 
         // Calculate the motor speeds
         double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, vector.getLength() * wheelFlipper);
-        telemetry.addData(name + " Non-normalized Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+        //telemetry.addData(name + " Non-normalized Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
 
 
         motorSpeeds[0] = motorSpeeds[0] * driveRatio;
         motorSpeeds[1] = motorSpeeds[1] * driveRatio;
 
-        telemetry.addData(name + " Ratio Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+        //telemetry.addData(name + " Ratio Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
 
         motorSpeeds[0] *= 2;
         motorSpeeds[1] *= 2;
 
-        telemetry.addData(name + " Multiplied Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+        //telemetry.addData(name + " Multiplied Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
 
         motorSpeeds = normalizeWheelSpeeds(motorSpeeds);
 
         // Set the motor powers
         upperMotor.setPower(motorSpeeds[0]);
         lowerMotor.setPower(motorSpeeds[1]);
-        telemetry.addData(name + " Normalized Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
+        //telemetry.addData(name + " Normalized Powers (upper | lower)", motorSpeeds[0] + " | " + motorSpeeds[1]);
     }
 
     public double[] normalizeWheelSpeeds(double[] speeds) {

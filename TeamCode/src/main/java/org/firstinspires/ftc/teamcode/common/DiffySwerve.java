@@ -78,7 +78,7 @@ public class DiffySwerve extends Robot {
         imu.initialize(
                 new IMU.Parameters(
                         new RevHubOrientationOnRobot(
-                                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
+                                RevHubOrientationOnRobot.LogoFacingDirection.UP,
                                 RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                         )
                 )
@@ -134,9 +134,9 @@ public class DiffySwerve extends Robot {
     public Runnable teleopDrive() {
         return () -> {
             Vector2d leftStick = gamepad().p1.getLeftStick();
-            double x = leftStick.x;
-            double y = leftStick.y;
-            double rot = gamepad().p1.getRightStick().x;
+            double x = -leftStick.x;
+            double y = -leftStick.y;
+            double rot = -gamepad().p1.getRightStick().x;
 
             double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
@@ -166,8 +166,14 @@ public class DiffySwerve extends Robot {
             vecs.add(new Vec2d(leftSpeed, leftHeading));
             vecs.add(new Vec2d(rightSpeed, rightHeading));
 
-            odometry.calculateOdometry(vecs);
+            robotMovement movement = odometry.calculateFastOdometry(vecs);
 
+            odometry.updateOdometry(movement.translation, movement.rotation);
+
+            //odometry.updateOdometry(new Vec2d(leftSpeed, rightSpeed), imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+
+            telem.addData("Translation X", movement.translation.x);
+            telem.addData("Translation Y", movement.translation.y);
             telem.addData("Current Odo X", odometry.x);
             telem.addData("Current Odo Y", odometry.y);
         };
