@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.SwerveModule;
@@ -48,6 +49,8 @@ public class DiffySwerve extends Robot {
     private final SuperTelemetry telem;
 
     public swerveOdometry odometry;
+
+    ElapsedTime timer;
 
     public DiffySwerve(SuperTelemetry telem) {
         this.telem = telem;
@@ -117,6 +120,8 @@ public class DiffySwerve extends Robot {
 
         odometry = new swerveOdometry(drive);
         odometry.updateOdometry(new Vec2d(0, 0));
+
+        timer = new ElapsedTime();
     }
 
     @Override
@@ -147,7 +152,7 @@ public class DiffySwerve extends Robot {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
 
-            telem.addLine("In Drive");
+            //telem.addLine("In Drive");
         };
     }
 
@@ -169,14 +174,19 @@ public class DiffySwerve extends Robot {
 
             robotMovement movement = odometry.calculateFastOdometry(vecs);
 
-            odometry.updateOdometry(movement.translation, movement.rotation);
+            double loopTime = timer.seconds();
+            timer.reset();
+            robotMovement updatedMovement = new robotMovement(movement.rotation, new Vec2d(movement.translation.x / loopTime, movement.translation.y / loopTime));
 
-            //odometry.updateOdometry(new Vec2d(leftSpeed, rightSpeed), imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+            odometry.updateDeltaOdometry(updatedMovement.translation, updatedMovement.rotation);
 
-            telem.addData("Translation X", movement.translation.x);
-            telem.addData("Translation Y", movement.translation.y);
-            telem.addData("Current Odo X", odometry.x);
-            telem.addData("Current Odo Y", odometry.y);
+            telem.addData("Translation X", updatedMovement.translation.x);
+            telem.addData("Translation Y", updatedMovement.translation.y);
+            telem.addData("Loop Time", loopTime);
+            telem.addData("Current Odo X", odometry.x / 16.27);
+            telem.addData("Current Odo Y", odometry.y / 16.27);
+            telem.addData("Gamepad X", gamepad().p1.getLeftStick().x);
+            telem.addData("Gamepad Y", gamepad().p1.getLeftStick().y);
         };
     }
 }

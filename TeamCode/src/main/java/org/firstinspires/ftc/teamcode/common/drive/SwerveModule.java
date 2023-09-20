@@ -39,7 +39,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
             upperMotor.setPower(0);
             lowerMotor.setPower(0);
 
-            telemetry.addLine(name + " Vector length is 0, setting motor power to 0");
+            //telemetry.addLine(name + " Vector length is 0, setting motor power to 0");
 
             return;
         }
