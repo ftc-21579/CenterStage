@@ -11,6 +11,7 @@ import com.mineinjava.quail.util.Vec2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -27,7 +28,7 @@ public class DiffySwerve extends Robot {
     public static final double steeringGearRatio = 4;
     public static final double driveGearRatio = 1;
     public static double movementMultiplier = 2;
-    private DcMotor leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
+    private DcMotorEx leftUpperMotor, leftLowerMotor, rightLowerMotor, rightUpperMotor;
 
     private AbsoluteAnalogEncoder leftAbsoluteEncoder, rightAbsoluteEncoder;
 
@@ -52,10 +53,10 @@ public class DiffySwerve extends Robot {
         this.telem = telem;
 
         // Initialize the motors
-        leftUpperMotor = hMap.get(DcMotor.class, "leftUpperMotor");
-        leftLowerMotor = hMap.get(DcMotor.class, "leftLowerMotor");
-        rightLowerMotor = hMap.get(DcMotor.class, "rightLowerMotor");
-        rightUpperMotor = hMap.get(DcMotor.class, "rightUpperMotor");
+        leftUpperMotor = hMap.get(DcMotorEx.class, "leftUpperMotor");
+        leftLowerMotor = hMap.get(DcMotorEx.class, "leftLowerMotor");
+        rightLowerMotor = hMap.get(DcMotorEx.class, "rightLowerMotor");
+        rightUpperMotor = hMap.get(DcMotorEx.class, "rightUpperMotor");
 
         // Initialize the absolute encoders
         leftAbsoluteEncoder = new AbsoluteAnalogEncoder(hMap.get(AnalogInput.class, "leftEncoder"));
@@ -152,11 +153,11 @@ public class DiffySwerve extends Robot {
 
     public Runnable updateSwerveOdo() {
         return () -> {
-            double leftSpeed = (leftLowerMotor.getCurrentPosition() +
-                                leftUpperMotor.getCurrentPosition()) /
+            double leftSpeed = (leftLowerMotor.getVelocity() +
+                                leftUpperMotor.getVelocity()) /
                                 driveGearRatio;
-            double rightSpeed = (rightLowerMotor.getCurrentPosition() +
-                                rightUpperMotor.getCurrentPosition()) /
+            double rightSpeed = (rightLowerMotor.getVelocity() +
+                                rightUpperMotor.getVelocity()) /
                                 driveGearRatio;
 
             double leftHeading = Math.toRadians(leftAbsoluteEncoder.getCurrentPosition());
