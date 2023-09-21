@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
-import static org.firstinspires.ftc.teamcode.common.drive.drive.Bot.fieldCentric;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.amarcolini.joos.command.BasicCommand;
 import com.amarcolini.joos.command.Command;
@@ -65,7 +63,7 @@ public class Drivetrain {
 
             double botHeading = bot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-            if (fieldCentric) {
+            if (bot.fieldCentric) {
                 bot.drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
             } else {
                 bot.drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);

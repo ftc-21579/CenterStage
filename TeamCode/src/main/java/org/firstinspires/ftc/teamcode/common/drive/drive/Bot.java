@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
+import org.firstinspires.ftc.teamcode.common.drive.geometry.Pose;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoWheelLocalizer;
 
@@ -45,6 +46,7 @@ public class Bot extends Robot {
         parallelPod = hMap.get(Motor.Encoder.class, "parallelPod");
         perpendicularPod = hMap.get(Motor.Encoder.class, "perpindicularPod");
         localizer = new TwoWheelLocalizer(this);
+        localizer.setPos(new Pose(0, 0, 0));
 
         /* Subsystems */
         drivetrain = new Drivetrain(this);
