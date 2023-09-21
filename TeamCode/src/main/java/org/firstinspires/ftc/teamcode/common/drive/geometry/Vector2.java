@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.common.util;
+package org.firstinspires.ftc.teamcode.common.drive.geometry;
 
 public class Vector2 {
-    private double x, y;
+    public double x, y;
 
     public Vector2(double x, double y) {
         this.x = x;

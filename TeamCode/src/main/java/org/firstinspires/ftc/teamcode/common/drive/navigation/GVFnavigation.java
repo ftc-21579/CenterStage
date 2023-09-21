@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.common.navigation;
+package org.firstinspires.ftc.teamcode.common.drive.navigation;
 
-import org.firstinspires.ftc.teamcode.common.util.CubicBezierCurve;
-import org.firstinspires.ftc.teamcode.common.util.Vector2;
+import org.firstinspires.ftc.teamcode.common.drive.geometry.CubicBezierCurve;
+import org.firstinspires.ftc.teamcode.common.drive.geometry.Vector2;
 
 // this code may or may not work nobody will ever know dont ask me what i do
 public class GVFnavigation {

@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 
-
 /* Credit 16379 for this code */
 @Config
 public class AbsoluteAnalogEncoder {

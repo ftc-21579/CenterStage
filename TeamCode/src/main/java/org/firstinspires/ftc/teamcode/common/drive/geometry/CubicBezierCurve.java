@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.util;
+package org.firstinspires.ftc.teamcode.common.drive.geometry;
 
 public class CubicBezierCurve {
     private Vector2 p0, p1, p2, p3;
