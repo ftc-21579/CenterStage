@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.drive.geometry.Pose;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,22 @@ public class Drivetrain {
         });
     }
 
+    public Command pidTune() {
+        return new BasicCommand(() -> {
+           if (bot.gamepad().p1.dpad_up.getState()) {
+               bot.drive.move(new robotMovement(0, new Vec2d(1, 0)), 0);
+           } else if (bot.gamepad().p1.dpad_right.getState()) {
+               bot.drive.move(new robotMovement(0, new Vec2d(0, 1)), 0);
+           } else if (bot.gamepad().p1.dpad_down.getState()) {
+               bot.drive.move(new robotMovement(0, new Vec2d(-1, 0)), 0);
+           } else if (bot.gamepad().p1.dpad_left.getState()) {
+               bot.drive.move(new robotMovement(0, new Vec2d(0, -1)), 0);
+           } else {
+                bot.drive.move(new robotMovement(0, new Vec2d(0, 0)), 0);
+           }
+        });
+    }
+
     /**
      * Updates the localizer of the Drivetrain
      * @return Command
@@ -81,9 +98,9 @@ public class Drivetrain {
 
             Pose current = bot.localizer.getPos();
 
-            bot.telem.addData("Pose X", current.x);
-            bot.telem.addData("Pose Y", current.y);
-            bot.telem.addData("Pose Heading", current.heading);
+            bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
+            bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
+            bot.telem.addData("Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
         });
     }
 
@@ -111,16 +128,6 @@ public class Drivetrain {
             leftUpperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightLowerMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightUpperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            bot.imu = bot.hMap.get(IMU.class, "imu");
-            bot.imu.initialize(
-                    new IMU.Parameters(
-                            new RevHubOrientationOnRobot(
-                                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                                    RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
-                            )
-                    )
-            );
 
             // Initialize the swerve modules
             left = new SwerveModule(new Vec2d(-0.454, 0),

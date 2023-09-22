@@ -18,26 +18,27 @@ public class TwoWheelLocalizer extends TwoTrackingWheelLocalizer implements Loca
     public static double WHEEL_RADIUS = 0.689;
     public static double GEAR_RATIO = 1;
 
-    public static double PARALLEL_X = 0; // TODO: Change this to the actual value (in)
-    public static double PARALLEL_Y = 0; // TODO: Change this to the actual value (in)
+    public static double PARALLEL_X = 4.648; // TODO: Change this to the actual value (in)
+    public static double PARALLEL_Y = 5.524; // TODO: Change this to the actual value (in)
 
-    public static double PERPENDICULAR_X = 0; // TODO: Change this to the actual value (in)
-    public static double PERPENDICULAR_Y = 0; // TODO: Change this to the actual value (in)
+    public static double PERPENDICULAR_X = 0.145; // TODO: Change this to the actual value (in)
+    public static double PERPENDICULAR_Y = 1.711; // TODO: Change this to the actual value (in)
 
     private final DoubleSupplier horizontalPosition, lateralPosition;
     private final double imuAngle;
 
-    public TwoWheelLocalizer(Bot bot) {
+    private final Bot bot;
 
+    public TwoWheelLocalizer(Bot bot) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
-        this.horizontalPosition = bot.parallelPod::getPosition;
-        this.lateralPosition = bot.perpendicularPod::getPosition;
+        this.horizontalPosition = bot.parallelPod::getCurrentPosition;
+        this.lateralPosition = bot.perpendicularPod::getCurrentPosition;
         this.imuAngle = bot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-
+        this.bot = bot;
     }
 
     public static double encoderTicksToInches(double ticks) {
@@ -46,7 +47,7 @@ public class TwoWheelLocalizer extends TwoTrackingWheelLocalizer implements Loca
 
     @Override
     public double getHeading() {
-        return imuAngle;
+        return (bot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
     }
 
     @Override

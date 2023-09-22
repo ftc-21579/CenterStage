@@ -6,6 +6,8 @@ import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
 import com.amarcolini.joos.hardware.Motor;
 import com.mineinjava.quail.swerveDrive;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
@@ -19,7 +21,7 @@ public class Bot extends Robot {
     /*
         Variables for the bot ABSTRACT WHEN POSSIBLE
      */
-    public static boolean fieldCentric = true;
+    public static boolean fieldCentric = false;
 
     public swerveDrive<SwerveModule> drive;
 
@@ -28,7 +30,7 @@ public class Bot extends Robot {
     public final SuperTelemetry telem;
 
 
-    public Motor.Encoder parallelPod, perpendicularPod;
+    public DcMotor parallelPod, perpendicularPod;
     public Localizer localizer;
 
     /*
@@ -43,13 +45,24 @@ public class Bot extends Robot {
     public Bot(SuperTelemetry telem) {
         this.telem = telem;
 
-        parallelPod = hMap.get(Motor.Encoder.class, "parallelPod");
-        perpendicularPod = hMap.get(Motor.Encoder.class, "perpindicularPod");
-        localizer = new TwoWheelLocalizer(this);
-        localizer.setPos(new Pose(0, 0, 0));
+        imu = hMap.get(IMU.class, "imu");
+        imu.initialize(
+            new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                )
+            )
+        );
 
         /* Subsystems */
         drivetrain = new Drivetrain(this);
+
+        /* Localizer */
+        parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
+        perpendicularPod = hMap.get(DcMotor.class, "rightUpperMotor");
+        localizer = new TwoWheelLocalizer(this);
+        localizer.setPos(new Pose(0, 0, 0));
     }
 
     /*
@@ -61,7 +74,8 @@ public class Bot extends Robot {
         schedule(new RepeatCommand(drivetrain.updateLocalizer(), -1));
 
         if (isInTeleOp) {
-            schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
+            //schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
+            schedule(new RepeatCommand(drivetrain.pidTune(), -1));
         }
     }
 }
