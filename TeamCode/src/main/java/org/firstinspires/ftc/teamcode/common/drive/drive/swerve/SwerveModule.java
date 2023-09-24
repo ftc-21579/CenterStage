@@ -5,7 +5,7 @@ import static com.mineinjava.quail.util.util.deltaAngle;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
 import com.mineinjava.quail.differentialSwerveModuleBase;
 import com.mineinjava.quail.util.MiniPID;
-import com.mineinjava.quail.util.Vec2d;
+import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;

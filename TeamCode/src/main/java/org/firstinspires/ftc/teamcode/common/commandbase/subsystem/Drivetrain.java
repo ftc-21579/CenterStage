@@ -8,12 +8,10 @@ import com.amarcolini.joos.geometry.Vector2d;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
-import com.mineinjava.quail.util.Vec2d;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -101,6 +99,18 @@ public class Drivetrain {
             bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
             bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
             bot.telem.addData("Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
+        });
+    }
+
+    public Command updateQuailLocalizer() {
+        return new BasicCommand(() -> {
+            bot.quailLocalizer.periodic();
+
+            Pose current = bot.quailLocalizer.getPos();
+
+            bot.telem.addData("Quail Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
+            bot.telem.addData("Quail Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
+            bot.telem.addData("QUail Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
         });
     }
 
