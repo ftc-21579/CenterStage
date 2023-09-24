@@ -102,18 +102,6 @@ public class Drivetrain {
         });
     }
 
-    public Command updateQuailLocalizer() {
-        return new BasicCommand(() -> {
-            bot.quailLocalizer.periodic();
-
-            Pose current = bot.quailLocalizer.getPos();
-
-            bot.telem.addData("Quail Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
-            bot.telem.addData("Quail Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
-            bot.telem.addData("QUail Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
-        });
-    }
-
     public Command init() {
         return new InstantCommand(() -> {
             // Initialize the motors

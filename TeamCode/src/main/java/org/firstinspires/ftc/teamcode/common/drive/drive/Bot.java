@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.amarcolini.joos.command.RepeatCommand;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
+import com.mineinjava.quail.localization.TwoWheelLocalizer;
 import com.mineinjava.quail.swerveDrive;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,8 +14,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.drive.geometry.Pose;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
-import org.firstinspires.ftc.teamcode.common.drive.localization.QuailTwoWheelLocalizer;
-import org.firstinspires.ftc.teamcode.common.drive.localization.TwoWheelLocalizer;
+import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
 
 @Config
 public class Bot extends Robot {
@@ -31,7 +31,7 @@ public class Bot extends Robot {
 
 
     public DcMotor parallelPod, perpendicularPod;
-    public Localizer localizer, quailLocalizer;
+    public Localizer localizer;
 
     /*
         Subsystems
@@ -61,11 +61,8 @@ public class Bot extends Robot {
         /* Localizer */
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
         perpendicularPod = hMap.get(DcMotor.class, "leftLowerMotor");
-        localizer = new TwoWheelLocalizer(this);
+        localizer = new TwoDeadwheelLocalizer(this);
         localizer.setPos(new Pose(0, 0, 0));
-
-        quailLocalizer = new QuailTwoWheelLocalizer(this);
-        quailLocalizer.setPos(new Pose(0, 0, 0));
     }
 
     /*
@@ -75,7 +72,6 @@ public class Bot extends Robot {
     public void init() {
         schedule(drivetrain.init());
         schedule(new RepeatCommand(drivetrain.updateLocalizer(), -1));
-        schedule(new RepeatCommand(drivetrain.updateQuailLocalizer(), -1));
 
         if (isInTeleOp) {
             //schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));

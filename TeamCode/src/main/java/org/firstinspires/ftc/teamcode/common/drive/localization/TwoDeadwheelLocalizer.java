@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.common.drive.localization;
 import androidx.annotation.NonNull;
 
 import com.mineinjava.quail.util.geometry.Pose2d;
-import com.mineinjava.quail.localization.TwoWheelLocalizer;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -13,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.DoubleSupplier;
 
-public class QuailTwoWheelLocalizer extends TwoWheelLocalizer implements Localizer {
+public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.TwoWheelLocalizer implements Localizer {
 
     public static double TICKS_PER_REV = 8192;
     public static double WHEEL_RADIUS = 0.689;
@@ -30,7 +29,7 @@ public class QuailTwoWheelLocalizer extends TwoWheelLocalizer implements Localiz
 
     private final Bot bot;
 
-    public QuailTwoWheelLocalizer(Bot bot) {
+    public TwoDeadwheelLocalizer(Bot bot) {
         super(Arrays.asList(
                 new Pose2d(PARALLEL_X, PARALLEL_Y, 0),
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
