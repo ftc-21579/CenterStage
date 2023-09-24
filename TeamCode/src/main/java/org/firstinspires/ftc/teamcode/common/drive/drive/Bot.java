@@ -60,7 +60,7 @@ public class Bot extends Robot {
 
         /* Localizer */
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
-        perpendicularPod = hMap.get(DcMotor.class, "rightUpperMotor");
+        perpendicularPod = hMap.get(DcMotor.class, "leftLowerMotor");
         localizer = new TwoWheelLocalizer(this);
         localizer.setPos(new Pose(0, 0, 0));
 
