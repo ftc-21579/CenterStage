@@ -4,15 +4,14 @@ import com.acmerobotics.dashboard.config.Config;
 import com.amarcolini.joos.command.RepeatCommand;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
-import com.mineinjava.quail.localization.TwoWheelLocalizer;
 import com.mineinjava.quail.swerveDrive;
+import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
-import org.firstinspires.ftc.teamcode.common.drive.geometry.Pose;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
 
@@ -62,7 +61,7 @@ public class Bot extends Robot {
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
         perpendicularPod = hMap.get(DcMotor.class, "leftLowerMotor");
         localizer = new TwoDeadwheelLocalizer(this);
-        localizer.setPos(new Pose(0, 0, 0));
+        localizer.setPos(new Pose2d(0, 0, 0));
     }
 
     /*

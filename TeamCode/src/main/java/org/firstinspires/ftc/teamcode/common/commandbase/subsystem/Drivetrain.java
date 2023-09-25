@@ -8,6 +8,7 @@ import com.amarcolini.joos.geometry.Vector2d;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.MiniPID;
+import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,7 +17,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
-import org.firstinspires.ftc.teamcode.common.drive.geometry.Pose;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
 import java.text.DecimalFormat;
@@ -94,7 +94,7 @@ public class Drivetrain {
         return new BasicCommand(() -> {
             bot.localizer.periodic();
 
-            Pose current = bot.localizer.getPos();
+            Pose2d current = bot.localizer.getPos();
 
             bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
             bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");

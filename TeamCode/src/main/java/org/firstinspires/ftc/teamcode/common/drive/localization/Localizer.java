@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.common.drive.localization;
 
-import org.firstinspires.ftc.teamcode.common.drive.geometry.Pose;
+import com.mineinjava.quail.util.geometry.Pose2d;
 
 public interface Localizer {
 
     void periodic();
 
-    Pose getPos();
+    Pose2d getPos();
 
-    void setPos(Pose pose);
+    void setPos(Pose2d pose);
 }
