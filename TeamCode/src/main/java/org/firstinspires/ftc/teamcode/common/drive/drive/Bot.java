@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.amarcolini.joos.command.BasicCommand;
 import com.amarcolini.joos.command.Command;
 import com.amarcolini.joos.command.InstantCommand;
 import com.amarcolini.joos.command.RepeatCommand;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
+import com.mineinjava.quail.odometry.path;
 import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -81,8 +83,8 @@ public class Bot extends Robot {
         schedule(new RepeatCommand(drivetrain.updateLocalizer(), -1));
 
         if (isInTeleOp) {
-            //schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
-            schedule(new RepeatCommand(drivetrain.pidTune(), -1));
+            schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
+            //schedule(new RepeatCommand(drivetrain.pidTune(), -1));
         }
     }
 
@@ -98,5 +100,15 @@ public class Bot extends Robot {
             intake.disable();
             intakeV4B.transferPosition();
         });
+    }
+
+    public Command setPath(path p) {
+        return new BasicCommand(() -> {
+            drivetrain.setPath(p);
+        });
+    }
+
+    public Command followPath(int repeatCount) {
+        return new RepeatCommand(drivetrain.followPath(), repeatCount);
     }
 }

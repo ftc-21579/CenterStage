@@ -5,8 +5,11 @@ import com.amarcolini.joos.command.BasicCommand;
 import com.amarcolini.joos.command.Command;
 import com.amarcolini.joos.command.InstantCommand;
 import com.amarcolini.joos.geometry.Vector2d;
+import com.mineinjava.quail.localization.Localizer;
+import com.mineinjava.quail.odometry.path;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
+import com.mineinjava.quail.odometry.pathFollower;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
@@ -19,8 +22,10 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Config
@@ -40,6 +45,13 @@ public class Drivetrain {
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
     private SwerveModule left, right;
     private final List<SwerveModule> modules = new ArrayList<>();
+    private pathFollower pathFollower;
+
+    path emptyPath = new path(new ArrayList<double[]>(
+            Arrays.asList(
+                    new double[]{0, 0}
+            )
+    ), 0);
 
 
     /**
@@ -102,6 +114,21 @@ public class Drivetrain {
         });
     }
 
+    public void setPath(path p) {
+        pathFollower.setPath(p);
+    }
+
+    public Command followPath() {
+        return new BasicCommand(() -> {
+            robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
+            bot.drive.move(nextDriveMovement, 0);
+        });
+    }
+
+    public boolean pathFinished() {
+        return pathFollower.isFinished();
+    }
+
     public Command init() {
         return new InstantCommand(() -> {
             // Initialize the motors
@@ -156,6 +183,16 @@ public class Drivetrain {
 
             // Initialize the swerve drive class
             bot.drive = new swerveDrive<>(modules);
+
+            // Initialize the path follower
+            pathFollower = new pathFollower((Localizer) bot.localizer,
+                    emptyPath,
+                    0.5,
+                    0.5,
+                    0.5,
+                    0.5,
+                    new MiniPID(1, 0, 0),
+                    1.0);
         });
     }
 }
