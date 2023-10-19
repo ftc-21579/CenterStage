@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.amarcolini.joos.command.Command;
+import com.amarcolini.joos.command.InstantCommand;
 import com.amarcolini.joos.command.RepeatCommand;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
@@ -11,6 +13,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeV4B;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
@@ -36,6 +40,8 @@ public class Bot extends Robot {
         Subsystems
      */
     private Drivetrain drivetrain;
+    private Intake intake;
+    private IntakeV4B intakeV4B;
 
 
     /*
@@ -56,6 +62,8 @@ public class Bot extends Robot {
 
         /* Subsystems */
         drivetrain = new Drivetrain(this);
+        intake = new Intake(this);
+        intakeV4B = new IntakeV4B(this);
 
         /* Localizer */
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
@@ -76,5 +84,19 @@ public class Bot extends Robot {
             //schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
             schedule(new RepeatCommand(drivetrain.pidTune(), -1));
         }
+    }
+
+    public Command intakeState() {
+        return new InstantCommand(() -> {
+            intake.activate();
+            intakeV4B.intakePosition();
+        });
+    }
+
+    public Command transferState() {
+        return new InstantCommand(() -> {
+            intake.disable();
+            intakeV4B.transferPosition();
+        });
     }
 }

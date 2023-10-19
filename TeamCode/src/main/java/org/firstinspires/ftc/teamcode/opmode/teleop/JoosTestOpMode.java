@@ -12,6 +12,9 @@ public class JoosTestOpMode extends CommandOpMode {
     public void preInit() {
         Bot robot = registerRobot(new Bot(telem));
 
+        map(gamepad().p1.dpad_left::justActivated, robot.intakeState());
+        map(gamepad().p1.dpad_up::justActivated, robot.transferState());
+
         telem.addLine("Ready");
 
     }
