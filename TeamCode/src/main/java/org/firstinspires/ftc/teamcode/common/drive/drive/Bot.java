@@ -14,6 +14,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeV4B;
@@ -27,23 +28,18 @@ public class Bot extends Robot {
         Variables for the bot ABSTRACT WHEN POSSIBLE
      */
     public static boolean fieldCentric = false;
-
-    public swerveDrive<SwerveModule> drive;
-
-    public IMU imu;
-
+    private BotState botState = BotState.TRANSFER;
+    private IMU imu;
     public final SuperTelemetry telem;
-
-
     public DcMotor parallelPod, perpendicularPod;
-    public Localizer localizer;
+    private Localizer localizer;
 
     /*
         Subsystems
      */
-    private Drivetrain drivetrain;
-    private Intake intake;
-    private IntakeV4B intakeV4B;
+    public Drivetrain drivetrain;
+    public Intake intake;
+    public IntakeV4B intakeV4B;
 
 
     /*
@@ -75,12 +71,16 @@ public class Bot extends Robot {
     }
 
     /*
-        Initialize the bot (schedule commands that need to be run in every opmode)
+        Initialize the bot (schedule commands that need to be run in every OpMode)
      */
     @Override
     public void init() {
         schedule(drivetrain.init());
+        schedule(intake.init());
+        schedule(intakeV4B.init());
+
         schedule(new RepeatCommand(drivetrain.updateLocalizer(), -1));
+
 
         if (isInTeleOp) {
             schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
@@ -90,15 +90,47 @@ public class Bot extends Robot {
 
     public Command intakeState() {
         return new InstantCommand(() -> {
-            intake.activate();
-            intakeV4B.intakePosition();
+            botState = BotState.INTAKE;
+            telem.addData("Bot State", botState);
+
+            if (botState != BotState.TRANSFER) {
+                schedule(transferState());
+            }
+
+            schedule(intake.activate());
+            schedule(intakeV4B.intakePosition());
         });
     }
 
     public Command transferState() {
         return new InstantCommand(() -> {
-            intake.disable();
-            intakeV4B.transferPosition();
+            botState = BotState.TRANSFER;
+            telem.addData("Bot State", botState);
+
+            schedule(intake.disable());
+            schedule(intakeV4B.transferPosition());
+        });
+    }
+
+    public Command depositState() {
+        return new InstantCommand(() -> {
+            botState = BotState.DEPOSIT;
+            telem.addData("Bot State", botState);
+
+            if (botState != BotState.TRANSFER) {
+                schedule(transferState());
+            }
+        });
+    }
+
+    public Command endgameState() {
+        return new InstantCommand(() -> {
+            botState = BotState.ENDGAME;
+            telem.addData("Bot State", botState);
+
+            if (botState != BotState.TRANSFER) {
+                schedule(transferState());
+            }
         });
     }
 
@@ -110,5 +142,17 @@ public class Bot extends Robot {
 
     public Command followPath(int repeatCount) {
         return new RepeatCommand(drivetrain.followPath(), repeatCount);
+    }
+
+    public BotState getBotState() {
+        return botState;
+    }
+
+    public Localizer getLocalizer() {
+        return localizer;
+    }
+
+    public IMU getImu() {
+        return imu;
     }
 }

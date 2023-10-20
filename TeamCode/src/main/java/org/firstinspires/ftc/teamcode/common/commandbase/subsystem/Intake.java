@@ -52,13 +52,15 @@ public class Intake {
         return colors;
     }
 
-    public void init() {
-        intakeServo = bot.hMap.get(CRServo.class, "intakeServo");
+    public Command init() {
+        return new InstantCommand(() -> {
+            intakeServo = bot.hMap.get(CRServo.class, "intakeServo");
 
-        leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
-        rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
+            leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
+            rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
-        leftSensor.enableLed(true);
-        rightSensor.enableLed(true);
+            leftSensor.enableLed(true);
+            rightSensor.enableLed(true);
+        });
     }
 }

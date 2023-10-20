@@ -44,6 +44,7 @@ public class Drivetrain {
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
     private SwerveModule left, right;
+    private swerveDrive<SwerveModule> drive;
     private final List<SwerveModule> modules = new ArrayList<>();
     private pathFollower pathFollower;
 
@@ -72,12 +73,12 @@ public class Drivetrain {
             double y = -leftStick.y;
             double rot = -bot.gamepad().p1.getRightStick().x;
 
-            double botHeading = bot.imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+            double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             if (bot.fieldCentric) {
-                bot.drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
+                drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
             } else {
-                bot.drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
+                drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
         });
     }
@@ -85,15 +86,15 @@ public class Drivetrain {
     public Command pidTune() {
         return new BasicCommand(() -> {
            if (bot.gamepad().p1.dpad_up.getState()) {
-               bot.drive.move(new robotMovement(0, new Vec2d(1, 0)), 0);
+               drive.move(new robotMovement(0, new Vec2d(1, 0)), 0);
            } else if (bot.gamepad().p1.dpad_right.getState()) {
-               bot.drive.move(new robotMovement(0, new Vec2d(0, 1)), 0);
+               drive.move(new robotMovement(0, new Vec2d(0, 1)), 0);
            } else if (bot.gamepad().p1.dpad_down.getState()) {
-               bot.drive.move(new robotMovement(0, new Vec2d(-1, 0)), 0);
+               drive.move(new robotMovement(0, new Vec2d(-1, 0)), 0);
            } else if (bot.gamepad().p1.dpad_left.getState()) {
-               bot.drive.move(new robotMovement(0, new Vec2d(0, -1)), 0);
+               drive.move(new robotMovement(0, new Vec2d(0, -1)), 0);
            } else {
-                bot.drive.move(new robotMovement(0, new Vec2d(0, 0)), 0);
+                drive.move(new robotMovement(0, new Vec2d(0, 0)), 0);
            }
         });
     }
@@ -104,9 +105,9 @@ public class Drivetrain {
      */
     public Command updateLocalizer() {
         return new BasicCommand(() -> {
-            bot.localizer.periodic();
+            bot.getLocalizer().periodic();
 
-            Pose2d current = bot.localizer.getPos();
+            Pose2d current = bot.getLocalizer().getPos();
 
             bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
             bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
@@ -121,7 +122,7 @@ public class Drivetrain {
     public Command followPath() {
         return new BasicCommand(() -> {
             robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
-            bot.drive.move(nextDriveMovement, 0);
+            drive.move(nextDriveMovement, 0);
         });
     }
 
@@ -182,10 +183,10 @@ public class Drivetrain {
             modules.add(right);
 
             // Initialize the swerve drive class
-            bot.drive = new swerveDrive<>(modules);
+            drive = new swerveDrive<>(modules);
 
             // Initialize the path follower
-            pathFollower = new pathFollower((Localizer) bot.localizer,
+            pathFollower = new pathFollower((Localizer) bot.getLocalizer(),
                     emptyPath,
                     0.5,
                     0.5,

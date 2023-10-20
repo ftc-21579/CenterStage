@@ -33,8 +33,10 @@ public class IntakeV4B {
         });
     }
 
-    public void init() {
-        leftServo = bot.hMap.get(Servo.class, "leftV4BServo");
-        rightServo = bot.hMap.get(Servo.class, "rightV4BServo");
+    public Command init() {
+        return new InstantCommand(() -> {
+            leftServo = bot.hMap.get(Servo.class, "leftV4BServo");
+            rightServo = bot.hMap.get(Servo.class, "rightV4BServo");
+        });
     }
 }

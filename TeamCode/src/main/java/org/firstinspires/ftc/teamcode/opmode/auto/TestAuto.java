@@ -17,9 +17,9 @@ public class TestAuto extends CommandOpMode {
     path p = new path(new ArrayList<double[]>(
             Arrays.asList(
                     new double[]{0, 0},
-                    new double[]{0, 1},
-                    new double[]{1, 1},
-                    new double[]{1, 0},
+                    new double[]{0, 10},
+                    new double[]{10, 10},
+                    new double[]{10, 0},
                     new double[]{0, 0}
             )
     ), 0);
