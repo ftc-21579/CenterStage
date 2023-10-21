@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import com.acmerobotics.dashboard.config.Config;
 import com.amarcolini.joos.command.Command;
 import com.amarcolini.joos.command.InstantCommand;
-import com.amarcolini.joos.hardware.CRServo;
-import com.amarcolini.joos.hardware.Servo;
+import com.qualcomm.robotcore.hardware.Servo;
+
 
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
