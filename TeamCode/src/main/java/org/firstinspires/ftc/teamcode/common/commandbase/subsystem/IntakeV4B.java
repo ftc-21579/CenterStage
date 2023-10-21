@@ -22,14 +22,14 @@ public class IntakeV4B {
     public Command intakePosition() {
         return new InstantCommand(() -> {
             leftServo.setPosition(1.0);
-            rightServo.setPosition(1.0);
+            rightServo.setPosition(0.0);
         });
     }
 
     public Command transferPosition() {
         return new InstantCommand(() -> {
             leftServo.setPosition(0.0);
-            rightServo.setPosition(0.0);
+            rightServo.setPosition(1.0);
         });
     }
 
