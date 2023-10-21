@@ -71,7 +71,7 @@ public class Drivetrain {
             Vector2d leftStick = bot.gamepad().p1.getLeftStick();
             double x = -leftStick.x;
             double y = leftStick.y;
-            double rot = bot.gamepad().p1.getRightStick().x * 0.5;
+            double rot = bot.gamepad().p1.getRightStick().x;
 
             double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
@@ -159,7 +159,7 @@ public class Drivetrain {
             rightUpperMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // Initialize the swerve modules
-            left = new SwerveModule(new Vec2d(0.454, 0),
+            left = new SwerveModule(new Vec2d(-0.454, 0),
                     steeringGearRatio,
                     driveGearRatio,
                     leftPID,
@@ -170,7 +170,7 @@ public class Drivetrain {
                     "Left"
             );
 
-            right = new SwerveModule(new Vec2d(-0.454, 0),
+            right = new SwerveModule(new Vec2d(0.454, 0),
                     steeringGearRatio,
                     driveGearRatio,
                     rightPID,
