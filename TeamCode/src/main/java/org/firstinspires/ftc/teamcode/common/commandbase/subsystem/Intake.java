@@ -38,10 +38,10 @@ public class Intake {
 
     public ArrayList<PixelColor> getPixelColors() {
         int leftReading = leftSensor.argb();
-        int rightReading = rightSensor.argb();
+        //int rightReading = rightSensor.argb();
 
         bot.telem.addData("Left Reading", leftReading);
-        bot.telem.addData("Right Reading", rightReading);
+        //bot.telem.addData("Right Reading", rightReading);
 
         ArrayList<PixelColor> colors = new ArrayList<>();
 
@@ -57,10 +57,10 @@ public class Intake {
             intakeServo = bot.hMap.get(CRServo.class, "intakeServo");
 
             leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
-            rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
+            //rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
             leftSensor.enableLed(true);
-            rightSensor.enableLed(true);
+            //rightSensor.enableLed(true);
         });
     }
 }

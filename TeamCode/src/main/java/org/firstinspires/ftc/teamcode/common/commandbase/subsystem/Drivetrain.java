@@ -38,8 +38,8 @@ public class Drivetrain {
 
     private AbsoluteAnalogEncoder leftAbsoluteEncoder, rightAbsoluteEncoder;
 
-    public static double leftkp = 6, leftki = 0, leftkd = 0;
-    public static double rightkp = 6, rightki = 0, rightkd = 0;
+    public static double leftkp = 3, leftki = 0, leftkd = 0.0001;
+    public static double rightkp = 3, rightki = 0, rightkd = 0.0001;
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
@@ -70,16 +70,19 @@ public class Drivetrain {
         return new BasicCommand(() -> {
             Vector2d leftStick = bot.gamepad().p1.getLeftStick();
             double x = -leftStick.x;
-            double y = -leftStick.y;
-            double rot = -bot.gamepad().p1.getRightStick().x;
+            double y = leftStick.y;
+            double rot = bot.gamepad().p1.getRightStick().x * 0.5;
 
             double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             if (bot.fieldCentric) {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
             } else {
-                drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
+                drive.move(new robotMovement(y, new Vec2d(rot, x)), 0);
             }
+
+            bot.telem.addData("LeftEncoder", leftAbsoluteEncoder.getCurrentPosition());
+            bot.telem.addData("RightEncoder", rightAbsoluteEncoder.getCurrentPosition());
         });
     }
 

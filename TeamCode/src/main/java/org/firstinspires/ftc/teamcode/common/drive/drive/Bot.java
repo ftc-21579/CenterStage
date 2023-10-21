@@ -54,7 +54,7 @@ public class Bot extends Robot {
         imu.initialize(
             new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
                     RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
             )
@@ -86,6 +86,9 @@ public class Bot extends Robot {
 
         if (isInTeleOp) {
             schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
+            schedule(new RepeatCommand(new BasicCommand(() -> {
+                intake.getPixelColors();
+            }), -1));
             //schedule(new RepeatCommand(drivetrain.pidTune(), -1));
         }
     }
