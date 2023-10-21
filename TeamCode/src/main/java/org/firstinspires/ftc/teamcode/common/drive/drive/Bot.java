@@ -8,19 +8,20 @@ import com.amarcolini.joos.command.RepeatCommand;
 import com.amarcolini.joos.command.Robot;
 import com.amarcolini.joos.dashboard.SuperTelemetry;
 import com.mineinjava.quail.odometry.path;
-import com.mineinjava.quail.swerveDrive;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeV4B;
-import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
+
+import java.util.ArrayList;
 
 @Config
 public class Bot extends Robot {
@@ -33,6 +34,7 @@ public class Bot extends Robot {
     public final SuperTelemetry telem;
     public DcMotor parallelPod, perpendicularPod;
     private Localizer localizer;
+    private ArrayList<PixelColor> heldPixels = new ArrayList<>();
 
     /*
         Subsystems
