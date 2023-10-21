@@ -82,7 +82,10 @@ public class Bot extends Robot {
         schedule(intakeV4B.init());
 
         schedule(new RepeatCommand(drivetrain.updateLocalizer(), -1));
-
+        schedule(new RepeatCommand(new BasicCommand(() -> {
+            heldPixels = intake.getPixelColors();
+            intakeToTransferCheck();
+        }), -1));
 
         if (isInTeleOp) {
             schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
@@ -159,5 +162,13 @@ public class Bot extends Robot {
 
     public IMU getImu() {
         return imu;
+    }
+
+    private void intakeToTransferCheck() {
+        if (botState == BotState.INTAKE) {
+            if (heldPixels.get(0) != PixelColor.NONE && heldPixels.get(1) != PixelColor.NONE) {
+                transferState().execute();
+            }
+        }
     }
 }

@@ -49,8 +49,7 @@ public class Intake {
         ArrayList<PixelColor> colors = new ArrayList<>();
 
         // temp code
-        colors.add(PixelColor.NONE);
-        colors.add(PixelColor.NONE);
+
 
         return colors;
     }
