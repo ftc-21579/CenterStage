@@ -6,6 +6,9 @@ import com.amarcolini.joos.command.InstantCommand;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
+import com.qualcomm.robotcore.hardware.NormalizedRGBA;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -18,7 +21,7 @@ public class Intake {
     Bot bot;
 
     private CRServo intakeServo;
-    private ColorSensor leftSensor, rightSensor;
+    private NormalizedColorSensor leftSensor, rightSensor;
 
     public Intake(Bot bot) {
         this.bot = bot;
@@ -37,10 +40,10 @@ public class Intake {
     }
 
     public ArrayList<PixelColor> getPixelColors() {
-        int leftReading = leftSensor.argb();
+        NormalizedRGBA leftReading = leftSensor.getNormalizedColors();
         //int rightReading = rightSensor.argb();
 
-        bot.telem.addData("Left Reading", leftReading);
+        bot.telem.addData("Left Reading", leftReading.toString());
         //bot.telem.addData("Right Reading", rightReading);
 
         ArrayList<PixelColor> colors = new ArrayList<>();
@@ -56,10 +59,10 @@ public class Intake {
         return new InstantCommand(() -> {
             intakeServo = bot.hMap.get(CRServo.class, "intakeServo");
 
-            leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
+            leftSensor = bot.hMap.get(NormalizedColorSensor.class, "leftColorSensor");
             //rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
-            leftSensor.enableLed(true);
+            ((SwitchableLight)leftSensor).enableLight(true);
             //rightSensor.enableLed(true);
         });
     }

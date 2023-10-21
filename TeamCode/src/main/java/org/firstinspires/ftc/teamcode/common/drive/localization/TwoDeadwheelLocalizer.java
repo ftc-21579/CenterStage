@@ -17,11 +17,11 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
     public static double WHEEL_RADIUS = 0.689;
     public static double GEAR_RATIO = 1;
 
-    public static double PARALLEL_X = 4.648; // TODO: Change this to the actual value (in)
-    public static double PARALLEL_Y = 5.524; // TODO: Change this to the actual value (in)
+    public static double PARALLEL_X = 4.648; // (in)
+    public static double PARALLEL_Y = 5.524; // (in)
 
-    public static double PERPENDICULAR_X = 0.145; // TODO: Change this to the actual value (in)
-    public static double PERPENDICULAR_Y = 1.711; // TODO: Change this to the actual value (in)
+    public static double PERPENDICULAR_X = 0.145; // (in)
+    public static double PERPENDICULAR_Y = 1.711; // (in)
 
     private final DoubleSupplier horizontalPosition, lateralPosition;
     private final double imuAngle;
