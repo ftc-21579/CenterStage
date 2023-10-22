@@ -37,6 +37,5 @@ dependencies {
 }
 
 dependencies {
-    implementation 'com.github.Mineinjava:quail:7c7c241150'
-    implementation 'com.acmerobotics.roadrunner:core:0.5.5'
+    implementation 'com.github.mineinjava:quail:c9ad38e059'
 }
