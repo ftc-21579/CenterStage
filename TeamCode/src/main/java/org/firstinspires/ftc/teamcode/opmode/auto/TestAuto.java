@@ -29,7 +29,7 @@ public class TestAuto extends CommandOpMode {
     @Override
     public void preInit() {
         bot = registerRobot(new Bot(telem));
-        bot.setPath(p);
+        schedule(bot.setPath(p));
 
         schedule(new RepeatCommand(bot.drivetrain.followPath(), -1));
     }
