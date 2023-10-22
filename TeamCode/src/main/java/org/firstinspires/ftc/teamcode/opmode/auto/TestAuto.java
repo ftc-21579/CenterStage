@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.amarcolini.joos.command.CommandOpMode;
+import com.amarcolini.joos.command.RepeatCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.mineinjava.quail.odometry.path;
@@ -30,7 +31,7 @@ public class TestAuto extends CommandOpMode {
         bot = registerRobot(new Bot(telem));
         bot.setPath(p);
 
-        schedule(bot.followPath(-1));
+        schedule(new RepeatCommand(bot.drivetrain.followPath(), -1));
     }
 
 }

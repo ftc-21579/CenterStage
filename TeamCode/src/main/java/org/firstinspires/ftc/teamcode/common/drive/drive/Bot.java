@@ -150,7 +150,7 @@ public class Bot extends Robot {
     }
 
     public Command setPath(path p) {
-        return new BasicCommand(() -> {
+        return new InstantCommand(() -> {
             drivetrain.setPath(p);
         });
     }

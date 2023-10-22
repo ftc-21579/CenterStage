@@ -127,8 +127,10 @@ public class Drivetrain {
 
     public Command followPath() {
         return new BasicCommand(() -> {
-            robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
-            drive.move(nextDriveMovement, 0);
+            if (!pathFinished()) {
+                robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
+                drive.move(nextDriveMovement, 0);
+            }
         });
     }
 

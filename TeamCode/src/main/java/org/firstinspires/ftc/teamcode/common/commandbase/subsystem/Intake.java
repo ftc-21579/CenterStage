@@ -120,8 +120,6 @@ public class Intake {
             leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
             //rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
-            leftSensor.enableLed(true);
-            //rightSensor.enableLed(true);
         });
     }
 }
