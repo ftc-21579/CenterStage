@@ -72,7 +72,7 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
     @Override
     public Pose2d getPos() {
         Pose2d pose = super.getPoseEstimate();
-        return new Pose2d(pose.x, -pose.y, pose.heading);
+        return new Pose2d(-pose.x, pose.y, pose.heading);
     }
 
     @Override
