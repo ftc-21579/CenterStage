@@ -47,6 +47,7 @@ public class Drivetrain {
     private swerveDrive<SwerveModule> drive;
     private final List<SwerveModule> modules = new ArrayList<>();
     private pathFollower pathFollower;
+    private boolean headingLock = false;
 
     path emptyPath = new path(new ArrayList<double[]>(
             Arrays.asList(
@@ -70,11 +71,11 @@ public class Drivetrain {
         return new BasicCommand(() -> {
             Vector2d leftStick = bot.gamepad().p1.getLeftStick();
             double x = -leftStick.x;
-            double y = leftStick.y;
+            double y = -leftStick.y;
             double rot = 0;
 
-            if (!bot.gamepad().p1.back.getState()) {
-                rot = bot.gamepad().p1.getRightStick().x;
+            if (!headingLock) {
+                rot = -bot.gamepad().p1.getRightStick().x;
             }
 
             double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -135,6 +136,12 @@ public class Drivetrain {
 
     public boolean pathFinished() {
         return pathFollower.isFinished();
+    }
+
+    public Command toggleHeadingLock() {
+        return new BasicCommand(() -> {
+            headingLock = !headingLock;
+        });
     }
 
     public Command init() {

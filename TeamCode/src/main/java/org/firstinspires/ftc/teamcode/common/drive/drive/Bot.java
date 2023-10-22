@@ -93,6 +93,7 @@ public class Bot extends Robot {
                 intake.getPixelColors();
             }), -1));
             //schedule(new RepeatCommand(drivetrain.pidTune(), -1));
+            map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
         }
     }
 
