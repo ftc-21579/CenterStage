@@ -41,7 +41,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
             return;
         }
 
-        if (name.equals("right")) {
+        if (name.equals("Right")) {
             vector.scale(-1.0);
         }
 
