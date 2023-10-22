@@ -41,6 +41,10 @@ public class SwerveModule extends differentialSwerveModuleBase {
             return;
         }
 
+        if (name.equals("right")) {
+            vector.scale(-1.0);
+        }
+
         // The position of the pod in radians
         double odometryRad = encoder.getCurrentPosition();
 
