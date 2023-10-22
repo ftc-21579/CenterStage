@@ -58,7 +58,7 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(-horizontalPosition.getAsDouble()),
+                encoderTicksToInches(horizontalPosition.getAsDouble()),
                 encoderTicksToInches(-lateralPosition.getAsDouble())
         );
     }
