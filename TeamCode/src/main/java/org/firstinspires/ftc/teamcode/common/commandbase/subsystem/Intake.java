@@ -61,25 +61,23 @@ public class Intake {
         ArrayList<Integer> leftRGB = new ArrayList<>(Arrays.asList(leftSensor.red(), leftSensor.green(), leftSensor.blue()));
         //int rightReading = rightSensor.argb();
 
-        //bot.telem.addData("Right Reading", rightReading);
 
         ArrayList<PixelColor> colors = new ArrayList<>();
 
-        if (leftRGB.get(0) > 30 && leftRGB.get(0) < 39 && leftRGB.get(1) > 70 && leftRGB.get(1) < 80 && leftRGB.get(2) > 60 && leftRGB.get(2) < 75) {
+        if (leftRGB.get(0) > 600 && leftRGB.get(0) < 900 && leftRGB.get(1) > 2600 && leftRGB.get(1) < 2800 && leftRGB.get(2) > 1050 && leftRGB.get(2) < 1300) {
             colors.add(PixelColor.GREEN);
-        } else if (leftRGB.get(0) > 45 && leftRGB.get(0) < 55 && leftRGB.get(1) > 95 && leftRGB.get(1) < 105 && leftRGB.get(2) > 100 && leftRGB.get(2) < 110) {
+        } else if (leftRGB.get(0) > 4400 && leftRGB.get(0) < 4600 && leftRGB.get(1) > 8800 && leftRGB.get(1) < 9000 && leftRGB.get(2) > 9600 && leftRGB.get(2) < 9800) {
             colors.add(PixelColor.WHITE);
-        } else if (leftRGB.get(0) > 35 && leftRGB.get(0) < 45 && leftRGB.get(1) > 70 && leftRGB.get(1) < 80 && leftRGB.get(2) > 80 && leftRGB.get(2) < 90) {
+        } else if (leftRGB.get(0) > 2100 && leftRGB.get(0) < 2300 && leftRGB.get(1) > 3500 && leftRGB.get(1) < 3700 && leftRGB.get(2) > 6500 && leftRGB.get(2) < 6700) {
             colors.add(PixelColor.PURPLE);
-        } else if (leftRGB.get(0) > 35 && leftRGB.get(0) < 45 && leftRGB.get(1) > 70 && leftRGB.get(1) < 80 && leftRGB.get(2) > 60 && leftRGB.get(2) < 70) {
+        } else if (leftRGB.get(0) > 2450 && leftRGB.get(0) < 2600 && leftRGB.get(1) > 3900 && leftRGB.get(1) < 4100 && leftRGB.get(2) > 1100 && leftRGB.get(2) < 1300) {
             colors.add(PixelColor.YELLOW);
         } else {
             colors.add(PixelColor.NONE);
         }
 
         colors.add(PixelColor.NONE);
-        
-        bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
+
         return colors;
     }
 

@@ -90,9 +90,6 @@ public class Bot extends Robot {
 
         if (isInTeleOp) {
             schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
-            schedule(new RepeatCommand(new BasicCommand(() -> {
-                intake.getPixelColors();
-            }), -1));
 
             map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
             map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
