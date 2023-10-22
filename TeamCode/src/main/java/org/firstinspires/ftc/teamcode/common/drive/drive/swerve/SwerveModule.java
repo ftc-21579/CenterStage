@@ -42,7 +42,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
         }
 
         if (name.equals("Right")) {
-            vector.scale(-1.0);
+            vector = new Vec2d(vector.x * -1, vector.y * -1);
         }
 
         // The position of the pod in radians

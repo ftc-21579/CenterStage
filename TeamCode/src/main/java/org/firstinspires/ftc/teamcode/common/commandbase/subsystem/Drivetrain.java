@@ -71,14 +71,18 @@ public class Drivetrain {
             Vector2d leftStick = bot.gamepad().p1.getLeftStick();
             double x = -leftStick.x;
             double y = leftStick.y;
-            double rot = bot.gamepad().p1.getRightStick().x;
+            double rot = 0;
+
+            if (!bot.gamepad().p1.back.getState()) {
+                rot = bot.gamepad().p1.getRightStick().x;
+            }
 
             double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
             if (bot.fieldCentric) {
-                drive.move(new robotMovement(y, new Vec2d(rot, x)), -botHeading);
+                drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
             } else {
-                drive.move(new robotMovement(y, new Vec2d(rot, x)), 0);
+                drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
 
             bot.telem.addData("LeftEncoder", leftAbsoluteEncoder.getCurrentPosition());
