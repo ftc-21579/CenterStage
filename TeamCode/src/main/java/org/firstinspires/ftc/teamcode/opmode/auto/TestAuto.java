@@ -21,7 +21,7 @@ public class TestAuto extends CommandOpMode {
                     new double[]{0, 10},
                     new double[]{10, 10},
                     new double[]{10, 0},
-                    new double[]{0, 0}
+                    new double[]{1, 0}
             )
     ), 0);
 

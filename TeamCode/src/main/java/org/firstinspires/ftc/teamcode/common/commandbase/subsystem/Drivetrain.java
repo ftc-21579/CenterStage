@@ -126,9 +126,12 @@ public class Drivetrain {
     }
 
     public Command followPath() {
-        return new BasicCommand(() -> {
+        return new InstantCommand(() -> {
+            bot.telem.addData("Path Finished", pathFinished());
+            bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
             if (!pathFinished()) {
                 robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
+                bot.telem.addData("Next Drive Movement", "X: " + nextDriveMovement.translation.x + " Y: " + nextDriveMovement.translation.y + " Rot: " + nextDriveMovement.rotation);
                 drive.move(nextDriveMovement, 0);
             }
         });
