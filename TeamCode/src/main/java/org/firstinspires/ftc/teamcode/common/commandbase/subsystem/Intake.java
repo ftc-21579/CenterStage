@@ -61,13 +61,25 @@ public class Intake {
         ArrayList<Integer> leftRGB = new ArrayList<>(Arrays.asList(leftSensor.red(), leftSensor.green(), leftSensor.blue()));
         //int rightReading = rightSensor.argb();
 
-        bot.telem.addData("Left Reading", "R: " + leftRGB.get(0) + ", G: " + leftRGB.get(1) + ", B: " + leftRGB.get(2));
         //bot.telem.addData("Right Reading", rightReading);
 
         ArrayList<PixelColor> colors = new ArrayList<>();
 
-        // temp code
+        if (leftRGB.get(0) > 30 && leftRGB.get(0) < 39 && leftRGB.get(1) > 70 && leftRGB.get(1) < 80 && leftRGB.get(2) > 60 && leftRGB.get(2) < 75) {
+            colors.add(PixelColor.GREEN);
+        } else if (leftRGB.get(0) > 45 && leftRGB.get(0) < 55 && leftRGB.get(1) > 95 && leftRGB.get(1) < 105 && leftRGB.get(2) > 100 && leftRGB.get(2) < 110) {
+            colors.add(PixelColor.WHITE);
+        } else if (leftRGB.get(0) > 35 && leftRGB.get(0) < 45 && leftRGB.get(1) > 70 && leftRGB.get(1) < 80 && leftRGB.get(2) > 80 && leftRGB.get(2) < 90) {
+            colors.add(PixelColor.PURPLE);
+        } else if (leftRGB.get(0) > 35 && leftRGB.get(0) < 45 && leftRGB.get(1) > 70 && leftRGB.get(1) < 80 && leftRGB.get(2) > 60 && leftRGB.get(2) < 70) {
+            colors.add(PixelColor.YELLOW);
+        } else {
+            colors.add(PixelColor.NONE);
+        }
 
+        colors.add(PixelColor.NONE);
+        
+        bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
         return colors;
     }
 
