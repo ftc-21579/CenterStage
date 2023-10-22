@@ -67,8 +67,6 @@ public class Bot extends Robot {
         /* Localizer */
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
         perpendicularPod = hMap.get(DcMotor.class, "leftLowerMotor");
-        parallelPod.setDirection(DcMotorSimple.Direction.REVERSE);
-        perpendicularPod.setDirection(DcMotorSimple.Direction.REVERSE);
 
         localizer = new TwoDeadwheelLocalizer(this);
         localizer.setPos(new Pose2d(0, 0, 0));
