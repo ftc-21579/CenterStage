@@ -86,9 +86,6 @@ public class Drivetrain {
             } else {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
             }
-
-            bot.telem.addData("LeftEncoder", leftAbsoluteEncoder.getCurrentPosition());
-            bot.telem.addData("RightEncoder", rightAbsoluteEncoder.getCurrentPosition());
         });
     }
 
