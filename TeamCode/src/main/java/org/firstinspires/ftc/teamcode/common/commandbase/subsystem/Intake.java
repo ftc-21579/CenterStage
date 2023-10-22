@@ -22,6 +22,11 @@ public class Intake {
     private CRServo intakeServo;
     private ColorSensor leftSensor, rightSensor;
 
+    public static int yellowRLower = 2450, yellowRUpper = 2600, yellowGLower = 3900, yellowGUpper = 4100, yellowBLower = 1100, yellowBUpper = 1300;
+    public static int purpleRLower = 2000, purpleRUpper = 2300, purpleGLower = 3400, purpleGUpper = 3700, purpleBLower = 6300, purpleBUpper = 6700;
+    public static int greenRLower = 600, greenRUpper = 900, greenGLower = 2600, greenGUpper = 2800, greenBLower = 1050, greenBUpper = 1300;
+    public static int whiteRLower = 4400, whiteRUpper = 4800, whiteGLower = 8800, whiteGUpper = 9200, whiteBLower = 9600, whiteBUpper = 10000;
+
     enum intakeState {
         ACTIVE,
         IDLE
@@ -63,17 +68,45 @@ public class Intake {
 
         ArrayList<PixelColor> colors = new ArrayList<>();
 
-        if (leftRGB.get(0) > 600 && leftRGB.get(0) < 900 && leftRGB.get(1) > 2600 && leftRGB.get(1) < 2800 && leftRGB.get(2) > 1050 && leftRGB.get(2) < 1300) {
+        if (leftRGB.get(0) > greenRLower && leftRGB.get(0) < greenRUpper
+                && leftRGB.get(1) > greenGLower && leftRGB.get(1) < greenGUpper
+                && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenGUpper) {
             colors.add(PixelColor.GREEN);
-        } else if (leftRGB.get(0) > 4400 && leftRGB.get(0) < 4600 && leftRGB.get(1) > 8800 && leftRGB.get(1) < 9000 && leftRGB.get(2) > 9600 && leftRGB.get(2) < 9800) {
+        } else if (leftRGB.get(0) > whiteRLower && leftRGB.get(0) < whiteRUpper
+                && leftRGB.get(1) > whiteGLower && leftRGB.get(1) < whiteGUpper
+                && leftRGB.get(2) > whiteBLower && leftRGB.get(2) < whiteBUpper) {
             colors.add(PixelColor.WHITE);
-        } else if (leftRGB.get(0) > 2100 && leftRGB.get(0) < 2300 && leftRGB.get(1) > 3500 && leftRGB.get(1) < 3700 && leftRGB.get(2) > 6500 && leftRGB.get(2) < 6700) {
+        } else if (leftRGB.get(0) > purpleRLower && leftRGB.get(0) < purpleRUpper
+                && leftRGB.get(1) > purpleGLower && leftRGB.get(1) < purpleGUpper
+                && leftRGB.get(2) > purpleBLower && leftRGB.get(2) < purpleRUpper) {
             colors.add(PixelColor.PURPLE);
-        } else if (leftRGB.get(0) > 2450 && leftRGB.get(0) < 2600 && leftRGB.get(1) > 3900 && leftRGB.get(1) < 4100 && leftRGB.get(2) > 1100 && leftRGB.get(2) < 1300) {
+        } else if (leftRGB.get(0) > yellowRLower && leftRGB.get(0) < yellowRUpper
+                && leftRGB.get(1) > yellowGLower && leftRGB.get(1) < yellowGUpper
+                && leftRGB.get(2) > yellowBLower && leftRGB.get(2) < yellowBUpper) {
             colors.add(PixelColor.YELLOW);
         } else {
             colors.add(PixelColor.NONE);
         }
+
+        //if (rightRGB.get(0) > greenRLower && rightRGB.get(0) < greenRUpper
+        //        && rightRGB.get(1) > greenGLower && rightRGB.get(1) < greenGUpper
+        //        && rightRGB.get(2) > greenBLower && rightRGB.get(2) < greenGUpper) {
+        //    colors.add(PixelColor.GREEN);
+        //} else if (rightRGB.get(0) > whiteRLower && rightRGB.get(0) < whiteRUpper
+        //        && rightRGB.get(1) > whiteGLower && rightRGB.get(1) < whiteGUpper
+        //        && rightRGB.get(2) > whiteBLower && rightRGB.get(2) < whiteBUpper) {
+        //    colors.add(PixelColor.WHITE);
+        //} else if (rightRGB.get(0) > purpleRLower && rightRGB.get(0) < purpleRUpper
+        //        && rightRGB.get(1) > purpleGLower && rightRGB.get(1) < purpleGUpper
+        //        && rightRGB.get(2) > purpleBLower && rightRGB.get(2) < purpleRUpper) {
+        //    colors.add(PixelColor.PURPLE);
+        //} else if (rightRGB.get(0) > yellowRLower && rightRGB.get(0) < yellowRUpper
+        //        && rightRGB.get(1) > yellowGLower && rightRGB.get(1) < yellowGUpper
+        //        && rightRGB.get(2) > yellowBLower && rightRGB.get(2) < yellowBUpper) {
+        //    colors.add(PixelColor.YELLOW);
+        //} else {
+        //    colors.add(PixelColor.NONE);
+        //}
 
         colors.add(PixelColor.NONE);
 
