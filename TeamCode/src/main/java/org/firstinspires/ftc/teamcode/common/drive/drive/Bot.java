@@ -11,6 +11,7 @@ import com.mineinjava.quail.odometry.path;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
@@ -66,6 +67,9 @@ public class Bot extends Robot {
         /* Localizer */
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
         perpendicularPod = hMap.get(DcMotor.class, "leftLowerMotor");
+        parallelPod.setDirection(DcMotorSimple.Direction.REVERSE);
+        perpendicularPod.setDirection(DcMotorSimple.Direction.REVERSE);
+
         localizer = new TwoDeadwheelLocalizer(this);
         localizer.setPos(new Pose2d(0, 0, 0));
 
