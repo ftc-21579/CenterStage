@@ -6,7 +6,6 @@ import com.amarcolini.joos.command.InstantCommand;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;

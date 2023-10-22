@@ -42,7 +42,6 @@ public class Bot extends Robot {
     public Intake intake;
     public IntakeV4B intakeV4B;
 
-
     /*
         Constructor for the bot (initialize hardware)
      */
