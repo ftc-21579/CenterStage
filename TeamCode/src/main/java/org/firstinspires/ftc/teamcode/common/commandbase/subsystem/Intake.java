@@ -23,19 +23,38 @@ public class Intake {
     private CRServo intakeServo;
     private NormalizedColorSensor leftSensor, rightSensor;
 
+    enum intakeState {
+        ACTIVE,
+        IDLE
+    }
+
+    private intakeState state = intakeState.IDLE;
+
     public Intake(Bot bot) {
         this.bot = bot;
     }
 
     public Command activate() {
         return new InstantCommand(() -> {
+            state = intakeState.ACTIVE;
             intakeServo.setPower(1);
         });
     }
 
     public Command disable() {
         return new InstantCommand(() -> {
+            state = intakeState.IDLE;
             intakeServo.setPower(0);
+        });
+    }
+
+    public Command toggleState() {
+        return new InstantCommand(() -> {
+            if (state == intakeState.ACTIVE) {
+                bot.schedule(disable());
+            } else {
+                bot.schedule(activate());
+            }
         });
     }
 

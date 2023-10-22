@@ -47,6 +47,7 @@ public class Drivetrain {
     private swerveDrive<SwerveModule> drive;
     private final List<SwerveModule> modules = new ArrayList<>();
     private pathFollower pathFollower;
+    private boolean fieldCentric = false;
     private boolean headingLock = false;
 
     path emptyPath = new path(new ArrayList<double[]>(
@@ -80,7 +81,7 @@ public class Drivetrain {
 
             double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-            if (bot.fieldCentric) {
+            if (fieldCentric) {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
             } else {
                 drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
@@ -141,6 +142,12 @@ public class Drivetrain {
     public Command toggleHeadingLock() {
         return new BasicCommand(() -> {
             headingLock = !headingLock;
+        });
+    }
+
+    public Command toggleFieldCentric() {
+        return new BasicCommand(() -> {
+            fieldCentric = !fieldCentric;
         });
     }
 

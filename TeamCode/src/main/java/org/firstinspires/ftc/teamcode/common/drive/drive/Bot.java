@@ -28,7 +28,6 @@ public class Bot extends Robot {
     /*
         Variables for the bot ABSTRACT WHEN POSSIBLE
      */
-    public static boolean fieldCentric = false;
     private BotState botState = BotState.TRANSFER;
     private IMU imu;
     public final SuperTelemetry telem;
@@ -92,7 +91,8 @@ public class Bot extends Robot {
             schedule(new RepeatCommand(new BasicCommand(() -> {
                 intake.getPixelColors();
             }), -1));
-            //schedule(new RepeatCommand(drivetrain.pidTune(), -1));
+
+            map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
             map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
         }
     }
@@ -108,6 +108,9 @@ public class Bot extends Robot {
 
             schedule(intake.activate());
             schedule(intakeV4B.intakePosition());
+
+            map(gamepad().p1.b::justActivated, intakeV4B.toggleState());
+            map(gamepad().p1.x::justActivated, intake.toggleState());
         });
     }
 
@@ -118,6 +121,11 @@ public class Bot extends Robot {
 
             schedule(intake.disable());
             schedule(intakeV4B.transferPosition());
+
+            unmap(gamepad().p1.b::justActivated);
+            unmap(gamepad().p1.x::justActivated);
+            unmap(gamepad().p1.y::justActivated);
+            unmap(gamepad().p1.a::justActivated);
         });
     }
 

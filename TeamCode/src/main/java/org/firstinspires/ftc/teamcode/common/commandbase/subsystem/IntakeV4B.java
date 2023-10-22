@@ -14,6 +14,13 @@ public class IntakeV4B {
     Bot bot;
 
     private Servo leftServo, rightServo;
+    enum intakeV4BState {
+            INTAKE,
+            TRANSFER,
+            CUSTOM
+    }
+
+    private intakeV4BState state = intakeV4BState.TRANSFER;
 
     public IntakeV4B(Bot bot) {
         this.bot = bot;
@@ -21,6 +28,7 @@ public class IntakeV4B {
 
     public Command intakePosition() {
         return new InstantCommand(() -> {
+            state = intakeV4BState.INTAKE;
             leftServo.setPosition(0.0);
             rightServo.setPosition(1.0);
         });
@@ -28,8 +36,19 @@ public class IntakeV4B {
 
     public Command transferPosition() {
         return new InstantCommand(() -> {
+            state = intakeV4BState.TRANSFER;
             leftServo.setPosition(1.0);
             rightServo.setPosition(0.0);
+        });
+    }
+
+    public Command toggleState() {
+        return new InstantCommand(() -> {
+            if (state == intakeV4BState.INTAKE) {
+                bot.schedule(transferPosition());
+            } else {
+                bot.schedule(intakePosition());
+            }
         });
     }
 
