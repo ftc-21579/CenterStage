@@ -99,12 +99,12 @@ public class Bot extends Robot {
 
     public Command intakeState() {
         return new InstantCommand(() -> {
-            botState = BotState.INTAKE;
-            telem.addData("Bot State", botState);
-
             if (botState != BotState.TRANSFER) {
                 schedule(transferState());
             }
+
+            botState = BotState.INTAKE;
+            telem.addData("Bot State", botState);
 
             schedule(intake.activate());
             schedule(intakeV4B.intakePosition());
@@ -124,8 +124,6 @@ public class Bot extends Robot {
 
             unmap(gamepad().p1.b::justActivated);
             unmap(gamepad().p1.x::justActivated);
-            unmap(gamepad().p1.y::justActivated);
-            unmap(gamepad().p1.a::justActivated);
         });
     }
 
