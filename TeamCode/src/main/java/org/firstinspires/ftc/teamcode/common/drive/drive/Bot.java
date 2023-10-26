@@ -99,7 +99,7 @@ public class Bot extends Robot {
 
     public Command intakeState() {
         return new InstantCommand(() -> {
-            if (botState != BotState.TRANSFER) {
+            if (botState != BotState.TRANSFER && botState != BotState.INTAKE) {
                 schedule(transferState());
             }
 
@@ -124,6 +124,8 @@ public class Bot extends Robot {
 
             unmap(gamepad().p1.b::justActivated);
             unmap(gamepad().p1.x::justActivated);
+            unmap(intakeV4B.toggleState());
+            unmap(intake.toggleState());
         });
     }
 

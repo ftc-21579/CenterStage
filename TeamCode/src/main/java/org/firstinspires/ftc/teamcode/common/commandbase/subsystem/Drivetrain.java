@@ -50,11 +50,11 @@ public class Drivetrain {
     private boolean fieldCentric = false;
     private boolean headingLock = false;
 
-    path emptyPath = new path(new ArrayList<double[]>(
+    path emptyPath = new path(new ArrayList<Pose2d>(
             Arrays.asList(
-                    new double[]{0, 0}
+                    new Pose2d(0, 0, 0)
             )
-    ), 0);
+    ));
 
 
     /**

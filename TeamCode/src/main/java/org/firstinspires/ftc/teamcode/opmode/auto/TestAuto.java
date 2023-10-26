@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmode.auto;
 
 import com.amarcolini.joos.command.CommandOpMode;
 import com.amarcolini.joos.command.RepeatCommand;
+import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.mineinjava.quail.odometry.path;
@@ -15,15 +16,15 @@ import java.util.Arrays;
 public class TestAuto extends CommandOpMode {
 
     Bot bot;
-    path p = new path(new ArrayList<double[]>(
+    path p = new path(new ArrayList<Pose2d>(
             Arrays.asList(
-                    new double[]{0, 0},
-                    new double[]{0, 5},
-                    new double[]{-5, 5},
-                    new double[]{-5, 0},
-                    new double[]{1, 0}
+                    new Pose2d(0, 0, 0),
+                    new Pose2d(0, 10, 0),
+                    new Pose2d(10, 10, 0),
+                    new Pose2d(10, 0, 0),
+                    new Pose2d(0, 0, 0)
             )
-    ), 0);
+    ));
 
 
     @Override
