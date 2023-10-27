@@ -38,8 +38,8 @@ public class Drivetrain {
 
     private AbsoluteAnalogEncoder leftAbsoluteEncoder, rightAbsoluteEncoder;
 
-    public static double leftkp = 3, leftki = 0, leftkd = 0.0001;
-    public static double rightkp = 3, rightki = 0, rightkd = 0.0001;
+    public static double leftkp = 3.1, leftki = 0.001, leftkd = 0.00001;
+    public static double rightkp = 3.1, rightki = 0.001, rightkd = 0.00001;
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
