@@ -34,8 +34,8 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
-        this.horizontalPosition = bot.parallelPod::getCurrentPosition;
-        this.lateralPosition = bot.perpendicularPod::getCurrentPosition;
+        this.lateralPosition = bot.parallelPod::getCurrentPosition;
+        this.horizontalPosition = bot.perpendicularPod::getCurrentPosition;
         this.imuAngle = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         this.bot = bot;
     }
