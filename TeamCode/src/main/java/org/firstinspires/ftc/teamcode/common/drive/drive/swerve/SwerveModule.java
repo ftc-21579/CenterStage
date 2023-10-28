@@ -41,9 +41,9 @@ public class SwerveModule extends differentialSwerveModuleBase {
             return;
         }
 
-        if (name.equals("Right")) {
-            vector = new Vec2d(vector.x * -1, vector.y * -1);
-        }
+        //if (name.equals("Right")) {
+        //    vector = new Vec2d(vector.x * -1, vector.y * -1);
+        //}
 
         // The position of the pod in radians
         double odometryRad = encoder.getCurrentPosition();
@@ -68,8 +68,8 @@ public class SwerveModule extends differentialSwerveModuleBase {
         double rotationSpeed = pid.getOutput(odometryRad, setpointRad);
 
         // Calculate the motor speeds
-        //double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, vector.getLength() * wheelFlipper);
-        double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, 0);
+        double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, vector.getLength() * wheelFlipper);
+        //double[] motorSpeeds = calculateMotorSpeeds(rotationSpeed, 0);
 
         motorSpeeds[0] = motorSpeeds[0] * driveRatio;
         motorSpeeds[1] = motorSpeeds[1] * driveRatio;
