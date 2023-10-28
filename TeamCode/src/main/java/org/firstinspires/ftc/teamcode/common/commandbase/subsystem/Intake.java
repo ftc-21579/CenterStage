@@ -21,10 +21,10 @@ public class Intake {
     private CRServo intakeServo;
     private ColorSensor leftSensor, rightSensor;
 
-    public static int yellowRLower = 2450, yellowRUpper = 2600, yellowGLower = 3900, yellowGUpper = 4100, yellowBLower = 1100, yellowBUpper = 1300;
-    public static int purpleRLower = 2000, purpleRUpper = 2300, purpleGLower = 3400, purpleGUpper = 3700, purpleBLower = 6300, purpleBUpper = 6700;
-    public static int greenRLower = 600, greenRUpper = 900, greenGLower = 2600, greenGUpper = 2800, greenBLower = 1050, greenBUpper = 1300;
-    public static int whiteRLower = 4400, whiteRUpper = 4800, whiteGLower = 8800, whiteGUpper = 9200, whiteBLower = 9600, whiteBUpper = 10000;
+    public static int yellowRLower = 2200, yellowRUpper = 2800, yellowGLower = 3900, yellowGUpper = 4300, yellowBLower = 900, yellowBUpper = 1600;
+    public static int purpleRLower = 1700, purpleRUpper = 2200, purpleGLower = 3100, purpleGUpper = 4000, purpleBLower = 6000, purpleBUpper = 7000;
+    public static int greenRLower = 500, greenRUpper = 1000, greenGLower = 2500, greenGUpper = 2900, greenBLower = 950, greenBUpper = 1400;
+    public static int whiteRLower = 4300, whiteRUpper = 4900, whiteGLower = 8700, whiteGUpper = 9300, whiteBLower = 9500, whiteBUpper = 10000;
 
     enum intakeState {
         ACTIVE,
@@ -69,7 +69,7 @@ public class Intake {
 
         if (leftRGB.get(0) > greenRLower && leftRGB.get(0) < greenRUpper
                 && leftRGB.get(1) > greenGLower && leftRGB.get(1) < greenGUpper
-                && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenGUpper) {
+                && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenBUpper) {
             colors.add(PixelColor.GREEN);
         } else if (leftRGB.get(0) > whiteRLower && leftRGB.get(0) < whiteRUpper
                 && leftRGB.get(1) > whiteGLower && leftRGB.get(1) < whiteGUpper
@@ -77,7 +77,7 @@ public class Intake {
             colors.add(PixelColor.WHITE);
         } else if (leftRGB.get(0) > purpleRLower && leftRGB.get(0) < purpleRUpper
                 && leftRGB.get(1) > purpleGLower && leftRGB.get(1) < purpleGUpper
-                && leftRGB.get(2) > purpleBLower && leftRGB.get(2) < purpleRUpper) {
+                && leftRGB.get(2) > purpleBLower && leftRGB.get(2) < purpleBUpper) {
             colors.add(PixelColor.PURPLE);
         } else if (leftRGB.get(0) > yellowRLower && leftRGB.get(0) < yellowRUpper
                 && leftRGB.get(1) > yellowGLower && leftRGB.get(1) < yellowGUpper
