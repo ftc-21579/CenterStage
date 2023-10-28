@@ -38,8 +38,8 @@ public class Drivetrain {
 
     private AbsoluteAnalogEncoder leftAbsoluteEncoder, rightAbsoluteEncoder;
 
-    public static double leftkp = 3.1, leftki = 0.001, leftkd = 0.00001;
-    public static double rightkp = 3.1, rightki = 0.001, rightkd = 0.00001;
+    public static double leftkp = 1.75, leftki = 0.01, leftkd = 0.002;
+    public static double rightkp = 1.75, rightki = 0.01, rightkd = 0.002;
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
@@ -131,7 +131,12 @@ public class Drivetrain {
             bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
             if (!pathFinished()) {
                 robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
-                bot.telem.addData("Next Drive Movement", "X: " + nextDriveMovement.translation.x + " Y: " + nextDriveMovement.translation.y + " Rot: " + nextDriveMovement.rotation);
+                bot.telem.addData("Next Drive Movement",
+                        "X: " + nextDriveMovement.translation.x
+                                + " Y: " + nextDriveMovement.translation.y
+                                + " Rot: " + nextDriveMovement.rotation);
+                robotMovement newMovement = new robotMovement(nextDriveMovement.rotation,
+                        new Vec2d(nextDriveMovement.translation.y, nextDriveMovement.translation.x));
                 drive.move(nextDriveMovement, 0);
             }
         });
