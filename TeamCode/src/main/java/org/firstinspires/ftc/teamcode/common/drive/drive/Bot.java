@@ -1,24 +1,20 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.amarcolini.joos.command.BasicCommand;
-import com.amarcolini.joos.command.Command;
-import com.amarcolini.joos.command.InstantCommand;
-import com.amarcolini.joos.command.RepeatCommand;
-import com.amarcolini.joos.command.Robot;
-import com.amarcolini.joos.dashboard.SuperTelemetry;
-import com.mineinjava.quail.odometry.path;
+
+import com.arcrobotics.ftclib.command.Robot;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.IntakeV4B;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
 
@@ -31,7 +27,8 @@ public class Bot extends Robot {
      */
     private BotState botState = BotState.TRANSFER;
     private IMU imu;
-    public final SuperTelemetry telem;
+    public final Telemetry telem;
+    public final HardwareMap hMap;
     public DcMotor parallelPod, perpendicularPod;
     private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
@@ -41,13 +38,13 @@ public class Bot extends Robot {
      */
     public Drivetrain drivetrain;
     public Intake intake;
-    public IntakeV4B intakeV4B;
 
     /*
         Constructor for the bot (initialize hardware)
      */
-    public Bot(SuperTelemetry telem) {
+    public Bot(Telemetry telem, HardwareMap hMap) {
         this.telem = telem;
+        this.hMap = hMap;
 
         imu = hMap.get(IMU.class, "imu");
         imu.initialize(
@@ -62,7 +59,6 @@ public class Bot extends Robot {
         /* Subsystems */
         drivetrain = new Drivetrain(this);
         intake = new Intake(this);
-        intakeV4B = new IntakeV4B(this);
 
         /* Localizer */
         parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
@@ -79,11 +75,6 @@ public class Bot extends Robot {
      */
     @Override
     public void init() {
-        schedule(drivetrain.init());
-        schedule(intake.init());
-        schedule(intakeV4B.init());
-
-        schedule(new RepeatCommand(drivetrain.updateLocalizer(), -1));
         schedule(new RepeatCommand(new BasicCommand(() -> {
             heldPixels = intake.getPixelColors();
             intakeToTransferCheck();
@@ -97,24 +88,19 @@ public class Bot extends Robot {
         }
     }
 
-    public Command intakeState() {
-        return new InstantCommand(() -> {
-            if (botState != BotState.TRANSFER && botState != BotState.INTAKE) {
-                schedule(transferState());
-            }
+    public void toIntakeState() {
+        if (botState != BotState.TRANSFER && botState != BotState.INTAKE) {
+            toTransferState();
+        }
 
-            botState = BotState.INTAKE;
-            telem.addData("Bot State", botState);
+        botState = BotState.INTAKE;
+        telem.addData("Bot State", botState);
 
-            schedule(intake.activate());
-            schedule(intakeV4B.intakePosition());
-
-            map(gamepad().p1.b::justActivated, intakeV4B.toggleState());
-            map(gamepad().p1.x::justActivated, intake.toggleState());
-        });
+        schedule(new ActivateIntakeSpinnerCommand(intake));
+        intakeV4B.intakePosition();
     }
 
-    public Command transferState() {
+    public Command toTransferState() {
         return new InstantCommand(() -> {
             botState = BotState.TRANSFER;
             telem.addData("Bot State", botState);
@@ -129,7 +115,7 @@ public class Bot extends Robot {
         });
     }
 
-    public Command depositState() {
+    public Command toDepositState() {
         return new InstantCommand(() -> {
             botState = BotState.DEPOSIT;
             telem.addData("Bot State", botState);
@@ -140,7 +126,7 @@ public class Bot extends Robot {
         });
     }
 
-    public Command endgameState() {
+    public Command toEndgameState() {
         return new InstantCommand(() -> {
             botState = BotState.ENDGAME;
             telem.addData("Bot State", botState);
@@ -149,16 +135,6 @@ public class Bot extends Robot {
                 schedule(transferState());
             }
         });
-    }
-
-    public Command setPath(path p) {
-        return new InstantCommand(() -> {
-            drivetrain.setPath(p);
-        });
-    }
-
-    public Command followPath(int repeatCount) {
-        return new RepeatCommand(drivetrain.followPath(), repeatCount);
     }
 
     public BotState getBotState() {
@@ -176,7 +152,7 @@ public class Bot extends Robot {
     private void intakeToTransferCheck() {
         if (botState == BotState.INTAKE) {
             if (heldPixels.get(0) != PixelColor.NONE && heldPixels.get(1) != PixelColor.NONE) {
-                transferState().execute();
+                transferState();
             }
         }
     }
