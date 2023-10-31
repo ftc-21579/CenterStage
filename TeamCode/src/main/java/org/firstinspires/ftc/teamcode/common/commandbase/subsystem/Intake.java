@@ -87,7 +87,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void v4bToggleState() {
-        if (v4bState != v4bState.TRANSFER) {
+        if (v4bState != intakeV4BState.TRANSFER) {
             v4bTransferState();
         } else {
             v4bIntakeState();
