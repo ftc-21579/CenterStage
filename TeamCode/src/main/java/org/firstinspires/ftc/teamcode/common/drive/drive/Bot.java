@@ -13,6 +13,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
@@ -70,23 +73,6 @@ public class Bot extends Robot {
 
     }
 
-    /*
-        Initialize the bot (schedule commands that need to be run in every OpMode)
-     */
-    @Override
-    public void init() {
-        schedule(new RepeatCommand(new BasicCommand(() -> {
-            heldPixels = intake.getPixelColors();
-            intakeToTransferCheck();
-        }), -1));
-
-        if (isInTeleOp) {
-            schedule(new RepeatCommand(drivetrain.teleopDrive(), -1));
-
-            map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
-            map(gamepad().p1.back::justActivated, drivetrain.toggleHeadingLock());
-        }
-    }
 
     public void toIntakeState() {
         if (botState != BotState.TRANSFER && botState != BotState.INTAKE) {
@@ -97,44 +83,33 @@ public class Bot extends Robot {
         telem.addData("Bot State", botState);
 
         schedule(new ActivateIntakeSpinnerCommand(intake));
-        intakeV4B.intakePosition();
+        schedule(new IntakeIntakePositionCommand(intake));
     }
 
-    public Command toTransferState() {
-        return new InstantCommand(() -> {
-            botState = BotState.TRANSFER;
-            telem.addData("Bot State", botState);
+    public void toTransferState() {
+        botState = BotState.TRANSFER;
+        telem.addData("Bot State", botState);
 
-            schedule(intake.disable());
-            schedule(intakeV4B.transferPosition());
-
-            unmap(gamepad().p1.b::justActivated);
-            unmap(gamepad().p1.x::justActivated);
-            unmap(intakeV4B.toggleState());
-            unmap(intake.toggleState());
-        });
+        schedule(new DisableIntakeSpinnerCommand(intake));
+        schedule(new IntakeTransferPositionCommand(intake));
     }
 
-    public Command toDepositState() {
-        return new InstantCommand(() -> {
-            botState = BotState.DEPOSIT;
-            telem.addData("Bot State", botState);
+    public void toDepositState() {
+        botState = BotState.DEPOSIT;
+        telem.addData("Bot State", botState);
 
-            if (botState != BotState.TRANSFER) {
-                schedule(transferState());
-            }
-        });
+        if (botState != BotState.TRANSFER) {
+            toTransferState();
+        }
     }
 
-    public Command toEndgameState() {
-        return new InstantCommand(() -> {
-            botState = BotState.ENDGAME;
-            telem.addData("Bot State", botState);
+    public void toEndgameState() {
+        botState = BotState.ENDGAME;
+        telem.addData("Bot State", botState);
 
-            if (botState != BotState.TRANSFER) {
-                schedule(transferState());
-            }
-        });
+        if (botState != BotState.TRANSFER) {
+            toTransferState();
+        }
     }
 
     public BotState getBotState() {
@@ -149,10 +124,12 @@ public class Bot extends Robot {
         return imu;
     }
 
-    private void intakeToTransferCheck() {
+    public void intakeToTransferCheck() {
         if (botState == BotState.INTAKE) {
+            heldPixels = intake.getPixelColors();
+
             if (heldPixels.get(0) != PixelColor.NONE && heldPixels.get(1) != PixelColor.NONE) {
-                transferState();
+                toTransferState();
             }
         }
     }
