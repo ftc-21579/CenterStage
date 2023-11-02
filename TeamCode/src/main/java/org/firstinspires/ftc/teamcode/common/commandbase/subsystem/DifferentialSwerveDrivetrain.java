@@ -20,14 +20,13 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Config
-public class Drivetrain extends SubsystemBase {
+public class DifferentialSwerveDrivetrain extends SubsystemBase {
     Bot bot;
 
     public static final double steeringGearRatio = 4;
@@ -59,7 +58,7 @@ public class Drivetrain extends SubsystemBase {
      * Encapsulates the drivetrain subsystem commands
      * @param bot
      */
-    public Drivetrain(Bot bot) {
+    public DifferentialSwerveDrivetrain(Bot bot) {
         this.bot = bot;
 
         // Initialize the motors
@@ -127,7 +126,6 @@ public class Drivetrain extends SubsystemBase {
     }
 
     /** The standard drive command for teleop, supports field centric if fieldCentric
-     * @return Command
      */
     public void teleopDrive(Vec2d leftStick, double rot) {
         double x = -leftStick.x;
@@ -148,7 +146,6 @@ public class Drivetrain extends SubsystemBase {
 
     /**
      * Updates the localizer of the Drivetrain
-     * @return Command
      */
     public void updateLocalizer() {
         bot.getLocalizer().periodic();

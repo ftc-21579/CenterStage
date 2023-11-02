@@ -7,11 +7,12 @@ import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 import java.util.function.BooleanSupplier;
@@ -21,8 +22,7 @@ public class TeleOp extends LinearOpMode {
 
     Bot bot;
     Intake intake;
-    Drivetrain drivetrain;
-
+    MecanumDrivetrain drivetrain;
     GamepadEx driver;
 
     @Override
@@ -30,7 +30,7 @@ public class TeleOp extends LinearOpMode {
 
         bot = new Bot(telemetry, hardwareMap);
         intake = bot.intake;
-        drivetrain = bot.drivetrain;
+        drivetrain = bot.mecanumDrivetrain;
         driver = new GamepadEx(gamepad1);
 
         BooleanSupplier driver_a = () -> driver.wasJustPressed(GamepadKeys.Button.A);
@@ -46,7 +46,6 @@ public class TeleOp extends LinearOpMode {
         BooleanSupplier driver_left_bumper = () -> driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER);
         BooleanSupplier driver_right_bumper = () -> driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER);
 
-
         waitForStart();
 
         while(opModeIsActive()) {
@@ -54,9 +53,15 @@ public class TeleOp extends LinearOpMode {
             CommandScheduler s = CommandScheduler.getInstance();
 
             s.schedule(new UpdateLocalizerCommand(drivetrain));
+
+            double multiplier = 1.0;
+
+            if (driver_start.getAsBoolean()) {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
+            if (driver_left_bumper.getAsBoolean() || driver_right_bumper.getAsBoolean()) {multiplier = 0.5;}
+
             s.schedule(new TeleOpDriveCommand(drivetrain,
                     new Vec2d(driver.getLeftX(), driver.getLeftY()),
-                    driver.getRightX()));
+                    driver.getRightX(), multiplier));
 
             bot.intakeToTransferCheck();
 

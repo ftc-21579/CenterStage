@@ -16,8 +16,9 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.Activate
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Drivetrain;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
 
@@ -39,7 +40,7 @@ public class Bot extends Robot {
     /*
         Subsystems
      */
-    public Drivetrain drivetrain;
+    public MecanumDrivetrain mecanumDrivetrain;
     public Intake intake;
 
     /*
@@ -60,7 +61,7 @@ public class Bot extends Robot {
         );
 
         /* Subsystems */
-        drivetrain = new Drivetrain(this);
+        mecanumDrivetrain = new MecanumDrivetrain(this);
         intake = new Intake(this);
 
         /* Localizer */
