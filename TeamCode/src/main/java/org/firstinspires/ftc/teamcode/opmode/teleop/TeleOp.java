@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFie
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -22,7 +23,7 @@ public class TeleOp extends LinearOpMode {
 
     Bot bot;
     Intake intake;
-    MecanumDrivetrain drivetrain;
+    DifferentialSwerveDrivetrain drivetrain;
     GamepadEx driver;
 
     @Override
@@ -30,7 +31,7 @@ public class TeleOp extends LinearOpMode {
 
         bot = new Bot(telemetry, hardwareMap);
         intake = bot.intake;
-        drivetrain = bot.mecanumDrivetrain;
+        drivetrain = bot.drivetrain;
         driver = new GamepadEx(gamepad1);
 
         BooleanSupplier driver_a = () -> driver.wasJustPressed(GamepadKeys.Button.A);

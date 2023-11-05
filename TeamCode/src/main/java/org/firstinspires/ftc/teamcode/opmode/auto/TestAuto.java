@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.FollowPathCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
@@ -19,14 +20,14 @@ import java.util.Arrays;
 public class TestAuto extends LinearOpMode {
 
     Bot bot;
-    MecanumDrivetrain drivetrain;
+    DifferentialSwerveDrivetrain drivetrain;
     path p = new path(new ArrayList<Pose2d>(
             Arrays.asList(
                     new Pose2d(0, 0, 0),
                     new Pose2d(0, 10, 0),
                     new Pose2d(10, 10, 0),
                     new Pose2d(10, 0, 0),
-                    new Pose2d(0, 0, 0)
+                    new Pose2d(1, 0, 0)
             )
     ));
 
@@ -34,7 +35,7 @@ public class TestAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         bot = new Bot(telemetry, hardwareMap);
-        drivetrain = bot.mecanumDrivetrain;
+        drivetrain = bot.drivetrain;
         drivetrain.setPath(p);
 
         waitForStart();

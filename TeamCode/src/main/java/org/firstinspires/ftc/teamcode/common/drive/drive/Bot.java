@@ -40,7 +40,7 @@ public class Bot extends Robot {
     /*
         Subsystems
      */
-    public MecanumDrivetrain mecanumDrivetrain;
+    public DifferentialSwerveDrivetrain drivetrain;
     public Intake intake;
 
     /*
@@ -61,7 +61,7 @@ public class Bot extends Robot {
         );
 
         /* Subsystems */
-        mecanumDrivetrain = new MecanumDrivetrain(this);
+        drivetrain = new DifferentialSwerveDrivetrain(this);
         intake = new Intake(this);
 
         /* Localizer */
