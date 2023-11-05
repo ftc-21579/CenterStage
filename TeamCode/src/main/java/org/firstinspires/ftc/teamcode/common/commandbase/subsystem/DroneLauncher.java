@@ -18,7 +18,7 @@ public class DroneLauncher {
         releaseServo.setPosition(0.0);
     }
 
-    public void retract() {
+    public void reset() {
         releaseServo.setPosition(0.25);
     }
 }
