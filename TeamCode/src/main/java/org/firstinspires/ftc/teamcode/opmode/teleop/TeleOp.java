@@ -50,6 +50,7 @@ public class TeleOp extends LinearOpMode {
             CommandScheduler s = CommandScheduler.getInstance();
 
             s.schedule(new UpdateLocalizerCommand(drivetrain));
+            driver.readButtons();
 
             double multiplier = 1.0;
 
