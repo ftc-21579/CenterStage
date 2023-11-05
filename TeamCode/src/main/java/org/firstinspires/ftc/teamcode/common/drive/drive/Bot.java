@@ -49,7 +49,7 @@ public class Bot extends Robot {
     /*
         Constructor for the bot (initialize hardware)
      */
-    public Bot(Telemetry telem, Telemetry dashTelem, HardwareMap hMap) {
+    public Bot(Telemetry telem, HardwareMap hMap) {
         this.telem = telem;
         this.hMap = hMap;
         this.dashTelem = dashTelem;

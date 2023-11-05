@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.opmode.teleop;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
@@ -29,8 +30,9 @@ public class TeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        bot = new Bot(telemetry, FtcDashboard.getInstance().getTelemetry(), hardwareMap);
+        bot = new Bot(telemetry, hardwareMap);
         intake = bot.intake;
         drivetrain = bot.drivetrain;
         driver = new GamepadEx(gamepad1);
