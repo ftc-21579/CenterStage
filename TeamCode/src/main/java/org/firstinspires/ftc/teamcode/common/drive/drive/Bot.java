@@ -50,10 +50,10 @@ public class Bot extends Robot {
     /*
         Constructor for the bot (initialize hardware)
      */
-    public Bot(Telemetry telem, HardwareMap hMap) {
+    public Bot(Telemetry telem, Telemetry dashTelem, HardwareMap hMap) {
         this.telem = telem;
         this.hMap = hMap;
-        this.dashTelem = FtcDashboard.getInstance().getTelemetry();
+        this.dashTelem = dashTelem;
 
         imu = hMap.get(IMU.class, "imu");
         imu.initialize(
