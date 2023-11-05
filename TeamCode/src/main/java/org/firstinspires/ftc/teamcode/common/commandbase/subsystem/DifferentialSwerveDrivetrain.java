@@ -40,6 +40,8 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
+    private MiniPID headingPID = new MiniPID(1, 0, 0);
+    private int headingLockTarget = 0;
     private SwerveModule left, right;
     private swerveDrive<SwerveModule> drive;
     private final List<SwerveModule> modules = new ArrayList<>();
@@ -127,17 +129,20 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
 
     /** The standard drive command for teleop, supports field centric if fieldCentric
      */
-    public void teleopDrive(Vec2d leftStick, double rot) {
-        double x = -leftStick.x;
-        double y = -leftStick.y;
+    public void teleopDrive(Vec2d leftStick, double rot, double multiplier) {
+        double x = -leftStick.x * multiplier;
+        double y = -leftStick.y * multiplier;
 
-        if (headingLock) {
-            rot = 0;
-        }
+        rot *= multiplier;
 
         double botHeading = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        if (fieldCentric) {
+        if (headingLock) {
+            rot = headingPID.getOutput(botHeading, headingLockTarget);
+            bot.telem.addData("Heading Lock Target", headingLockTarget);
+        }
+
+        if (fieldCentric && !headingLock) {
             drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
         } else {
             drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
@@ -191,6 +196,13 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
 
     public void toggleHeadingLock() {
             headingLock = !headingLock;
+    }
+
+    public void rotateHeadingLock() {
+        headingLockTarget += Math.PI / 2;
+        if (headingLockTarget > 2 * Math.PI) {
+            headingLockTarget -= 2 * Math.PI;
+        }
     }
 
     public void toggleFieldCentric() {

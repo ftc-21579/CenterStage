@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivet
 public class TeleOpDriveCommand extends InstantCommand {
     public TeleOpDriveCommand(DifferentialSwerveDrivetrain d, Vec2d leftStick, double rot, double multiplier) {
         super(
-                () -> d.teleopDrive(leftStick, rot)
+                () -> d.teleopDrive(leftStick, rot, multiplier)
         );
     }
 }

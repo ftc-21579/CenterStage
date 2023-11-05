@@ -8,19 +8,20 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 import java.util.function.BooleanSupplier;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "FtclibTestOpMode")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
     Bot bot;
@@ -60,6 +61,7 @@ public class TeleOp extends LinearOpMode {
 
             double multiplier = 1.0;
 
+            if (driver_back.getAsBoolean()) {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
             if (driver_start.getAsBoolean()) {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
             if (driver_left_bumper.getAsBoolean() || driver_right_bumper.getAsBoolean()) {multiplier = 0.5;}
 
@@ -80,6 +82,7 @@ public class TeleOp extends LinearOpMode {
                     if (driver_x.getAsBoolean()) {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     break;
                 case TRANSFER:
+                    if (driver_a.getAsBoolean()) {s.schedule(new RotateHeadingLockCommand(drivetrain));}
                     break;
                 case DEPOSIT:
                     if (driver_b.getAsBoolean()) {}
