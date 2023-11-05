@@ -53,8 +53,6 @@ public class SwerveModule extends differentialSwerveModuleBase {
         // The target angle is the angle of the vector
         double targetRad = vector.getAngle();
 
-        telem.addData(name + " targetRad", targetRad);
-
         double wheelFlipper = 1;
         double distanceToTarget = deltaAngle(odometryRad, targetRad);
         if (Math.abs(distanceToTarget) > Math.PI / 2) {

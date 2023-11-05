@@ -38,7 +38,6 @@ public class Bot extends Robot {
     public DcMotor parallelPod, perpendicularPod;
     private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
-    public Telemetry dashTelem;
 
     /*
         Subsystems
@@ -52,7 +51,6 @@ public class Bot extends Robot {
     public Bot(Telemetry telem, HardwareMap hMap) {
         this.telem = telem;
         this.hMap = hMap;
-        this.dashTelem = dashTelem;
 
         imu = hMap.get(IMU.class, "imu");
         imu.initialize(

@@ -155,6 +155,9 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
         bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
         bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
         bot.telem.addData("Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
+
+        bot.telem.addData("Left Pod Heading", leftAbsoluteEncoder.getCurrentPosition());
+        bot.telem.addData("Right Pod Heading", rightAbsoluteEncoder.getCurrentPosition());
     }
 
     public void setPath(path p) {
