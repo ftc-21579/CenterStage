@@ -39,7 +39,6 @@ public class Bot extends Robot {
     private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
     public Telemetry dashTelem;
-    private FtcDashboard dashboard = FtcDashboard.getInstance();
 
     /*
         Subsystems
