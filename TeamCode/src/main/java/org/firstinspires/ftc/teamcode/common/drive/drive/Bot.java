@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Robot;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -36,6 +38,8 @@ public class Bot extends Robot {
     public DcMotor parallelPod, perpendicularPod;
     private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
+    public TelemetryPacket packet;
+    private FtcDashboard dashboard = FtcDashboard.getInstance();
 
     /*
         Subsystems
@@ -49,6 +53,7 @@ public class Bot extends Robot {
     public Bot(Telemetry telem, HardwareMap hMap) {
         this.telem = telem;
         this.hMap = hMap;
+        this.packet = new TelemetryPacket();
 
         imu = hMap.get(IMU.class, "imu");
         imu.initialize(
@@ -133,5 +138,10 @@ public class Bot extends Robot {
                 toTransferState();
             }
         }
+    }
+
+    public void updateDashboardTelemetry() {
+        dashboard.sendTelemetryPacket(packet);
+        packet = new TelemetryPacket();
     }
 }
