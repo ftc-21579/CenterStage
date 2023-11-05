@@ -92,7 +92,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
                 leftUpperMotor,
                 leftLowerMotor,
                 leftAbsoluteEncoder,
-                bot,
+                bot.dashTelem,
                 "Left"
         );
 
@@ -103,7 +103,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
                 rightUpperMotor,
                 rightLowerMotor,
                 rightAbsoluteEncoder,
-                bot,
+                bot.dashTelem,
                 "Right"
         );
 

@@ -92,7 +92,7 @@ public class TeleOp extends LinearOpMode {
             }
 
             telemetry.update();
-            bot.updateDashboardTelemetry();
+            bot.dashTelem.update();
             s.run();
         }
     }

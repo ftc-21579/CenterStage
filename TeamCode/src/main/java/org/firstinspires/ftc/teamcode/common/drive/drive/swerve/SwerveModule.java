@@ -8,6 +8,7 @@ import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
@@ -16,15 +17,15 @@ public class SwerveModule extends differentialSwerveModuleBase {
     DcMotor upperMotor, lowerMotor;
     String name;
     AbsoluteAnalogEncoder encoder;
-    Bot bot;
+    Telemetry telem;
 
-    public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, AbsoluteAnalogEncoder encoder, Bot bot, String name) {
+    public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, AbsoluteAnalogEncoder encoder, Telemetry telem, String name) {
         super(position, steeringGearRatio, driveGearRatio);
         this.pid = pid;
         this.upperMotor = upperMotor;
         this.lowerMotor = lowerMotor;
         this.encoder = encoder;
-        this.bot = bot;
+        this.telem = telem;
         this.name = name;
     }
 
@@ -52,7 +53,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
         // The target angle is the angle of the vector
         double targetRad = vector.getAngle();
 
-        bot.packet.put(name + " targetRad", targetRad);
+        telem.addData(name + " targetRad", targetRad);
 
         double wheelFlipper = 1;
         double distanceToTarget = deltaAngle(odometryRad, targetRad);
@@ -69,7 +70,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
             wheelFlipper *= -1;
         }
 
-        bot.packet.put(name + " setpoint", setpointRad);
+        telem.addData(name + " setpoint", setpointRad);
 
         // The rotation speed is the output of the PID controller
         double rotationSpeed = pid.getOutput(odometryRad, setpointRad);
