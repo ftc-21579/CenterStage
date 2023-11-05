@@ -56,8 +56,8 @@ public class Bot extends Robot {
         imu.initialize(
             new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                    RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD,
-                    RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                    RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT
                 )
             )
         );
