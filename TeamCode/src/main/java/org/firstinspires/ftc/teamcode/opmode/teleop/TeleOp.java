@@ -43,19 +43,6 @@ public class TeleOp extends LinearOpMode {
         drivetrain = bot.drivetrain;
         driver = new GamepadEx(gamepad1);
 
-        BooleanSupplier driver_a = () -> driver.wasJustPressed(GamepadKeys.Button.A);
-        BooleanSupplier driver_b = () -> driver.wasJustPressed(GamepadKeys.Button.B);
-        BooleanSupplier driver_x = () -> driver.wasJustPressed(GamepadKeys.Button.X);
-        BooleanSupplier driver_y = () -> driver.wasJustPressed(GamepadKeys.Button.Y);
-        BooleanSupplier driver_up = () -> driver.wasJustPressed(GamepadKeys.Button.DPAD_UP);
-        BooleanSupplier driver_down = () -> driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN);
-        BooleanSupplier driver_left = () -> driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT);
-        BooleanSupplier driver_right = () -> driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT);
-        BooleanSupplier driver_back = () -> driver.wasJustPressed(GamepadKeys.Button.BACK);
-        BooleanSupplier driver_start = () -> driver.wasJustPressed(GamepadKeys.Button.START);
-        BooleanSupplier driver_left_bumper = () -> driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER);
-        BooleanSupplier driver_right_bumper = () -> driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER);
-
         waitForStart();
 
         while(opModeIsActive()) {
@@ -66,9 +53,12 @@ public class TeleOp extends LinearOpMode {
 
             double multiplier = 1.0;
 
-            if (driver_back.getAsBoolean()) {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
-            if (driver_start.getAsBoolean()) {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
-            if (driver_left_bumper.getAsBoolean() || driver_right_bumper.getAsBoolean()) {multiplier = 0.5;}
+            if (driver.wasJustPressed(GamepadKeys.Button.BACK))
+                {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
+            if (driver.wasJustPressed(GamepadKeys.Button.START))
+                {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
+            if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+                {multiplier = 0.5;}
 
             s.schedule(new TeleOpDriveCommand(drivetrain,
                     new Vec2d(driver.getLeftX(), -driver.getLeftY()),
@@ -76,29 +66,36 @@ public class TeleOp extends LinearOpMode {
 
             bot.intakeToTransferCheck();
 
-            if (driver_left.getAsBoolean()) {s.schedule(new ToIntakeStateCommand(bot));}
-            if (driver_up.getAsBoolean()) {s.schedule(new ToTransferStateCommand(bot));}
-            if (driver_right.getAsBoolean()) {s.schedule(new ToDepositStateCommand(bot));}
-            if (driver_down.getAsBoolean()) {s.schedule(new ToEndgameStateCommand(bot));}
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT))
+                {s.schedule(new ToIntakeStateCommand(bot));}
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP))
+                {s.schedule(new ToTransferStateCommand(bot));}
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT))
+                {s.schedule(new ToDepositStateCommand(bot));}
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN))
+                {s.schedule(new ToEndgameStateCommand(bot));}
 
             switch(bot.getBotState()) {
                 case INTAKE:
-                    if (driver_b.getAsBoolean()) {s.schedule(new ToggleIntakeV4BCommand(intake));}
-                    if (driver_x.getAsBoolean()) {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B))
+                        {s.schedule(new ToggleIntakeV4BCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X))
+                        {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     break;
                 case TRANSFER:
-                    if (driver_a.getAsBoolean()) {s.schedule(new RotateHeadingLockCommand(drivetrain));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.A))
+                        {s.schedule(new RotateHeadingLockCommand(drivetrain));}
                     break;
                 case DEPOSIT:
-                    if (driver_b.getAsBoolean()) {}
-                    if (driver_y.getAsBoolean()) {}
-                    if (driver_x.getAsBoolean()) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {}
                     break;
                 case ENDGAME:
-                    if (driver_b.getAsBoolean()) {}
-                    if (driver_y.getAsBoolean()) {}
-                    if (driver_x.getAsBoolean()) {}
-                    if (driver_a.getAsBoolean()) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.A)) {}
                     break;
                 default:
                     break;
