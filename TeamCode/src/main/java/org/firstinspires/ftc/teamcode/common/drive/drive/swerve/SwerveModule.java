@@ -72,6 +72,8 @@ public class SwerveModule extends differentialSwerveModuleBase {
 
         telem.addData(name + " setpoint", setpointRad);
 
+        telem.update();
+
         // The rotation speed is the output of the PID controller
         double rotationSpeed = pid.getOutput(odometryRad, setpointRad);
 
