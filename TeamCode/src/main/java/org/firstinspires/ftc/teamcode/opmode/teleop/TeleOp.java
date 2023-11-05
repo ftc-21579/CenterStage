@@ -64,8 +64,8 @@ public class TeleOp extends LinearOpMode {
             if (driver_left_bumper.getAsBoolean() || driver_right_bumper.getAsBoolean()) {multiplier = 0.5;}
 
             s.schedule(new TeleOpDriveCommand(drivetrain,
-                    new Vec2d(driver.getLeftX(), driver.getLeftY()),
-                    driver.getRightX(), multiplier));
+                    new Vec2d(driver.getLeftX(), -driver.getLeftY()),
+                    -driver.getRightX(), multiplier));
 
             bot.intakeToTransferCheck();
 

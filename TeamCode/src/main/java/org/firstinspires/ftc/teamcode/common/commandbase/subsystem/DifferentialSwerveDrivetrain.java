@@ -35,8 +35,8 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
 
     private AbsoluteAnalogEncoder leftAbsoluteEncoder, rightAbsoluteEncoder;
 
-    public static double leftkp = 1.75, leftki = 0.01, leftkd = 0.002;
-    public static double rightkp = 1.75, rightki = 0.01, rightkd = 0.002;
+    public static double leftkp = 2.5, leftki = 0.0, leftkd = 2.0;
+    public static double rightkp = 2.5, rightki = 0.0, rightkd = 2.0;
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
