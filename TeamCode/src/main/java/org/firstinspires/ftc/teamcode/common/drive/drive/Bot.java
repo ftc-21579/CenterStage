@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.Activate
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
@@ -79,7 +80,7 @@ public class Bot extends Robot {
 
     public void toIntakeState() {
         if (botState != BotState.TRANSFER && botState != BotState.INTAKE) {
-            toTransferState();
+            schedule(new ToTransferStateCommand(this));
         }
 
         botState = BotState.INTAKE;
@@ -98,21 +99,21 @@ public class Bot extends Robot {
     }
 
     public void toDepositState() {
+        if (botState != BotState.TRANSFER && botState != BotState.DEPOSIT) {
+            schedule(new ToTransferStateCommand(this));
+        }
+
         botState = BotState.DEPOSIT;
         telem.addData("Bot State", botState);
-
-        if (botState != BotState.TRANSFER) {
-            toTransferState();
-        }
     }
 
     public void toEndgameState() {
+        if (botState != BotState.TRANSFER && botState != BotState.ENDGAME) {
+            schedule(new ToTransferStateCommand(this));
+        }
+
         botState = BotState.ENDGAME;
         telem.addData("Bot State", botState);
-
-        if (botState != BotState.TRANSFER) {
-            toTransferState();
-        }
     }
 
     public BotState getBotState() {

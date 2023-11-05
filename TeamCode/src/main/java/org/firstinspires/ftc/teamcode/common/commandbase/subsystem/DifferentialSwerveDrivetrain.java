@@ -197,7 +197,8 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
     }
 
     public void toggleHeadingLock() {
-            headingLock = !headingLock;
+        headingLock = !headingLock;
+        bot.telem.addData("Heading Lock", headingLock);
     }
 
     public void rotateHeadingLock() {

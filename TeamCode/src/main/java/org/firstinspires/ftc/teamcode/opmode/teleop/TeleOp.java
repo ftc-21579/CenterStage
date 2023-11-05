@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
@@ -15,6 +16,10 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHea
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToDepositStateCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToEndgameStateCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToIntakeStateCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -71,10 +76,10 @@ public class TeleOp extends LinearOpMode {
 
             bot.intakeToTransferCheck();
 
-            if (driver_left.getAsBoolean()) {bot.toIntakeState();}
-            if (driver_up.getAsBoolean()) {bot.toTransferState();}
-            if (driver_right.getAsBoolean()) {bot.toDepositState();}
-            if (driver_down.getAsBoolean()) {bot.toEndgameState();}
+            if (driver_left.getAsBoolean()) {s.schedule(new ToIntakeStateCommand(bot));}
+            if (driver_up.getAsBoolean()) {s.schedule(new ToTransferStateCommand(bot));}
+            if (driver_right.getAsBoolean()) {s.schedule(new ToDepositStateCommand(bot));}
+            if (driver_down.getAsBoolean()) {s.schedule(new ToEndgameStateCommand(bot));}
 
             switch(bot.getBotState()) {
                 case INTAKE:
@@ -94,6 +99,8 @@ public class TeleOp extends LinearOpMode {
                     if (driver_y.getAsBoolean()) {}
                     if (driver_x.getAsBoolean()) {}
                     if (driver_a.getAsBoolean()) {}
+                    break;
+                default:
                     break;
             }
 
