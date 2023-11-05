@@ -40,7 +40,9 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
 
     private MiniPID leftPID = new MiniPID(leftkp, leftki, leftkd);
     private MiniPID rightPID = new MiniPID(rightkp, rightki, rightkd);
-    private MiniPID headingPID = new MiniPID(1, 0, 0);
+
+    public static double headingkp = 1.0, headingki = 0.0, headingkd = 0.0;
+    private MiniPID headingPID = new MiniPID(headingkp, headingki, headingkd);
     private int headingLockTarget = 0;
     private SwerveModule left, right;
     private swerveDrive<SwerveModule> drive;
