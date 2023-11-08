@@ -94,6 +94,13 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    public boolean inTransferState() {
+        if (leftv4bServo.getPosition() > 0.0) {
+            return false;
+        }
+        return true;
+    }
+
     public void updatePixelColors() {
         heldPixels = getPixelColors();
     }
