@@ -142,9 +142,10 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
         if (headingLock) {
             rot = headingPID.getOutput(botHeading, headingLockTarget);
             bot.telem.addData("Heading Lock Target", headingLockTarget);
+            bot.telem.addData("Heading Lock Current IMU", botHeading);
         }
 
-        if (fieldCentric && !headingLock) {
+        if (fieldCentric) {
             drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
         } else {
             drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);

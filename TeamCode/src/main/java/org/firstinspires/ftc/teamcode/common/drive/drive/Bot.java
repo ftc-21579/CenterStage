@@ -94,12 +94,6 @@ public class Bot extends Robot {
     public void toTransferState() {
         botState = BotState.TRANSFER;
         telem.addData("Bot State", botState);
-
-        ElapsedTime timer = new ElapsedTime();
-
-
-        schedule(new IntakeTransferPositionCommand(intake));
-        schedule(new DisableIntakeSpinnerCommand(intake));
     }
 
     public void toDepositState() {
@@ -137,7 +131,7 @@ public class Bot extends Robot {
             heldPixels = intake.getPixelColors();
 
             if (heldPixels.get(0) != PixelColor.NONE && heldPixels.get(1) != PixelColor.NONE) {
-                toTransferState();
+                schedule(new ToTransferStateCommand(this));
             }
         }
     }

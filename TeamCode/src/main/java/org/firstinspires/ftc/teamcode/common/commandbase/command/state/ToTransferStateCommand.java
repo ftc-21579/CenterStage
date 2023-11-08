@@ -32,6 +32,7 @@ public class ToTransferStateCommand extends CommandBase {
             return false;
         } else {
             new DisableIntakeSpinnerCommand(bot.intake).schedule();
+            bot.toTransferState();
             return true;
         }
     }
