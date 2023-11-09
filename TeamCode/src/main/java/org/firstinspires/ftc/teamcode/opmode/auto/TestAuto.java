@@ -49,6 +49,8 @@ public class TestAuto extends LinearOpMode {
             s.schedule(new UpdateLocalizerCommand(drivetrain));
             s.schedule(new FollowPathCommand(drivetrain, p));
 
+
+            telemetry.update();
             s.run();
         }
     }
