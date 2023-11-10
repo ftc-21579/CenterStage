@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDri
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToDepositStateCommand;
@@ -21,6 +23,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToEndgame
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToIntakeStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
@@ -32,6 +35,7 @@ public class TeleOp extends LinearOpMode {
     Bot bot;
     Intake intake;
     DifferentialSwerveDrivetrain drivetrain;
+    DroneLauncher launcher;
     GamepadEx driver;
 
     @Override
@@ -41,6 +45,7 @@ public class TeleOp extends LinearOpMode {
         bot = new Bot(telemetry, hardwareMap);
         intake = bot.intake;
         drivetrain = bot.drivetrain;
+        launcher = bot.launcher;
         driver = new GamepadEx(gamepad1);
 
         waitForStart();
@@ -93,10 +98,10 @@ public class TeleOp extends LinearOpMode {
                     if (driver.wasJustPressed(GamepadKeys.Button.X)) {}
                     break;
                 case ENDGAME:
-                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y)) {}
                     if (driver.wasJustPressed(GamepadKeys.Button.X)) {}
-                    if (driver.wasJustPressed(GamepadKeys.Button.A)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:
                     break;

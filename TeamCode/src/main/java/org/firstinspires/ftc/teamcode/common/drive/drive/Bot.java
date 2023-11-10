@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIn
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
@@ -46,6 +47,7 @@ public class Bot extends Robot {
      */
     public DifferentialSwerveDrivetrain drivetrain;
     public Intake intake;
+    public DroneLauncher launcher;
 
     /*
         Constructor for the bot (initialize hardware)
@@ -74,6 +76,7 @@ public class Bot extends Robot {
         /* Subsystems */
         drivetrain = new DifferentialSwerveDrivetrain(this);
         intake = new Intake(this);
+        launcher = new DroneLauncher(this);
     }
 
 
