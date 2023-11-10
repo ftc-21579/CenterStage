@@ -20,6 +20,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableI
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
@@ -47,6 +48,7 @@ public class Bot extends Robot {
      */
     public DifferentialSwerveDrivetrain drivetrain;
     public Intake intake;
+    public Deposit deposit;
     public DroneLauncher launcher;
 
     /*
@@ -77,19 +79,13 @@ public class Bot extends Robot {
         drivetrain = new DifferentialSwerveDrivetrain(this);
         intake = new Intake(this);
         launcher = new DroneLauncher(this);
+        deposit = new Deposit(this);
     }
 
 
     public void toIntakeState() {
-        if (botState != BotState.TRANSFER && botState != BotState.INTAKE) {
-            schedule(new ToTransferStateCommand(this));
-        }
-
         botState = BotState.INTAKE;
         telem.addData("Bot State", botState);
-
-        schedule(new ActivateIntakeSpinnerCommand(intake));
-        schedule(new IntakeIntakePositionCommand(intake));
     }
 
     public void toTransferState() {
@@ -98,19 +94,11 @@ public class Bot extends Robot {
     }
 
     public void toDepositState() {
-        if (botState != BotState.TRANSFER && botState != BotState.DEPOSIT) {
-            schedule(new ToTransferStateCommand(this));
-        }
-
         botState = BotState.DEPOSIT;
         telem.addData("Bot State", botState);
     }
 
     public void toEndgameState() {
-        if (botState != BotState.TRANSFER && botState != BotState.ENDGAME) {
-            schedule(new ToTransferStateCommand(this));
-        }
-
         botState = BotState.ENDGAME;
         telem.addData("Bot State", botState);
     }

@@ -9,6 +9,9 @@ import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
@@ -22,6 +25,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToDeposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToEndgameStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToIntakeStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
@@ -32,11 +36,12 @@ import java.util.function.BooleanSupplier;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
-    Bot bot;
-    Intake intake;
-    DifferentialSwerveDrivetrain drivetrain;
-    DroneLauncher launcher;
-    GamepadEx driver;
+    private Bot bot;
+    private Intake intake;
+    private DifferentialSwerveDrivetrain drivetrain;
+    private DroneLauncher launcher;
+    private Deposit deposit;
+    private GamepadEx driver;
 
     @Override
     public void runOpMode() {
@@ -46,6 +51,7 @@ public class TeleOp extends LinearOpMode {
         intake = bot.intake;
         drivetrain = bot.drivetrain;
         launcher = bot.launcher;
+        deposit = bot.deposit;
         driver = new GamepadEx(gamepad1);
 
         waitForStart();
@@ -93,9 +99,12 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new RotateHeadingLockCommand(drivetrain));}
                     break;
                 case DEPOSIT:
-                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {}
-                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {}
-                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B))
+                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y))
+                        {s.schedule(new DepositToggleV4BCommand(deposit));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X))
+                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
                     break;
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
