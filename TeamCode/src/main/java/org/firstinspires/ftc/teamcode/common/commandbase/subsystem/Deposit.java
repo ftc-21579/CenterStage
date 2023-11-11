@@ -32,6 +32,7 @@ public class Deposit {
 
         depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
         depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        depositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftReleaseServo = bot.hMap.get(Servo.class, "leftReleaseServo");
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
