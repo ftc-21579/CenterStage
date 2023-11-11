@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
@@ -51,6 +52,7 @@ public class ToTransferStateCommand extends CommandBase {
                 }
             case DEPOSIT:
                 if (bot.deposit.state == DepositState.TRANSFER) {
+                    new DepositStopLiftCommand(bot.deposit).schedule();
                     bot.telem.addLine("To Transfer State Finished");
                     return true;
                 } else {

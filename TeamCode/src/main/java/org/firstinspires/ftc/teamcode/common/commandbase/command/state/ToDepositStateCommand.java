@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
@@ -35,6 +36,7 @@ public class ToDepositStateCommand extends CommandBase {
     public boolean isFinished() {
         if(bot.deposit.state == DepositState.BOTTOM && bot.getBotState() == BotState.TRANSFER) {
             bot.toDepositState();
+            new DepositStopLiftCommand(bot.deposit).schedule();
             bot.telem.addLine("To Deposit State Finished");
             return true;
         } else {
