@@ -116,7 +116,7 @@ public class Deposit {
     }
 
     public void stopLift() {
-        depositMotor.setPower(0);
+        depositMotor.setPower(0.0);
     }
 
     public void v4bToggle() {

@@ -9,6 +9,7 @@ import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
@@ -111,6 +112,8 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new ManualLiftDownCommand(deposit));}
                     if (driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.2)
                         {s.schedule(new ManualLiftDownCommand(deposit));}
+                    if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
+                        {s.schedule(new DepositStopLiftCommand(deposit));}
                     break;
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
