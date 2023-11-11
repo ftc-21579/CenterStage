@@ -85,25 +85,18 @@ public class Bot extends Robot {
 
     public void toIntakeState() {
         botState = BotState.INTAKE;
-        telem.addData("Bot State", botState);
     }
 
     public void toTransferState() {
         botState = BotState.TRANSFER;
-        telem.addData("Bot State", botState);
-        telem.update();
     }
 
     public void toDepositState() {
         botState = BotState.DEPOSIT;
-        telem.addData("Bot State", botState);
-        telem.update();
     }
 
     public void toEndgameState() {
         botState = BotState.ENDGAME;
-        telem.addData("Bot State", botState);
-        telem.update();
     }
 
     public BotState getBotState() {

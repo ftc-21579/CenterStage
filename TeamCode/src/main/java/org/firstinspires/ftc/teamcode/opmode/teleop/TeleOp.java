@@ -58,6 +58,7 @@ public class TeleOp extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive()) {
+            telemetry.addData("Bot State", bot.getBotState());
 
             CommandScheduler s = CommandScheduler.getInstance();
 
