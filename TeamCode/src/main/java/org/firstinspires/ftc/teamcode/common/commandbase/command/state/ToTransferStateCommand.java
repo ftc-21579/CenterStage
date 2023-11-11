@@ -22,13 +22,17 @@ public class ToTransferStateCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        bot.telem.addLine("To Transfer State Init");
         timer.reset();
     }
 
     @Override
     public void execute() {
         new IntakeTransferPositionCommand(bot.intake).schedule();
+        bot.telem.addLine("Intake to Transfer Done");
         new DepositToTransferPositionCommand(bot).schedule();
+        bot.telem.addLine("Deposit to Transfer Done");
+        bot.toTransferState();
     }
 
     @Override
@@ -42,10 +46,12 @@ public class ToTransferStateCommand extends CommandBase {
                 } else {
                     new DisableIntakeSpinnerCommand(bot.intake).schedule();
                     bot.toTransferState();
+                    bot.telem.addLine("To Transfer State Finished");
                     return true;
                 }
             case DEPOSIT:
                 if (bot.deposit.state == DepositState.TRANSFER) {
+                    bot.telem.addLine("To Transfer State Finished");
                     return true;
                 } else {
                     return false;
