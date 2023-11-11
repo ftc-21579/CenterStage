@@ -40,7 +40,7 @@ public class Deposit {
 
     public void toBottomPosition() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 3 * TICKS_PER_INCH);
-        depositMotor.setPower(liftPower);
+        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", 3);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
@@ -56,7 +56,7 @@ public class Deposit {
 
     public void toTransferPosition() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 0.5 * TICKS_PER_INCH);
-        depositMotor.setPower(liftPower);
+        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", 0.5);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
@@ -98,7 +98,7 @@ public class Deposit {
 
     public void raiseLift() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() + 10);
-        depositMotor.setPower(liftPower);
+        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", (depositMotor.getCurrentPosition() + 10) / TICKS_PER_INCH);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
@@ -108,7 +108,7 @@ public class Deposit {
 
     public void lowerLift() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() - 10);
-        depositMotor.setPower(liftPower);
+        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", (depositMotor.getCurrentPosition() - 10) / TICKS_PER_INCH);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
@@ -146,5 +146,9 @@ public class Deposit {
     public void v4bToDrop() {
         leftV4BServo.setPosition(0.75);
         rightV4BServo.setPosition(0.75);
+    }
+
+    private static double clamp(double val, double min, double max) {
+        return Math.max(min, Math.min(max, val));
     }
 }
