@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.mineinjava.quail.util.MiniPID;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
+@Config
 public class Deposit {
 
     Bot bot;
