@@ -42,7 +42,7 @@ public class Deposit {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 3 * TICKS_PER_INCH);
         depositMotor.setPower(liftPower);
 
-        bot.telem.addData("Lift Setpoint", 3 * TICKS_PER_INCH);
+        bot.telem.addData("Lift Setpoint", 3);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
 
         new ReleasePixelsCommand(this).schedule();
@@ -58,7 +58,7 @@ public class Deposit {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 0.5 * TICKS_PER_INCH);
         depositMotor.setPower(liftPower);
 
-        bot.telem.addData("Lift Setpoint", 0.5 * TICKS_PER_INCH);
+        bot.telem.addData("Lift Setpoint", 0.5);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
 
         new ReleasePixelsCommand(this).schedule();
