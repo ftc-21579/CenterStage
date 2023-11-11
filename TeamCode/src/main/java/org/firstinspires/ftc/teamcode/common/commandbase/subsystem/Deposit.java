@@ -18,7 +18,7 @@ public class Deposit {
     Bot bot;
     public static double liftKp = 1.0, liftKi = 0.0, liftKd = 0.0;
     MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
-    public static final double TICKS_PER_INCH = 1;
+    public static double TICKS_PER_INCH = 1;
 
     public DepositState state = DepositState.TRANSFER;
 
