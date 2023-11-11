@@ -17,14 +17,16 @@ public class ToDepositStateCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        bot.telem.addLine("To Deposit State Init");
     }
 
     @Override
     public void execute() {
         if (bot.getBotState() != BotState.TRANSFER) {
+            bot.telem.addLine("To Deposit State Exec (NOT TRANSFER)");
             new ToTransferStateCommand(bot).schedule();
         } else {
+            bot.telem.addLine("To Deposit State Exec");
             new DepositToBottomPositionCommand(bot).schedule();
         }
     }
@@ -33,6 +35,7 @@ public class ToDepositStateCommand extends CommandBase {
     public boolean isFinished() {
         if(bot.deposit.state == DepositState.BOTTOM && bot.getBotState() == BotState.TRANSFER) {
             bot.toDepositState();
+            bot.telem.addLine("To Deposit State Finished");
             return true;
         } else {
             return false;

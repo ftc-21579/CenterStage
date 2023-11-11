@@ -78,7 +78,7 @@ public class TeleOp extends LinearOpMode {
                     new Vec2d(driver.getLeftX(), -driver.getLeftY()),
                     -driver.getRightX(), multiplier));
 
-            bot.intakeToTransferCheck();
+            //bot.intakeToTransferCheck();
 
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT))
                 {s.schedule(new ToIntakeStateCommand(bot));}
