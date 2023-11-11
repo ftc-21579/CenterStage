@@ -51,9 +51,9 @@ public class Intake extends SubsystemBase {
 
         leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
 
-        leftv4bServo = bot.hMap.get(Servo.class, "leftV4BServo");
+        leftv4bServo = bot.hMap.get(Servo.class, "intakeLeftV4BServo");
         leftv4bServo.setDirection(Servo.Direction.REVERSE);
-        rightv4bServo = bot.hMap.get(Servo.class, "rightV4BServo");
+        rightv4bServo = bot.hMap.get(Servo.class, "intakeRightV4BServo");
     }
 
     public void activate() {

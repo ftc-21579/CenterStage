@@ -63,8 +63,11 @@ public class SwerveModule extends differentialSwerveModuleBase {
         distanceToTarget = deltaAngle(odometryRad, targetRad);
         double setpointRad = clamp(odometryRad + distanceToTarget, 0, 2 * Math.PI);
 
-        if(setpointRad > 1.975 * Math.PI || setpointRad < 0.025 * Math.PI) {
-            setpointRad = Math.PI;
+        if(setpointRad > 1.7 * Math.PI) {
+            setpointRad -= Math.PI;
+            wheelFlipper *= -1;
+        } else if(setpointRad < 0.3 * Math.PI) {
+            setpointRad += Math.PI;
             wheelFlipper *= -1;
         }
 

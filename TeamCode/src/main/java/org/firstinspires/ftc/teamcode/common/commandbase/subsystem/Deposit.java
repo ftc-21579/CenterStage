@@ -31,8 +31,8 @@ public class Deposit {
         depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
         leftReleaseServo = bot.hMap.get(Servo.class, "leftReleaseServo");
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
-        leftV4BServo = bot.hMap.get(Servo.class, "leftV4BServo");
-        rightV4BServo = bot.hMap.get(Servo.class, "rightV4BServo");
+        leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
+        rightV4BServo = bot.hMap.get(Servo.class, "depositRightV4BServo");
     }
 
     public void toBottomPosition() {
