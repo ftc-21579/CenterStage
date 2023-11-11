@@ -98,7 +98,12 @@ public class Deposit {
     }
 
     public void raiseLift() {
-        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() + 10);
+        double liftPower = 0.0;
+        if (depositMotor.getCurrentPosition() >= 21 * TICKS_PER_INCH) {
+            depositMotor.setPower(liftPower);
+        } else {
+            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() + 20);
+        }
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", (depositMotor.getCurrentPosition() + 10) / TICKS_PER_INCH);
@@ -108,7 +113,13 @@ public class Deposit {
     }
 
     public void lowerLift() {
-        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() - 10);
+        double liftPower = 0.0;
+        if (depositMotor.getCurrentPosition() <= 0.1 * TICKS_PER_INCH) {
+            depositMotor.setPower(liftPower);
+        } else {
+            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() - 20);
+        }
+
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", (depositMotor.getCurrentPosition() - 10) / TICKS_PER_INCH);
