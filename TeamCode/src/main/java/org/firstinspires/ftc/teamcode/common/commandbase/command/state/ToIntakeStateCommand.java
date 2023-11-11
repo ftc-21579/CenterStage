@@ -17,14 +17,17 @@ public class ToIntakeStateCommand extends CommandBase {
 
     @Override
     public void initialize() {
-
+        bot.telem.addLine("To Intake State Init");
     }
 
     @Override
     public void execute() {
         if(bot.getBotState() != BotState.TRANSFER) {
+            bot.telem.addLine("To Intake State Exec (NOT TRANSFER)");
             new ToTransferStateCommand(bot).schedule();
+            bot.telem.addLine("To Intake State Exec (NOT TRANSFER) (DONE)");
         } else {
+            bot.telem.addLine("To Intake State Exec");
             new ActivateIntakeSpinnerCommand(bot.intake).schedule();
             new IntakeIntakePositionCommand(bot.intake).schedule();
             bot.toIntakeState();
