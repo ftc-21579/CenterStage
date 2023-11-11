@@ -102,7 +102,10 @@ public class Deposit {
         if (depositMotor.getCurrentPosition() >= 21 * TICKS_PER_INCH) {
             depositMotor.setPower(liftPower);
         } else {
-            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() + 20);
+            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(),
+                    clamp(depositMotor.getCurrentPosition() + 20,
+                            0.2 * TICKS_PER_INCH,
+                            21 * TICKS_PER_INCH));
         }
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
@@ -117,7 +120,10 @@ public class Deposit {
         if (depositMotor.getCurrentPosition() <= 0.1 * TICKS_PER_INCH) {
             depositMotor.setPower(liftPower);
         } else {
-            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() - 20);
+            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(),
+                    clamp(depositMotor.getCurrentPosition() - 20,
+                            0.2 * TICKS_PER_INCH,
+                            21 * TICKS_PER_INCH));
         }
 
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
