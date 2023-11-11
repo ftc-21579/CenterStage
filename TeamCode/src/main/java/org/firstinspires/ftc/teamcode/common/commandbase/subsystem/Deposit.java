@@ -41,6 +41,9 @@ public class Deposit {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 3 * TICKS_PER_INCH);
         depositMotor.setPower(liftPower);
 
+        bot.telem.addData("Lift Power", liftPower);
+        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition());
+
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToIdleCommand(this).schedule();
 
@@ -53,6 +56,9 @@ public class Deposit {
     public void toTransferPosition() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 0.5 * TICKS_PER_INCH);
         depositMotor.setPower(liftPower);
+
+        bot.telem.addData("Lift Power", liftPower);
+        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition());
 
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToTransferCommand(this).schedule();
@@ -93,12 +99,18 @@ public class Deposit {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() + 10);
         depositMotor.setPower(liftPower);
 
+        bot.telem.addData("Lift Power", liftPower);
+        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition());
+
         new DepositV4BToDepositCommand(this).schedule();
     }
 
     public void lowerLift() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), depositMotor.getCurrentPosition() - 10);
         depositMotor.setPower(liftPower);
+
+        bot.telem.addData("Lift Power", liftPower);
+        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition());
     }
 
     public void stopLift() {
