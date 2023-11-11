@@ -18,7 +18,7 @@ public class Deposit {
     Bot bot;
     public static double liftKp = 1.0, liftKi = 0.0, liftKd = 0.0;
     MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
-    public static double TICKS_PER_INCH = 1;
+    public static double TICKS_PER_INCH = 29.29;
 
     public DepositState state = DepositState.TRANSFER;
 
@@ -31,6 +31,7 @@ public class Deposit {
         this.bot = bot;
 
         depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
+        depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftReleaseServo = bot.hMap.get(Servo.class, "leftReleaseServo");
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
