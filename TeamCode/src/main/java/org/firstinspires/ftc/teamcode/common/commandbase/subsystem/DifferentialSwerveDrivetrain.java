@@ -173,12 +173,12 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
     }
 
     public void followPath(path p) {
+        bot.telem.addData("Path Finished", pathFinished());
+        bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
+
         if (p != pathFollower.path) {
             pathFollower.setPath(p);
         }
-
-        bot.telem.addData("Path Finished", pathFinished());
-        bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
 
         if (!pathFinished()) {
 
