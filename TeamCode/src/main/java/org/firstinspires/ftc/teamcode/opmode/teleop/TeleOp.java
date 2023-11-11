@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
@@ -111,7 +112,7 @@ public class TeleOp extends LinearOpMode {
                     if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.2)
                         {s.schedule(new ManualLiftDownCommand(deposit));}
                     if (driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.2)
-                        {s.schedule(new ManualLiftDownCommand(deposit));}
+                        {s.schedule(new ManualLiftUpCommand(deposit));}
                     if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
                         {s.schedule(new DepositStopLiftCommand(deposit));}
                     break;
