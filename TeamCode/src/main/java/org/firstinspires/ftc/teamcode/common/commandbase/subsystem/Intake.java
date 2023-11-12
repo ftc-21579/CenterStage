@@ -30,6 +30,9 @@ public class Intake extends SubsystemBase {
 
     private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
+    public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
+    public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
+
     public static int yellowRLower = 2200, yellowRUpper = 2800, yellowGLower = 3900, yellowGUpper = 4300, yellowBLower = 900, yellowBUpper = 1600;
     public static int purpleRLower = 1700, purpleRUpper = 2200, purpleGLower = 3100, purpleGUpper = 4000, purpleBLower = 6000, purpleBUpper = 7000;
     public static int greenRLower = 500, greenRUpper = 1000, greenGLower = 2500, greenGUpper = 2900, greenBLower = 950, greenBUpper = 1400;
@@ -76,14 +79,14 @@ public class Intake extends SubsystemBase {
 
     public void v4bIntakeState() {
         v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(1.0);
-        rightv4bServo.setPosition(1.0);
+        leftv4bServo.setPosition(leftV4bIntakePosition);
+        rightv4bServo.setPosition(rightV4bIntakePosition);
     }
 
     public void v4bTransferState() {
         v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(0.0);
-        rightv4bServo.setPosition(0.0);
+        leftv4bServo.setPosition(leftV4bTransferPosition);
+        rightv4bServo.setPosition(rightV4bTransferPosition);
     }
 
     public void v4bToggleState() {
@@ -92,13 +95,6 @@ public class Intake extends SubsystemBase {
         } else {
             v4bIntakeState();
         }
-    }
-
-    public boolean inTransferState() {
-        if (leftv4bServo.getPosition() > 0.0) {
-            return false;
-        }
-        return true;
     }
 
     public void updatePixelColors() {

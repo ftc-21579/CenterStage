@@ -30,6 +30,9 @@ public class Deposit {
     public DepositState state = DepositState.TRANSFER;
     public static double liftSetpoint = 0.0;
 
+    public static double gripperGrabPosition = 0.0, gripperReleasePosition = 0.5;
+    public static double v4bDepositPosition = 0.5, v4bTransferPosition = 0.0, v4bIdlePosition = 0.25, v4bDropPosition = 0.75;
+
     DcMotor depositMotor;
 
     Servo leftReleaseServo, rightReleaseServo;
@@ -93,28 +96,28 @@ public class Deposit {
     }
 
     public void grabPixels() {
-        leftReleaseServo.setPosition(0.5);
-        rightReleaseServo.setPosition(0.5);
+        leftReleaseServo.setPosition(gripperGrabPosition);
+        rightReleaseServo.setPosition(gripperGrabPosition);
     }
 
     public void releasePixels() {
-        leftReleaseServo.setPosition(0.0);
-        rightReleaseServo.setPosition(0.0);
+        leftReleaseServo.setPosition(gripperReleasePosition);
+        rightReleaseServo.setPosition(gripperReleasePosition);
     }
 
     public void toggleLeftPixelServo() {
-        if (leftReleaseServo.getPosition() == 0.0) {
-            leftReleaseServo.setPosition(0.5);
+        if (leftReleaseServo.getPosition() == gripperGrabPosition) {
+            leftReleaseServo.setPosition(gripperReleasePosition);
         } else {
-            leftReleaseServo.setPosition(0.0);
+            leftReleaseServo.setPosition(gripperGrabPosition);
         }
     }
 
     public void toggleRightPixelServo() {
-        if (rightReleaseServo.getPosition() == 0.0) {
-            rightReleaseServo.setPosition(0.5);
+        if (rightReleaseServo.getPosition() == gripperGrabPosition) {
+            rightReleaseServo.setPosition(gripperReleasePosition);
         } else {
-            rightReleaseServo.setPosition(0.0);
+            rightReleaseServo.setPosition(gripperGrabPosition);
         }
     }
 
@@ -149,33 +152,33 @@ public class Deposit {
     }
 
     public void v4bToggle() {
-        if (leftV4BServo.getPosition() == 0.0) {
-            leftV4BServo.setPosition(0.5);
-            rightV4BServo.setPosition(0.5);
+        if (leftV4BServo.getPosition() == v4bDepositPosition) {
+            leftV4BServo.setPosition(v4bIdlePosition);
+            rightV4BServo.setPosition(v4bIdlePosition);
         } else {
-            leftV4BServo.setPosition(0.25);
-            rightV4BServo.setPosition(0.25);
+            leftV4BServo.setPosition(v4bDepositPosition);
+            rightV4BServo.setPosition(v4bDepositPosition);
         }
     }
 
     public void v4bToDeposit() {
-        leftV4BServo.setPosition(0.5);
-        rightV4BServo.setPosition(0.5);
+        leftV4BServo.setPosition(v4bDepositPosition);
+        rightV4BServo.setPosition(v4bDepositPosition);
     }
 
     public void v4bToTransfer() {
-        leftV4BServo.setPosition(0.0);
-        rightV4BServo.setPosition(0.0);
+        leftV4BServo.setPosition(v4bTransferPosition);
+        rightV4BServo.setPosition(v4bTransferPosition);
     }
 
     public void v4bToIdle() {
-        leftV4BServo.setPosition(0.25);
-        rightV4BServo.setPosition(0.25);
+        leftV4BServo.setPosition(v4bIdlePosition);
+        rightV4BServo.setPosition(v4bIdlePosition);
     }
 
     public void v4bToDrop() {
-        leftV4BServo.setPosition(0.75);
-        rightV4BServo.setPosition(0.75);
+        leftV4BServo.setPosition(v4bDropPosition);
+        rightV4BServo.setPosition(v4bDropPosition);
     }
 
     private static double clamp(double val, double min, double max) {
