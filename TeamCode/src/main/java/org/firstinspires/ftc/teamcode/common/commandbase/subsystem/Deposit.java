@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import com.acmerobotics.dashboard.config.Config;
 import com.mineinjava.quail.util.MiniPID;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
@@ -10,17 +11,19 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 @Config
 public class Deposit {
 
     Bot bot;
-    public static double liftKp = 1.0, liftKi = 0.0, liftKd = 0.0;
+    public static double liftKp = 0.001, liftKi = 0.0, liftKd = 0.0;
     MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
-    public static double TICKS_PER_INCH = 29.29;
+    public static double TICKS_PER_INCH = 108.62;
 
     public DepositState state = DepositState.TRANSFER;
+    public static double liftSetpoint = 0.0;
 
     DcMotor depositMotor;
 
@@ -33,6 +36,7 @@ public class Deposit {
         depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
         depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         depositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        depositMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         leftReleaseServo = bot.hMap.get(Servo.class, "leftReleaseServo");
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
@@ -40,33 +44,25 @@ public class Deposit {
     }
 
     public void toBottomPosition() {
-        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 3 * TICKS_PER_INCH);
-        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
-
-        bot.telem.addData("Lift Setpoint", 3);
-        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
+        this.liftSetpoint = 3.0;
 
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToIdleCommand(this).schedule();
 
         if (depositMotor.getCurrentPosition() > 2.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 3.05 * TICKS_PER_INCH) {
-            depositMotor.setPower(0.0);
+            stopLift();
             state = DepositState.BOTTOM;
         }
     }
 
     public void toTransferPosition() {
-        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), 0.5 * TICKS_PER_INCH);
-        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
-
-        bot.telem.addData("Lift Setpoint", 0.5);
-        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
+        this.liftSetpoint = 0.1;
 
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToTransferCommand(this).schedule();
 
-        if (depositMotor.getCurrentPosition() < 0.55 * TICKS_PER_INCH) {
-            depositMotor.setPower(0.0);
+        if (depositMotor.getCurrentPosition() < 0.25 * TICKS_PER_INCH) {
+            stopLift();
             state = DepositState.TRANSFER;
         }
     }
@@ -98,37 +94,28 @@ public class Deposit {
     }
 
     public void raiseLift() {
-        double liftPower = 0.0;
         if (depositMotor.getCurrentPosition() >= 21 * TICKS_PER_INCH) {
-            depositMotor.setPower(liftPower);
+            liftSetpoint = liftSetpoint;
         } else {
-            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(),
-                    clamp(depositMotor.getCurrentPosition() + 20,
-                            0.2 * TICKS_PER_INCH,
-                            21 * TICKS_PER_INCH));
+            this.liftSetpoint = clamp(liftSetpoint + 0.5, 0.1, 21.1);
         }
-        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
-
-        bot.telem.addData("Lift Setpoint", (depositMotor.getCurrentPosition() + 10) / TICKS_PER_INCH);
-        bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
 
         new DepositV4BToDepositCommand(this).schedule();
     }
 
     public void lowerLift() {
-        double liftPower = 0.0;
         if (depositMotor.getCurrentPosition() <= 0.1 * TICKS_PER_INCH) {
-            depositMotor.setPower(liftPower);
+            liftSetpoint = liftSetpoint;
         } else {
-            liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(),
-                    clamp(depositMotor.getCurrentPosition() - 20,
-                            0.2 * TICKS_PER_INCH,
-                            21 * TICKS_PER_INCH));
+            this.liftSetpoint = clamp(liftSetpoint - 0.5, 0.1, 21.1);
         }
+    }
 
+    public void runLiftPID() {
+        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), clamp(liftSetpoint, 0.1, 21.1) * TICKS_PER_INCH);
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
-        bot.telem.addData("Lift Setpoint", (depositMotor.getCurrentPosition() - 10) / TICKS_PER_INCH);
+        bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
     }
 
