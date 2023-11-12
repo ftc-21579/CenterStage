@@ -27,9 +27,8 @@ public class BlueAuto extends LinearOpMode {
 
         propPipeline = new BluePropDetector();
         portal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam"))
+                .setCamera(hardwareMap.get(WebcamName.class, "IntakeCam"))
                 .setCameraResolution(new Size(1920, 1080))
-                .setCamera(BuiltinCameraDirection.FRONT)
                 .addProcessor(propPipeline)
                 //.setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .enableLiveView(true)

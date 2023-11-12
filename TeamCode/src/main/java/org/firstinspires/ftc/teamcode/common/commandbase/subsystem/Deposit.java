@@ -1,17 +1,23 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
+import android.util.Size;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.mineinjava.quail.util.MiniPID;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 @Config
 public class Deposit {
@@ -29,6 +35,9 @@ public class Deposit {
     Servo leftReleaseServo, rightReleaseServo;
     Servo leftV4BServo, rightV4BServo;
 
+    public VisionPortal visionPortal;
+    public TfodProcessor pixelTfodProcessor;
+
     public Deposit(Bot bot) {
         this.bot = bot;
 
@@ -40,6 +49,23 @@ public class Deposit {
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
         rightV4BServo = bot.hMap.get(Servo.class, "depositRightV4BServo");
+
+        pixelTfodProcessor = new TfodProcessor.Builder()
+                .setModelAssetName("pixel_model.tflite")
+                .setModelLabels(new String[] {
+                        "green", "purple", "white", "yellow"
+                })
+                .build();
+
+        visionPortal = new VisionPortal.Builder()
+                .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
+                .setCameraResolution(new Size(1920, 1080))
+                .addProcessor(pixelTfodProcessor)
+                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
+        visionPortal.setProcessorEnabled(pixelTfodProcessor, false);
     }
 
     public void toBottomPosition() {
