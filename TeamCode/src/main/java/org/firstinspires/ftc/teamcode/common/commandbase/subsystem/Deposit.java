@@ -30,10 +30,10 @@ public class Deposit {
     public DepositState state = DepositState.TRANSFER;
     public static double liftSetpoint = 0.0;
 
-    public static double leftGripperGrabPosition = 0.0, leftGripperReleasePosition = 0.5;
-    public static double rightGripperGrabPosition = 0.0, rightGripperReleasePosition = 0.5;
-    public static double leftV4bDepositPosition = 0.5, leftV4bTransferPosition = 0.0, leftV4bIdlePosition = 0.25, leftV4bDropPosition = 0.75;
-    public static double rightV4bDepositPosition = 0.5, rightV4bTransferPosition = 0.0, rightV4bIdlePosition = 0.25, rightV4bDropPosition = 0.75;
+    public static double leftGripperGrabPosition = 0.35, leftGripperReleasePosition = 0.6;
+    public static double rightGripperGrabPosition = 0.25, rightGripperReleasePosition = 0.5;
+    public static double leftV4bDepositPosition = 0.8, leftV4bTransferPosition = 0.0, leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1;
+    public static double rightV4bDepositPosition = 0.2, rightV4bTransferPosition = 1, rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0;
 
     DcMotor depositMotor;
 
@@ -113,6 +113,7 @@ public class Deposit {
         } else {
             leftReleaseServo.setPosition(leftGripperGrabPosition);
         }
+        bot.telem.addData("Left Gripper Position", leftReleaseServo.getPosition());
     }
 
     public void toggleRightPixelServo() {
@@ -121,6 +122,7 @@ public class Deposit {
         } else {
             rightReleaseServo.setPosition(rightGripperGrabPosition);
         }
+        bot.telem.addData("Right Gripper Position", rightReleaseServo.getPosition());
     }
 
     public void raiseLift() {
@@ -130,7 +132,9 @@ public class Deposit {
             this.liftSetpoint = clamp(liftSetpoint + 0.5, 0.1, 21.1);
         }
 
-        new DepositV4BToDepositCommand(this).schedule();
+        if (depositMotor.getCurrentPosition() >= 5.0 * TICKS_PER_INCH) {
+            new DepositV4BToDepositCommand(this).schedule();
+        }
     }
 
     public void lowerLift() {
@@ -155,12 +159,14 @@ public class Deposit {
 
     public void v4bToggle() {
         if (leftV4BServo.getPosition() == leftV4bDepositPosition) {
-            leftV4BServo.setPosition(leftV4bIdlePosition);
-            rightV4BServo.setPosition(rightV4bIdlePosition);
+            leftV4BServo.setPosition(leftV4bTransferPosition);
+            rightV4BServo.setPosition(rightV4bTransferPosition);
         } else {
             leftV4BServo.setPosition(leftV4bDepositPosition);
             rightV4BServo.setPosition(rightV4bDepositPosition);
         }
+        bot.telem.addData("Left V4B Position", leftV4BServo.getPosition());
+        bot.telem.addData("Right V4B Position", rightV4BServo.getPosition());
     }
 
     public void v4bToDeposit() {
