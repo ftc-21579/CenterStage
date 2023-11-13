@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.deposit;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -9,10 +10,12 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 import java.util.List;
 
+@Config
 public class DepositAutomaticHeightCommand extends CommandBase {
     private Bot bot;
     private Deposit deposit;
     private boolean ready = false;
+    public static int height = 250;
 
     public DepositAutomaticHeightCommand(Bot bot) {
         this.bot = bot;
@@ -34,7 +37,7 @@ public class DepositAutomaticHeightCommand extends CommandBase {
 
         if (currentRecognitions.size() != 0) {
             for (Recognition r : currentRecognitions) {
-                if (r.getTop() > 500) {
+                if (r.getTop() > height) {
                     needsToBeLifted = true;
                     break;
                 }

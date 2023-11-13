@@ -62,7 +62,7 @@ public class Deposit {
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(1920, 1080))
+                .setCameraResolution(new Size(1020, 576))
                 .addProcessor(pixelTfodProcessor)
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .enableLiveView(true)
