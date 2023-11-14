@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common.drive.drive.swerve;
 
 import static com.mineinjava.quail.util.util.deltaAngle;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.mineinjava.quail.differentialSwerveModuleBase;
 import com.mineinjava.quail.util.MiniPID;
@@ -12,12 +13,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
+@Config
 public class SwerveModule extends differentialSwerveModuleBase {
     public MiniPID pid;
     DcMotor upperMotor, lowerMotor;
     String name;
     AbsoluteAnalogEncoder encoder;
     Telemetry telem;
+    public static double TICKS_PER_REVOLUTION = 145.1;
 
     public SwerveModule(Vec2d position, double steeringGearRatio, double driveGearRatio, MiniPID pid, DcMotor upperMotor, DcMotor lowerMotor, AbsoluteAnalogEncoder encoder, Telemetry telem, String name) {
         super(position, steeringGearRatio, driveGearRatio);
@@ -48,7 +51,14 @@ public class SwerveModule extends differentialSwerveModuleBase {
         //}
 
         // The position of the pod in radians
-        double odometryRad = encoder.getCurrentPosition();
+        //double odometryRad = encoder.getCurrentPosition();
+
+        double upperPosRad = upperMotor.getCurrentPosition() / TICKS_PER_REVOLUTION * (Math.PI * 2);
+        double lowerPosRad = lowerMotor.getCurrentPosition() / TICKS_PER_REVOLUTION * (Math.PI * 2);
+
+        double podRad = (upperPosRad + lowerPosRad) / 2;
+
+        double odometryRad = podRad / steeringRatio;
 
         // The target angle is the angle of the vector
         double targetRad = vector.getAngle();
