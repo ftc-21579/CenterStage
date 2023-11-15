@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.AutomaticDepositCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
@@ -105,14 +106,14 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new RotateHeadingLockCommand(drivetrain));}
                     break;
                 case DEPOSIT:
-                    if (driver.wasJustPressed(GamepadKeys.Button.A))
-                        {s.schedule(new AutomaticDepositCommand(bot));}
+                    if (driver.isDown(GamepadKeys.Button.A))
+                        {s.schedule(new DepositAutomaticHeightCommand(bot));}
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
-                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
-                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
                     if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.2)
                         {s.schedule(new ManualLiftDownCommand(deposit));}
                     if (driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.2)

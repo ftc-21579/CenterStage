@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 public class DroneLauncher {
     Bot bot;
     Servo releaseServo;
-    public static double release_position = 0.0, reset_position = 0.25;
+    public static double release_position = 0.25, reset_position = 0.0;
 
     public DroneLauncher(Bot bot) {
         this.bot = bot;

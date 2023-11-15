@@ -15,7 +15,7 @@ public class DepositAutomaticHeightCommand extends CommandBase {
     private Bot bot;
     private Deposit deposit;
     private boolean ready = false;
-    public static int height = 250;
+    public static int height = 200;
 
     public DepositAutomaticHeightCommand(Bot bot) {
         this.bot = bot;
@@ -25,6 +25,7 @@ public class DepositAutomaticHeightCommand extends CommandBase {
     @Override
     public void initialize() {
         deposit.visionPortal.setProcessorEnabled(deposit.pixelTfodProcessor, true);
+        bot.telem.addLine("AutoLift Init");
         deposit.state = DepositState.AUTOMATIC_LIFTING;
     }
 
@@ -34,10 +35,11 @@ public class DepositAutomaticHeightCommand extends CommandBase {
         bot.telem.addData("Backdrop Recognitions", currentRecognitions.size());
 
         boolean needsToBeLifted = false;
-
         if (currentRecognitions.size() != 0) {
             for (Recognition r : currentRecognitions) {
+                bot.telem.addLine(String.valueOf(r.getTop()));
                 if (r.getTop() > height) {
+                    ready = false;
                     needsToBeLifted = true;
                     break;
                 }
@@ -49,11 +51,16 @@ public class DepositAutomaticHeightCommand extends CommandBase {
                 new DepositStopLiftCommand(deposit).schedule();
                 ready = true;
             }
+        } else {
+            ready = true;
         }
     }
 
     @Override
     public boolean isFinished() {
+        if(ready) {
+            bot.telem.addLine("AutoLift done");
+        }
         return ready;
     }
 }

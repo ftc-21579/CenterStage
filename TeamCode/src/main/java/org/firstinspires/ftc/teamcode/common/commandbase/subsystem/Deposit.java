@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
+import org.firstinspires.ftc.teamcode.common.centerstage.GripperState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
@@ -28,7 +29,8 @@ public class Deposit {
     public static double TICKS_PER_INCH = 108.62;
 
     public DepositState state = DepositState.TRANSFER;
-    public static double liftSetpoint = 0.0;
+    public GripperState leftGripper = GripperState.RELEASE, rightGripper = GripperState.RELEASE;
+    public double liftSetpoint = 0.0;
 
     public static double leftGripperGrabPosition = 0.35, leftGripperReleasePosition = 0.6;
     public static double rightGripperGrabPosition = 0.25, rightGripperReleasePosition = 0.5;
@@ -100,27 +102,36 @@ public class Deposit {
     public void grabPixels() {
         leftReleaseServo.setPosition(leftGripperGrabPosition);
         rightReleaseServo.setPosition(rightGripperGrabPosition);
+
+        leftGripper = GripperState.GRAB;
+        rightGripper = GripperState.GRAB;
     }
 
     public void releasePixels() {
         leftReleaseServo.setPosition(leftGripperReleasePosition);
         rightReleaseServo.setPosition(rightGripperReleasePosition);
+
+        leftGripper = GripperState.RELEASE;
+        rightGripper = GripperState.RELEASE;
     }
 
     public void toggleLeftPixelServo() {
-        if (leftReleaseServo.getPosition() == leftGripperGrabPosition) {
+        if (leftGripper == GripperState.GRAB) {
             leftReleaseServo.setPosition(leftGripperReleasePosition);
+            leftGripper = GripperState.RELEASE;
         } else {
             leftReleaseServo.setPosition(leftGripperGrabPosition);
+            leftGripper = GripperState.GRAB;
         }
-        bot.telem.addData("Left Gripper Position", leftReleaseServo.getPosition());
     }
 
     public void toggleRightPixelServo() {
-        if (rightReleaseServo.getPosition() == rightGripperGrabPosition) {
+        if (rightGripper == GripperState.GRAB) {
             rightReleaseServo.setPosition(rightGripperReleasePosition);
+            rightGripper = GripperState.RELEASE;
         } else {
             rightReleaseServo.setPosition(rightGripperGrabPosition);
+            rightGripper = GripperState.GRAB;
         }
         bot.telem.addData("Right Gripper Position", rightReleaseServo.getPosition());
     }
