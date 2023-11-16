@@ -39,6 +39,10 @@ public class ToTransferStateCommand extends CommandBase {
             case TRANSFER:
                 return true;
             case INTAKE:
+                if (timer.milliseconds() < 1250) {
+                    return false;
+                }
+                new DepositToTransferPositionCommand(bot).schedule();
                 if (timer.milliseconds() < 1750) {
                     return false;
                 } else {
@@ -54,7 +58,6 @@ public class ToTransferStateCommand extends CommandBase {
                 new DepositToTransferPositionCommand(bot).schedule();
                 if (bot.deposit.state == DepositState.TRANSFER) {
                     bot.toTransferState();
-                    bot.telem.addLine("Weeeee");
                     return true;
                 } else {
                     return false;
