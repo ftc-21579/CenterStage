@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.state;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
-import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
@@ -49,7 +47,8 @@ public class ToTransferStateCommand extends CommandBase {
                 ready = true;
             }
         } else if (bot.getBotState() == BotState.DEPOSIT) {
-            new DepositToBottomPositionCommand(bot).schedule();
+            new DepositToTransferPositionCommand(bot).schedule();
+            new DepositV4BToTransferCommand(bot.deposit).schedule();
             ready = true;
         }
     }

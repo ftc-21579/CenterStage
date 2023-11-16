@@ -91,7 +91,6 @@ public class Deposit {
         this.liftSetpoint = -0.5;
 
         releasePixels();
-        new DepositV4BToTransferCommand(this).schedule();
 
         if (depositMotor.getCurrentPosition() < 0.25 * TICKS_PER_INCH) {
             stopLift();
