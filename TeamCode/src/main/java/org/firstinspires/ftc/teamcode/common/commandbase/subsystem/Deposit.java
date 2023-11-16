@@ -90,7 +90,7 @@ public class Deposit {
     public void toTransferPosition() {
         this.liftSetpoint = 0.1;
 
-        new ReleasePixelsCommand(this).schedule();
+        releasePixels();
         new DepositV4BToTransferCommand(this).schedule();
 
         if (depositMotor.getCurrentPosition() < 0.25 * TICKS_PER_INCH) {
