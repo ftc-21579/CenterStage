@@ -76,7 +76,7 @@ public class Deposit {
     }
 
     public void toBottomPosition() {
-        this.liftSetpoint = 3.0;
+        this.liftSetpoint = 2.0;
 
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToIdleCommand(this).schedule();
@@ -88,7 +88,7 @@ public class Deposit {
     }
 
     public void toTransferPosition() {
-        this.liftSetpoint = 0.1;
+        this.liftSetpoint = -0.5;
 
         releasePixels();
         new DepositV4BToTransferCommand(this).schedule();
@@ -157,7 +157,7 @@ public class Deposit {
     }
 
     public void runLiftPID() {
-        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), clamp(liftSetpoint, 0.1, 21.1) * TICKS_PER_INCH);
+        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), clamp(liftSetpoint, -1.0, 21.1) * TICKS_PER_INCH);
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", liftSetpoint);
