@@ -31,8 +31,6 @@ public class ToTransferStateCommand extends CommandBase {
     public void execute() {
         new IntakeTransferPositionCommand(bot.intake).schedule();
         bot.telem.addLine("Intake to Transfer Done");
-        new DepositToTransferPositionCommand(bot).schedule();
-        bot.telem.addLine("Deposit to Transfer Done");
         bot.toTransferState();
     }
 
@@ -51,9 +49,12 @@ public class ToTransferStateCommand extends CommandBase {
                     return true;
                 }
             case DEPOSIT:
+                if (timer.milliseconds() < 1250) {
+                    return false;
+                }
                 if (bot.deposit.state == DepositState.TRANSFER) {
-                    new DepositStopLiftCommand(bot.deposit).schedule();
-                    bot.telem.addLine("To Transfer State Finished");
+                    new DepositToTransferPositionCommand(bot).schedule();
+                    bot.telem.addLine("Deposit to Transfer Position");
                     return true;
                 } else {
                     return false;
