@@ -32,8 +32,8 @@ public class Deposit {
     public GripperState leftGripper = GripperState.RELEASE, rightGripper = GripperState.RELEASE;
     public double liftSetpoint = 0.0;
 
-    public static double leftGripperGrabPosition = 0.35, leftGripperReleasePosition = 0.6;
-    public static double rightGripperGrabPosition = 0.25, rightGripperReleasePosition = 0.5;
+    public static double leftGripperGrabPosition = 0.6, leftGripperReleasePosition = 0.35;
+    public static double rightGripperGrabPosition = 0.5, rightGripperReleasePosition = 0.25;
     public static double leftV4bDepositPosition = 0.8, leftV4bTransferPosition = 0.0, leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1;
     public static double rightV4bDepositPosition = 0.2, rightV4bTransferPosition = 1, rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0;
 

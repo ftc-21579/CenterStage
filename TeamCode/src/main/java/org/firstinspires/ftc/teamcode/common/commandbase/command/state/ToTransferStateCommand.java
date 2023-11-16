@@ -41,7 +41,7 @@ public class ToTransferStateCommand extends CommandBase {
 
             new IntakeTransferPositionCommand(bot.intake).schedule();
 
-            if (timer.milliseconds() > 1000) {
+            if (timer.milliseconds() > 1000 && timer.milliseconds() < 1400) {
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new DepositToTransferPositionCommand(bot).schedule();
             }
