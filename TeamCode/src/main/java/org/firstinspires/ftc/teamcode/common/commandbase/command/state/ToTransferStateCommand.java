@@ -7,70 +7,49 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class ToTransferStateCommand extends CommandBase {
     private Bot bot;
-    private ElapsedTime timer;
+    private boolean ready = false;
 
     public ToTransferStateCommand(Bot bot) {
         this.bot = bot;
-        timer = new ElapsedTime();
     }
 
     @Override
     public void initialize() {
-        bot.telem.addLine("To Transfer State Init");
-        timer.reset();
+        if (bot.getBotState() == BotState.TRANSFER) {
+            ready = true;
+        } else if (bot.getBotState() == BotState.INTAKE) {
+            new ReleasePixelsCommand(bot.deposit).schedule();
+
+            new IntakeTransferPositionCommand(bot.intake).withTimeout(1000).schedule();
+            new DisableIntakeSpinnerCommand(bot.intake).schedule();
+
+            new DepositToTransferPositionCommand(bot).withTimeout(1000).schedule();
+            new GrabPixelsCommand(bot.deposit).schedule();
+            ready = true;
+        } else if (bot.getBotState() == BotState.DEPOSIT) {
+            new DepositToBottomPositionCommand(bot).schedule();
+            ready = true;
+        }
     }
 
     @Override
     public void execute() {
-        new IntakeTransferPositionCommand(bot.intake).schedule();
-        bot.telem.addLine("Intake to Transfer Done");
+        bot.telem.addLine("To Transfer State Execute");
     }
 
     @Override
     public boolean isFinished() {
-        switch(bot.getBotState()) {
-            case TRANSFER:
-                return true;
-            case INTAKE:
-                if (timer.milliseconds() < 1250) {
-                    return false;
-                }
-                new DepositToTransferPositionCommand(bot).schedule();
-                if (timer.milliseconds() < 1750) {
-                    return false;
-                }
-                new DisableIntakeSpinnerCommand(bot.intake).schedule();
-                if (timer.milliseconds() < 2250) {
-                    return false;
-                }
-                new GrabPixelsCommand(bot.deposit).schedule();
-                return true;
-            case DEPOSIT:
-                if (timer.milliseconds() < 1250) {
-                    return false;
-                }
-                new DepositToTransferPositionCommand(bot).schedule();
-                if (timer.milliseconds() < 2250) {
-                    return false;
-                }
-                new GrabPixelsCommand(bot.deposit).schedule();
-                if (bot.deposit.state == DepositState.TRANSFER) {
-                    bot.toTransferState();
-                    return true;
-                } else {
-                    return false;
-                }
-            default:
-                return false;
-        }
+        return ready;
     }
 
 }
