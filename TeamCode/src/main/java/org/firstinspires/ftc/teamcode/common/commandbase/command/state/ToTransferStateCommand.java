@@ -31,7 +31,6 @@ public class ToTransferStateCommand extends CommandBase {
     public void execute() {
         new IntakeTransferPositionCommand(bot.intake).schedule();
         bot.telem.addLine("Intake to Transfer Done");
-        bot.toTransferState();
     }
 
     @Override
@@ -54,7 +53,8 @@ public class ToTransferStateCommand extends CommandBase {
                 }
                 new DepositToTransferPositionCommand(bot).schedule();
                 if (bot.deposit.state == DepositState.TRANSFER) {
-                    bot.telem.addLine("Deposit to Transfer Position");
+                    bot.toTransferState();
+                    bot.telem.addLine("Weeeee");
                     return true;
                 } else {
                     return false;
