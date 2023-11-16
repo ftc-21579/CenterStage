@@ -32,8 +32,6 @@ public class ToTransferStateCommand extends CommandBase {
 
     @Override
     public void execute() {
-        bot.telem.addLine("To Transfer State Execute");
-
         if (bot.getBotState() == BotState.TRANSFER) {
             ready = true;
         } else if (bot.getBotState() == BotState.INTAKE) {
@@ -58,6 +56,7 @@ public class ToTransferStateCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        if (ready) {bot.toDepositState();}
         return ready;
     }
 
