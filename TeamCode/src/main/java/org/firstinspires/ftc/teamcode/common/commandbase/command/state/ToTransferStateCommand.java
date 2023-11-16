@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -45,17 +46,22 @@ public class ToTransferStateCommand extends CommandBase {
                 new DepositToTransferPositionCommand(bot).schedule();
                 if (timer.milliseconds() < 1750) {
                     return false;
-                } else {
-                    new DisableIntakeSpinnerCommand(bot.intake).schedule();
-                    bot.toTransferState();
-                    bot.telem.addLine("To Transfer State Finished");
-                    return true;
                 }
+                new DisableIntakeSpinnerCommand(bot.intake).schedule();
+                if (timer.milliseconds() < 2250) {
+                    return false;
+                }
+                new GrabPixelsCommand(bot.deposit).schedule();
+                return true;
             case DEPOSIT:
                 if (timer.milliseconds() < 1250) {
                     return false;
                 }
                 new DepositToTransferPositionCommand(bot).schedule();
+                if (timer.milliseconds() < 2250) {
+                    return false;
+                }
+                new GrabPixelsCommand(bot.deposit).schedule();
                 if (bot.deposit.state == DepositState.TRANSFER) {
                     bot.toTransferState();
                     return true;
