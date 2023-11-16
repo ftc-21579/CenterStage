@@ -52,8 +52,8 @@ public class ToTransferStateCommand extends CommandBase {
                 if (timer.milliseconds() < 1250) {
                     return false;
                 }
+                new DepositToTransferPositionCommand(bot).schedule();
                 if (bot.deposit.state == DepositState.TRANSFER) {
-                    new DepositToTransferPositionCommand(bot).schedule();
                     bot.telem.addLine("Deposit to Transfer Position");
                     return true;
                 } else {
