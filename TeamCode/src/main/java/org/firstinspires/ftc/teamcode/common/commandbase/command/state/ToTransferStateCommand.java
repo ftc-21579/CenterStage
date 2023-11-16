@@ -17,34 +17,43 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class ToTransferStateCommand extends CommandBase {
     private Bot bot;
+    private ElapsedTime timer = new ElapsedTime();
     private boolean ready = false;
 
     public ToTransferStateCommand(Bot bot) {
         this.bot = bot;
+        timer.reset();
     }
 
     @Override
     public void initialize() {
-        if (bot.getBotState() == BotState.TRANSFER) {
-            ready = true;
-        } else if (bot.getBotState() == BotState.INTAKE) {
-            new ReleasePixelsCommand(bot.deposit).schedule();
-
-            new IntakeTransferPositionCommand(bot.intake).withTimeout(1000).schedule();
-            new DisableIntakeSpinnerCommand(bot.intake).schedule();
-
-            new DepositToTransferPositionCommand(bot).withTimeout(1000).schedule();
-            new GrabPixelsCommand(bot.deposit).schedule();
-            ready = true;
-        } else if (bot.getBotState() == BotState.DEPOSIT) {
-            new DepositToBottomPositionCommand(bot).schedule();
-            ready = true;
-        }
+        timer.reset();
     }
 
     @Override
     public void execute() {
         bot.telem.addLine("To Transfer State Execute");
+
+        if (bot.getBotState() == BotState.TRANSFER) {
+            ready = true;
+        } else if (bot.getBotState() == BotState.INTAKE) {
+            new ReleasePixelsCommand(bot.deposit).schedule();
+
+            new IntakeTransferPositionCommand(bot.intake).schedule();
+
+            if (timer.milliseconds() > 1000) {
+                new DisableIntakeSpinnerCommand(bot.intake).schedule();
+                new DepositToTransferPositionCommand(bot).schedule();
+            }
+
+            if (timer.milliseconds() > 2000) {
+                new GrabPixelsCommand(bot.deposit).schedule();
+                ready = true;
+            }
+        } else if (bot.getBotState() == BotState.DEPOSIT) {
+            new DepositToBottomPositionCommand(bot).schedule();
+            ready = true;
+        }
     }
 
     @Override
