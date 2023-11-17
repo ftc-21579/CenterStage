@@ -22,7 +22,7 @@ import java.util.Arrays;
 public class TestAuto extends LinearOpMode {
 
     Bot bot;
-    DifferentialSwerveDrivetrain drivetrain;
+    MecanumDrivetrain drivetrain;
     path p = new path(new ArrayList<Pose2d>(
             Arrays.asList(
                     new Pose2d(0, 0, 0),

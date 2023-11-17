@@ -35,6 +35,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 import java.util.function.BooleanSupplier;
@@ -44,7 +45,7 @@ public class TeleOp extends LinearOpMode {
 
     private Bot bot;
     private Intake intake;
-    private DifferentialSwerveDrivetrain drivetrain;
+    private MecanumDrivetrain drivetrain;
     private DroneLauncher launcher;
     private Deposit deposit;
     private GamepadEx driver;
@@ -72,8 +73,8 @@ public class TeleOp extends LinearOpMode {
 
             double multiplier = 1.0;
 
-            if (driver.wasJustPressed(GamepadKeys.Button.BACK))
-                {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
+            //if (driver.wasJustPressed(GamepadKeys.Button.BACK))
+            //    {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
             if (driver.wasJustPressed(GamepadKeys.Button.START))
                 {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
             if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
@@ -102,8 +103,8 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     break;
                 case TRANSFER:
-                    if (driver.wasJustPressed(GamepadKeys.Button.A))
-                        {s.schedule(new RotateHeadingLockCommand(drivetrain));}
+                    //if (driver.wasJustPressed(GamepadKeys.Button.A))
+                    //    {s.schedule(new RotateHeadingLockCommand(drivetrain));}
                     break;
                 case DEPOSIT:
                     if (driver.isDown(GamepadKeys.Button.A))

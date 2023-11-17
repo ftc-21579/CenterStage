@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialS
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 
 public class ToggleFieldCentricCommand extends InstantCommand {
-    public ToggleFieldCentricCommand(DifferentialSwerveDrivetrain d) {
+    public ToggleFieldCentricCommand(MecanumDrivetrain d) {
         super(
                 () -> d.toggleFieldCentric()
         );

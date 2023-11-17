@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialS
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 
 public class UpdateLocalizerCommand extends InstantCommand {
-    public UpdateLocalizerCommand(DifferentialSwerveDrivetrain d) {
+    public UpdateLocalizerCommand(MecanumDrivetrain d) {
         super(
                 () -> d.updateLocalizer()
         );

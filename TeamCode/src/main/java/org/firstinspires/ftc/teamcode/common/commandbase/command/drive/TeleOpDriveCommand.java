@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialS
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 
 public class TeleOpDriveCommand extends InstantCommand {
-    public TeleOpDriveCommand(DifferentialSwerveDrivetrain d, Vec2d leftStick, double rot, double multiplier) {
+    public TeleOpDriveCommand(MecanumDrivetrain d, Vec2d leftStick, double rot, double multiplier) {
         super(
                 () -> d.teleopDrive(leftStick, rot, multiplier)
         );

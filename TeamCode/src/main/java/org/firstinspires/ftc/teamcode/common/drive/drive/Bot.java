@@ -46,7 +46,7 @@ public class Bot extends Robot {
     /*
         Subsystems
      */
-    public DifferentialSwerveDrivetrain drivetrain;
+    public MecanumDrivetrain drivetrain;
     public Intake intake;
     public Deposit deposit;
     public DroneLauncher launcher;
@@ -69,14 +69,14 @@ public class Bot extends Robot {
         );
 
         /* Localizer */
-        parallelPod = hMap.get(DcMotor.class, "rightLowerMotor");
-        perpendicularPod = hMap.get(DcMotor.class, "leftLowerMotor");
+        parallelPod = hMap.get(DcMotor.class, "frontRight");
+        perpendicularPod = hMap.get(DcMotor.class, "backRight");
 
         localizer = new TwoDeadwheelLocalizer(this);
         localizer.setPos(new Pose2d(0, 0, 0));
 
         /* Subsystems */
-        drivetrain = new DifferentialSwerveDrivetrain(this);
+        drivetrain = new MecanumDrivetrain(this);
         intake = new Intake(this);
         launcher = new DroneLauncher(this);
         deposit = new Deposit(this);

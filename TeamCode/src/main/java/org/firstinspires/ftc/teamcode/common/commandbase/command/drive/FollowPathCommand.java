@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialS
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 
 public class FollowPathCommand extends InstantCommand {
-    public FollowPathCommand(DifferentialSwerveDrivetrain d, path p) {
+    public FollowPathCommand(MecanumDrivetrain d, path p) {
         super(
                 () -> d.followPath(p)
         );
