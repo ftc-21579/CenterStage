@@ -4,10 +4,10 @@ import com.acmerobotics.dashboard.config.Config;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.mineinjava.quail.localization.Localizer;
-import com.mineinjava.quail.odometry.path;
+import com.mineinjava.quail.pathing.Path;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.swerveDrive;
-import com.mineinjava.quail.odometry.pathFollower;
+import com.mineinjava.quail.pathing.PathFollower;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
@@ -47,11 +47,11 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
     private SwerveModule left, right;
     private swerveDrive<SwerveModule> drive;
     private final List<SwerveModule> modules = new ArrayList<>();
-    private pathFollower pathFollower;
+    private PathFollower pathFollower;
     private boolean fieldCentric = false;
     private boolean headingLock = false;
 
-    path emptyPath = new path(new ArrayList<Pose2d>(
+    Path emptyPath = new Path(new ArrayList<Pose2d>(
             Arrays.asList(
                     new Pose2d(0, 0, 0)
             )
@@ -119,7 +119,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
         drive = new swerveDrive<>(modules);
 
         // Initialize the path follower
-        pathFollower = new pathFollower((Localizer) bot.getLocalizer(),
+        pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
                 emptyPath,
                 0.5,
                 0.5,
@@ -166,13 +166,21 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
 
         bot.telem.addData("Left Pod Heading", leftAbsoluteEncoder.getCurrentPosition());
         bot.telem.addData("Right Pod Heading", rightAbsoluteEncoder.getCurrentPosition());
+
+        double upperPosRad = rightUpperMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
+        double lowerPosRad = rightLowerMotor.getCurrentPosition() / 145.1 * (Math.PI * 2);
+
+        double podRad = (upperPosRad + lowerPosRad) / 2;
+
+        double odometryRad = podRad / 4;
+        bot.telem.addData("left odometry", odometryRad);
     }
 
-    public void setPath(path p) {
+    public void setPath(Path p) {
         pathFollower.setPath(p);
     }
 
-    public void followPath(path p) {
+    public void followPath(Path p) {
         bot.telem.addData("Path Finished", pathFinished());
         bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
 

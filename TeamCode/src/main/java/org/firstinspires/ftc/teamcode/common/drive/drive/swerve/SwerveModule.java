@@ -59,6 +59,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
         double podRad = (upperPosRad + lowerPosRad) / 2;
 
         double odometryRad = podRad / steeringRatio;
+        telem.addData(name + " odometry", odometryRad);
 
         // The target angle is the angle of the vector
         double targetRad = vector.getAngle();

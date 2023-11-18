@@ -63,13 +63,13 @@ public class Bot extends Robot {
             new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                     RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                    RevHubOrientationOnRobot.UsbFacingDirection.LEFT
+                    RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
                 )
             )
         );
 
         /* Localizer */
-        parallelPod = hMap.get(DcMotor.class, "frontRight");
+        parallelPod = hMap.get(DcMotor.class, "frontLeft");
         perpendicularPod = hMap.get(DcMotor.class, "backRight");
 
         localizer = new TwoDeadwheelLocalizer(this);

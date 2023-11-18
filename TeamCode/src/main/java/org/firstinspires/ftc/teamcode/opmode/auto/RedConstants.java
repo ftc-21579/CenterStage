@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmode.auto;
 
-import com.mineinjava.quail.odometry.path;
+import com.mineinjava.quail.pathing.Path;
 import com.mineinjava.quail.util.geometry.Pose2d;
 
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ public class RedConstants {
     public static final double START_HEADING = 1.5 * Math.PI;
 
 
-    public path LeftPurplePixelPath(double start_y) {
-        return new path(new ArrayList<Pose2d>(
+    public Path LeftPurplePixelPath(double start_y) {
+        return new Path(new ArrayList<Pose2d>(
                 Arrays.asList(
                         new Pose2d(START_X, start_y, START_HEADING),
                         new Pose2d(START_X - 17, start_y, 1.25 * Math.PI),
@@ -25,8 +25,8 @@ public class RedConstants {
         ));
     }
 
-    public path CenterPurplePixelPath(double start_y) {
-        return new path(new ArrayList<Pose2d>(
+    public Path CenterPurplePixelPath(double start_y) {
+        return new Path(new ArrayList<Pose2d>(
                 Arrays.asList(
                         new Pose2d(START_X, start_y, START_HEADING),
                         new Pose2d(32, start_y, START_HEADING)
@@ -34,8 +34,8 @@ public class RedConstants {
         ));
     }
 
-    public path RightPurplePixelPath(double start_y) {
-        return new path(new ArrayList<Pose2d>(
+    public Path RightPurplePixelPath(double start_y) {
+        return new Path(new ArrayList<Pose2d>(
                 Arrays.asList(
                         new Pose2d(START_X, start_y, START_HEADING),
                         new Pose2d(START_X - 17, start_y, 0.75 * Math.PI),

@@ -3,13 +3,14 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.mineinjava.quail.localization.Localizer;
-import com.mineinjava.quail.odometry.path;
-import com.mineinjava.quail.odometry.pathFollower;
+import com.mineinjava.quail.pathing.Path;
+import com.mineinjava.quail.pathing.PathFollower;
 import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -23,7 +24,7 @@ public class MecanumDrivetrain extends SubsystemBase {
     private Bot bot;
 
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
-    private pathFollower pathFollower;
+    private PathFollower pathFollower;
     public static boolean fieldCentric = false, headingLock = false;
     public static double autonSpeed = 0.5;
     public static double autonMaxTurnSpeed = 0.5;
@@ -31,7 +32,7 @@ public class MecanumDrivetrain extends SubsystemBase {
     public static double autonPrecision = 1.0;
     public static double turningKp = 1.0, turningKi = 0.0, turningKd = 0.0;
 
-    path emptyPath = new path(new ArrayList<Pose2d>(
+    Path emptyPath = new Path(new ArrayList<Pose2d>(
             Arrays.asList(
                     new Pose2d(0, 0, 0)
             )
@@ -45,7 +46,10 @@ public class MecanumDrivetrain extends SubsystemBase {
         backLeft = bot.hMap.get(DcMotorEx.class, "backLeft");
         backRight = bot.hMap.get(DcMotorEx.class, "backRight");
 
-        pathFollower = new pathFollower((Localizer) bot.getLocalizer(),
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
                 emptyPath,
                 0.5,
                 0.5,
@@ -108,11 +112,11 @@ public class MecanumDrivetrain extends SubsystemBase {
         bot.telem.addData("Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
     }
 
-    public void setPath(path p) {
+    public void setPath(Path p) {
         pathFollower.setPath(p);
     }
 
-    public void followPath(path p) {
+    public void followPath(Path p) {
         bot.telem.addData("Path Finished", pathFinished());
         bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
 

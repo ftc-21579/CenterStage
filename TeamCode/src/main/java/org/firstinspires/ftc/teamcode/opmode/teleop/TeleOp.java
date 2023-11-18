@@ -82,7 +82,7 @@ public class TeleOp extends LinearOpMode {
 
             s.schedule(new TeleOpDriveCommand(drivetrain,
                     new Vec2d(driver.getLeftX(), -driver.getLeftY()),
-                    -driver.getRightX(), multiplier));
+                    driver.getRightX(), multiplier));
 
             //bot.intakeToTransferCheck();
 
