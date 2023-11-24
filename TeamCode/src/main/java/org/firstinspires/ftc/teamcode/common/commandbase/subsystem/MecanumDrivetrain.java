@@ -2,10 +2,10 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.mineinjava.quail.RobotMovement;
 import com.mineinjava.quail.localization.Localizer;
 import com.mineinjava.quail.pathing.Path;
 import com.mineinjava.quail.pathing.PathFollower;
-import com.mineinjava.quail.robotMovement;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
@@ -51,7 +51,7 @@ public class MecanumDrivetrain extends SubsystemBase {
 
         pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
                 emptyPath,
-                0.5,
+                0.25,
                 0.5,
                 0.5,
                 0.5,
@@ -117,8 +117,10 @@ public class MecanumDrivetrain extends SubsystemBase {
     }
 
     public void followPath(Path p) {
+        updateLocalizer();
         bot.telem.addData("Path Finished", pathFinished());
         bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
+        bot.telem.addData("dadadata", pathFollower.path.vectorToNearestPoint(bot.getLocalizer().getPos(), pathFollower.path.currentPoint - 1));
 
         if (p != pathFollower.path) {
             pathFollower.setPath(p);
@@ -126,12 +128,14 @@ public class MecanumDrivetrain extends SubsystemBase {
 
         if (!pathFinished()) {
 
-            robotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
+            updateLocalizer();
+            bot.telem.addData("poseses", pathFollower.localizer.getPoseEstimate());
+            RobotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
             bot.telem.addData("Next Drive Movement",
                     "X: " + nextDriveMovement.translation.x
                             + " Y: " + nextDriveMovement.translation.y
                             + " Rot: " + nextDriveMovement.rotation);
-            teleopDrive(nextDriveMovement.translation,
+            teleopDrive(new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
                     nextDriveMovement.rotation,
                     1);
         }

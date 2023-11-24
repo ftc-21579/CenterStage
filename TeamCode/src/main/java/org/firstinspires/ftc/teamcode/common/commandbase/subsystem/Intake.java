@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
@@ -18,7 +19,7 @@ public class Intake extends SubsystemBase {
 
     Bot bot;
 
-    private CRServo intakeServo;
+    private CRServo leftServo, rightServo;
     private ColorSensor leftSensor, rightSensor;
 
     private Servo leftv4bServo, rightv4bServo;
@@ -50,7 +51,9 @@ public class Intake extends SubsystemBase {
     public Intake(Bot bot) {
         this.bot = bot;
 
-        intakeServo = bot.hMap.get(CRServo.class, "intakeServo");
+        leftServo = bot.hMap.get(CRServo.class, "leftIntakeServo");
+        rightServo = bot.hMap.get(CRServo.class, "rightIntakeServo");
+        leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
 
@@ -61,12 +64,20 @@ public class Intake extends SubsystemBase {
 
     public void activate() {
         spinnerState = intakeSpinnerState.ACTIVE;
-        intakeServo.setPower(1);
+        leftServo.setPower(1);
+        rightServo.setPower(1);
+    }
+
+    public void reverse() {
+        spinnerState = intakeSpinnerState.ACTIVE;
+        leftServo.setPower(-1.0);
+        rightServo.setPower(-1.0);
     }
 
     public void disable() {
         spinnerState = intakeSpinnerState.IDLE;
-        intakeServo.setPower(0);
+        leftServo.setPower(0);
+        rightServo.setPower(0);
     }
 
     public void toggleState() {

@@ -18,13 +18,14 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
+//import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
+//import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToDepositStateCommand;
@@ -32,7 +33,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToEndgame
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToIntakeStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
+//import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
@@ -101,6 +102,8 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new ToggleIntakeV4BCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y))
+                        {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))

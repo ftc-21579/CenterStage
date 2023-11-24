@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive.swerve;
 
-import static com.mineinjava.quail.util.util.deltaAngle;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.mineinjava.quail.differentialSwerveModuleBase;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
+/*
 @Config
 public class SwerveModule extends differentialSwerveModuleBase {
     public MiniPID pid;
@@ -35,7 +34,7 @@ public class SwerveModule extends differentialSwerveModuleBase {
     /**
      * Sets the module to a given vector
      * @param vector the vector to set the module to
-     */
+     *
     public void set(Vec2d vector) {
 
         // If the vector length is 0, set the motor power to 0
@@ -129,3 +128,4 @@ public class SwerveModule extends differentialSwerveModuleBase {
         return Math.max(min, Math.min(max, val));
     }
 }
+*/

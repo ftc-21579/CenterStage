@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.FollowPathCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
@@ -26,7 +25,7 @@ public class TestAuto extends LinearOpMode {
     Path p = new Path(new ArrayList<Pose2d>(
             Arrays.asList(
                     new Pose2d(0, 0, 0),
-                    new Pose2d(0, 60, 0)
+                    new Pose2d(0, 10, 0)
             )
     ));
 
@@ -36,6 +35,7 @@ public class TestAuto extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new Bot(telemetry, hardwareMap);
         drivetrain = bot.drivetrain;
+        bot.getLocalizer().setPos(new Pose2d(0, 0, 0));
         drivetrain.setPath(p);
 
         waitForStart();

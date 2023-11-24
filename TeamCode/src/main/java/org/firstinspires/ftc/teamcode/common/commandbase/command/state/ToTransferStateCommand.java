@@ -55,7 +55,7 @@ public class ToTransferStateCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (ready) {bot.toDepositState();}
+        if (ready) {bot.toTransferState();}
         return ready;
     }
 

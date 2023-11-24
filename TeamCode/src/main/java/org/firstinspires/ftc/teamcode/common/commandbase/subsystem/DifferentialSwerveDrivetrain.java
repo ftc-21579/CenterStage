@@ -3,10 +3,11 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import com.acmerobotics.dashboard.config.Config;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.mineinjava.quail.SwerveModuleBase;
 import com.mineinjava.quail.localization.Localizer;
 import com.mineinjava.quail.pathing.Path;
-import com.mineinjava.quail.robotMovement;
-import com.mineinjava.quail.swerveDrive;
+import com.mineinjava.quail.RobotMovement;
+import com.mineinjava.quail.SwerveDrive;
 import com.mineinjava.quail.pathing.PathFollower;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
@@ -17,7 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
-import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
+//import org.firstinspires.ftc.teamcode.common.drive.drive.swerve.SwerveModule;
 import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
 
 import java.text.DecimalFormat;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
 @Config
 public class DifferentialSwerveDrivetrain extends SubsystemBase {
     Bot bot;
@@ -45,7 +47,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
     private MiniPID headingPID = new MiniPID(headingkp, headingki, headingkd);
     private int headingLockTarget = 0;
     private SwerveModule left, right;
-    private swerveDrive<SwerveModule> drive;
+    private SwerveDrive<SwerveModule> drive;
     private final List<SwerveModule> modules = new ArrayList<>();
     private PathFollower pathFollower;
     private boolean fieldCentric = false;
@@ -61,7 +63,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
     /**
      * Encapsulates the drivetrain subsystem commands
      * @param bot
-     */
+     *
     public DifferentialSwerveDrivetrain(Bot bot) {
         this.bot = bot;
 
@@ -116,7 +118,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
         modules.add(right);
 
         // Initialize the swerve drive class
-        drive = new swerveDrive<>(modules);
+        drive = new SwerveDrive<>(modules);
 
         // Initialize the path follower
         pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
@@ -130,7 +132,7 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
     }
 
     /** The standard drive command for teleop, supports field centric if fieldCentric
-     */
+     *
     public void teleopDrive(Vec2d leftStick, double rot, double multiplier) {
         double x = -leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
@@ -146,15 +148,15 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
         }
 
         if (fieldCentric) {
-            drive.move(new robotMovement(rot, new Vec2d(y, x)), -botHeading);
+            drive.move(new RobotMovement(rot, new Vec2d(y, x)), -botHeading);
         } else {
-            drive.move(new robotMovement(rot, new Vec2d(y, x)), 0);
+            drive.move(new RobotMovement(rot, new Vec2d(y, x)), 0);
         }
     }
 
     /**
      * Updates the localizer of the Drivetrain
-     */
+     *
     public void updateLocalizer() {
         bot.getLocalizer().periodic();
 
@@ -221,3 +223,4 @@ public class DifferentialSwerveDrivetrain extends SubsystemBase {
         fieldCentric = !fieldCentric;
     }
 }
+*/
