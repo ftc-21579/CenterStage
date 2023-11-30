@@ -51,12 +51,12 @@ public class MecanumDrivetrain extends SubsystemBase {
 
         pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
                 emptyPath,
-                0.25,
-                0.5,
-                0.5,
-                0.5,
+                0.1,
+                0.1,
+                0.1,
+                0.1,
                 new MiniPID(1, 0, 0),
-                1.0);
+                5);
     }
 
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
@@ -72,10 +72,13 @@ public class MecanumDrivetrain extends SubsystemBase {
             double backLeftPower = (y - x + rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-            frontLeft.setPower(frontLeftPower);
-            frontRight.setPower(frontRightPower);
-            backLeft.setPower(backLeftPower);
-            backRight.setPower(backRightPower);
+            double[] powers = {frontLeftPower, frontRightPower, backLeftPower, backRightPower};
+            powers = normalizeWheelSpeeds(powers);
+
+            frontLeft.setPower(powers[0]);
+            frontRight.setPower(powers[1]);
+            backLeft.setPower(powers[2]);
+            backRight.setPower(powers[3]);
 
             return;
         }
@@ -88,15 +91,19 @@ public class MecanumDrivetrain extends SubsystemBase {
         rotX *= 1.1; // counteract imperfect strafe
 
         double denominator = Math.max(Math.abs(rotX) + Math.abs(rotY) + Math.abs(rx), 1);
+
         double frontLeftPower = (rotX + rotY + rx) / denominator;
         double frontRightPower = (rotX - rotY - rx) / denominator;
         double backLeftPower = (rotX - rotY + rx) / denominator;
         double backRightPower = (rotX + rotY - rx) / denominator;
 
-        frontLeft.setPower(frontLeftPower);
-        frontRight.setPower(frontRightPower);
-        backLeft.setPower(backLeftPower);
-        backRight.setPower(backRightPower);
+        double[] powers = {frontLeftPower, frontRightPower, backLeftPower, backRightPower};
+        powers = normalizeWheelSpeeds(powers);
+
+        frontLeft.setPower(powers[0]);
+        frontRight.setPower(powers[1]);
+        backLeft.setPower(powers[2]);
+        backRight.setPower(powers[3]);
     }
 
     /**
@@ -117,10 +124,10 @@ public class MecanumDrivetrain extends SubsystemBase {
     }
 
     public void followPath(Path p) {
-        updateLocalizer();
+        //updateLocalizer();
         bot.telem.addData("Path Finished", pathFinished());
-        bot.telem.addData("Next Point", pathFollower.path.getNextPoint());
-        bot.telem.addData("dadadata", pathFollower.path.vectorToNearestPoint(bot.getLocalizer().getPos(), pathFollower.path.currentPoint - 1));
+        bot.telem.addData("Current Point", pathFollower.path.getCurrentPoint());
+        //bot.telem.addData("dadadata", pathFollower.path.vectorToNearestPoint(bot.getLocalizer().getPos(), pathFollower.path.currentPoint));
 
         if (p != pathFollower.path) {
             pathFollower.setPath(p);
@@ -138,7 +145,10 @@ public class MecanumDrivetrain extends SubsystemBase {
             teleopDrive(new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
                     nextDriveMovement.rotation,
                     1);
+            return;
         }
+
+        teleopDrive(new Vec2d(0, 0), 0, 1);
     }
 
     public boolean pathFinished() {
@@ -151,5 +161,26 @@ public class MecanumDrivetrain extends SubsystemBase {
 
     public void toggleFieldCentric() {
         fieldCentric = !fieldCentric;
+    }
+
+    private double[] normalizeWheelSpeeds(double[] speeds) {
+        if (largestAbsolute(speeds) > 1) {
+            double max = largestAbsolute(speeds);
+            for (int i = 0; i < speeds.length; i++){
+                speeds[i] /= max;
+            }
+        }
+        return speeds;
+    }
+
+    private double largestAbsolute(double[] arr) {
+        double largestAbsolute = 0;
+        for (double d : arr) {
+            double absoluteValue = Math.abs(d);
+            if (absoluteValue > largestAbsolute) {
+                largestAbsolute = absoluteValue;
+            }
+        }
+        return largestAbsolute;
     }
 }
