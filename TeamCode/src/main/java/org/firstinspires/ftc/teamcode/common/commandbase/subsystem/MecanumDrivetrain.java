@@ -88,17 +88,16 @@ public class MecanumDrivetrain extends SubsystemBase {
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-        rotX *= 1.1; // counteract imperfect strafe
+        //rotX *= 1.1; // counteract imperfect strafe
 
-        double denominator = Math.max(Math.abs(rotX) + Math.abs(rotY) + Math.abs(rx), 1);
-
-        double frontLeftPower = (rotX + rotY + rx) / denominator;
-        double frontRightPower = (rotX - rotY - rx) / denominator;
-        double backLeftPower = (rotX - rotY + rx) / denominator;
-        double backRightPower = (rotX + rotY - rx) / denominator;
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1);
+        double frontLeftPower = (rotY + rotX + rx) / denominator;
+        double backLeftPower = (rotY - rotX + rx) / denominator;
+        double frontRightPower = (rotY - rotX - rx) / denominator;
+        double backRightPower = (rotY + rotX - rx) / denominator;
 
         double[] powers = {frontLeftPower, frontRightPower, backLeftPower, backRightPower};
-        powers = normalizeWheelSpeeds(powers);
+        //powers = normalizeWheelSpeeds(powers);
 
         frontLeft.setPower(powers[0]);
         frontRight.setPower(powers[1]);
