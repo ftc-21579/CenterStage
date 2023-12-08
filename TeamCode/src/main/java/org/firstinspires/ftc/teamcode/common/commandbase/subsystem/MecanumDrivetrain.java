@@ -26,11 +26,14 @@ public class MecanumDrivetrain extends SubsystemBase {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private PathFollower pathFollower;
     public static boolean fieldCentric = false, headingLock = false;
-    public static double autonSpeed = 0.5;
-    public static double autonMaxTurnSpeed = 0.5;
-    public static double autonMaxTurnAccel = 0.5;
-    public static double autonPrecision = 1.0;
-    public static double turningKp = 1.0, turningKi = 0.0, turningKd = 0.0;
+    public static double speed = 2; // in/s
+    public static double maxAccel = 1; // in/s^2
+    public static double precision = 2.0; // in
+    public static double slowDownRadius = 9.0; // in
+    public static double slowDownKp = 2;
+    public static double autonMaxTurnSpeed = 0.5; // rad/s
+    public static double autonMaxTurnAccel = 0.5; // rad/s^2
+    public static double turningKp = 0.001, turningKi = 0.0, turningKd = 0.0;
 
     Path emptyPath = new Path(new ArrayList<Pose2d>(
             Arrays.asList(
@@ -51,12 +54,14 @@ public class MecanumDrivetrain extends SubsystemBase {
 
         pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
                 emptyPath,
-                0.1,
-                0.1,
-                0.1,
-                0.1,
-                new MiniPID(1, 0, 0),
-                5);
+                speed,
+                autonMaxTurnSpeed,
+                autonMaxTurnAccel,
+                maxAccel,
+                new MiniPID(turningKp, turningKi, turningKd),
+                precision,
+                slowDownRadius,
+                slowDownKp);
     }
 
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
@@ -126,7 +131,9 @@ public class MecanumDrivetrain extends SubsystemBase {
         //updateLocalizer();
         bot.telem.addData("Path Finished", pathFinished());
         bot.telem.addData("Current Point", pathFollower.path.getCurrentPoint());
-        //bot.telem.addData("dadadata", pathFollower.path.vectorToNearestPoint(bot.getLocalizer().getPos(), pathFollower.path.currentPoint));
+        if(pathFollower.lastRobotPose != null) {
+            bot.telem.addData("dadadata", pathFollower.lastRobotPose.vectorTo(bot.getLocalizer().getPos()).scale(1/ pathFollower.loopTime));
+        }
 
         if (p != pathFollower.path) {
             pathFollower.setPath(p);
