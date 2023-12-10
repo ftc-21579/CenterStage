@@ -84,7 +84,7 @@ public class Deposit {
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToIdleCommand(this).schedule();
 
-        if (depositMotor.getCurrentPosition() > 2.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 3.05 * TICKS_PER_INCH) {
+        if (depositMotor.getCurrentPosition() > 1.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 2.05 * TICKS_PER_INCH) {
             stopLift();
             state = DepositState.BOTTOM;
         }
