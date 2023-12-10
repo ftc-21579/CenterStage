@@ -24,8 +24,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
-import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
-import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
 
 import java.util.ArrayList;
 
@@ -39,7 +37,6 @@ public class Bot extends Robot {
     public final Telemetry telem;
     public final HardwareMap hMap;
     public DcMotor parallelPod, perpendicularPod;
-    private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
 
     /*
@@ -71,9 +68,6 @@ public class Bot extends Robot {
         parallelPod = hMap.get(DcMotor.class, "frontLeft");
         perpendicularPod = hMap.get(DcMotor.class, "backRight");
 
-        localizer = new TwoDeadwheelLocalizer(this);
-        localizer.setPos(new Pose2d(0, 0, 0));
-
         /* Subsystems */
         drivetrain = new MecanumDrivetrain(this);
         intake = new Intake(this);
@@ -100,10 +94,6 @@ public class Bot extends Robot {
 
     public BotState getBotState() {
         return botState;
-    }
-
-    public Localizer getLocalizer() {
-        return localizer;
     }
 
     public IMU getImu() {

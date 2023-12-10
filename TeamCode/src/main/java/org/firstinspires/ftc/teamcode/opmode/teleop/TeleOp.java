@@ -8,8 +8,6 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.AutomaticDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
@@ -22,7 +20,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLift
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.UpdateLocalizerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
@@ -38,8 +35,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
-
-import java.util.function.BooleanSupplier;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
@@ -69,7 +64,6 @@ public class TeleOp extends LinearOpMode {
 
             CommandScheduler s = CommandScheduler.getInstance();
 
-            s.schedule(new UpdateLocalizerCommand(drivetrain));
             driver.readButtons();
 
             double multiplier = 1.0;
