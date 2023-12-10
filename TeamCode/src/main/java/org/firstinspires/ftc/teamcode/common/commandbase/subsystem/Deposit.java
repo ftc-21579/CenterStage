@@ -37,7 +37,7 @@ public class Deposit {
     public static double leftV4bDepositPosition = 0.8, leftV4bTransferPosition = 0.0, leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1;
     public static double rightV4bDepositPosition = 0.2, rightV4bTransferPosition = 1, rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0;
 
-    DcMotor depositMotor;
+    DcMotor depositMotor, otherDepositMotor;
 
     Servo leftReleaseServo, rightReleaseServo;
     Servo leftV4BServo, rightV4BServo;
@@ -49,6 +49,9 @@ public class Deposit {
         this.bot = bot;
 
         depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
+        otherDepositMotor = bot.hMap.get(DcMotor.class, "otherDepositMotor");
+        otherDepositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        otherDepositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         depositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         depositMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -158,6 +161,7 @@ public class Deposit {
     public void runLiftPID() {
         double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), clamp(liftSetpoint, -1.0, 21.1) * TICKS_PER_INCH);
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
+        otherDepositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
         bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
