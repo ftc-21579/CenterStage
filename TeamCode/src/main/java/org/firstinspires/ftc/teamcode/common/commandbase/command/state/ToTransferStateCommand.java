@@ -45,8 +45,9 @@ public class ToTransferStateCommand extends CommandBase {
 
             if (timer.milliseconds() > 2000) {
                 new DepositToTransferPositionCommand(bot).schedule();
+                new DepositV4BToTransferCommand(bot.deposit).schedule();
             }
-            
+
             if (timer.milliseconds() > 2500) {
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;
