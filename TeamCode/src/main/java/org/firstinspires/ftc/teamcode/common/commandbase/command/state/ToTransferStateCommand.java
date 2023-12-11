@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
@@ -55,7 +56,7 @@ public class ToTransferStateCommand extends CommandBase {
             }
         } else if (bot.getBotState() == BotState.DEPOSIT) {
             new DepositToTransferPositionCommand(bot).schedule();
-            new DepositV4BToIdleCommand(bot.deposit).schedule();
+            new DepositV4BToDepositCommand(bot.deposit).schedule();
             ready = true;
         }
     }
