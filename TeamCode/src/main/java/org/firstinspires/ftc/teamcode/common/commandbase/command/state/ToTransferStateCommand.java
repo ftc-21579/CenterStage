@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
@@ -39,22 +40,22 @@ public class ToTransferStateCommand extends CommandBase {
 
             if (timer.milliseconds() > 1000 && timer.milliseconds() < 1400) {
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
-                new DepositToBottomPositionCommand(bot).schedule();
-                new DepositV4BToTransferCommand(bot.deposit).schedule();
-            }
-
-            if (timer.milliseconds() > 2000) {
                 new DepositToTransferPositionCommand(bot).schedule();
                 new DepositV4BToTransferCommand(bot.deposit).schedule();
             }
 
-            if (timer.milliseconds() > 2500) {
+            if (timer.milliseconds() > 1400 && timer.milliseconds() < 1800) {
+                new DepositToTransferPositionCommand(bot).schedule();
+                new DepositV4BToTransferCommand(bot.deposit).schedule();
+            }
+
+            if (timer.milliseconds() > 2200) {
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;
             }
         } else if (bot.getBotState() == BotState.DEPOSIT) {
             new DepositToTransferPositionCommand(bot).schedule();
-            new DepositV4BToTransferCommand(bot.deposit).schedule();
+            new DepositV4BToIdleCommand(bot.deposit).schedule();
             ready = true;
         }
     }
