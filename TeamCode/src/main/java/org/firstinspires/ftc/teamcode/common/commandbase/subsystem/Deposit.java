@@ -159,7 +159,7 @@ public class Deposit {
     }
 
     public void runLiftPID() {
-        double liftPower = liftPID.getOutput(otherDepositMotor.getCurrentPosition(), clamp(liftSetpoint, -1.0, 21.1) * TICKS_PER_INCH);
+        double liftPower = liftPID.getOutput(otherDepositMotor.getCurrentPosition() / TICKS_PER_INCH, clamp(liftSetpoint, -0.5, 21.1));
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
         otherDepositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 

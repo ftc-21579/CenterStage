@@ -25,14 +25,6 @@ public class MecanumDrivetrain extends SubsystemBase {
 
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     public static boolean fieldCentric = false, headingLock = false;
-    public static double speed = 2; // in/s
-    public static double maxAccel = 1; // in/s^2
-    public static double precision = 2.0; // in
-    public static double slowDownRadius = 9.0; // in
-    public static double slowDownKp = 2;
-    public static double autonMaxTurnSpeed = 0.5; // rad/s
-    public static double autonMaxTurnAccel = 0.5; // rad/s^2
-    public static double turningKp = 0.001, turningKi = 0.0, turningKd = 0.0;
 
     Path emptyPath = new Path(new ArrayList<Pose2d>(
             Arrays.asList(
