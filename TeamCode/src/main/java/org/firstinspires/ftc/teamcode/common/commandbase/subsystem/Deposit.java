@@ -26,7 +26,7 @@ public class Deposit {
     Bot bot;
     public static double liftKp = 0.001, liftKi = 0.0, liftKd = 0.0;
     MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
-    public static double TICKS_PER_INCH = 108.62;
+    public static double TICKS_PER_INCH = 121.94;
 
     public DepositState state = DepositState.TRANSFER;
     public GripperState leftGripper = GripperState.RELEASE, rightGripper = GripperState.RELEASE;
@@ -159,7 +159,7 @@ public class Deposit {
     }
 
     public void runLiftPID() {
-        double liftPower = liftPID.getOutput(depositMotor.getCurrentPosition(), clamp(liftSetpoint, -1.0, 21.1) * TICKS_PER_INCH);
+        double liftPower = liftPID.getOutput(otherDepositMotor.getCurrentPosition(), clamp(liftSetpoint, -1.0, 21.1) * TICKS_PER_INCH);
         depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
         otherDepositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
