@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.mineinjava.quail.util.MiniPID;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -25,7 +26,8 @@ public class Deposit {
 
     Bot bot;
     public static double liftKp = 0.001, liftKi = 0.0, liftKd = 0.0;
-    MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
+    //MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
+    PIDController liftPID = new PIDController(liftKp, liftKi, liftKd);
     public static double TICKS_PER_INCH = 121.94;
 
     public DepositState state = DepositState.TRANSFER;
@@ -54,7 +56,7 @@ public class Deposit {
         otherDepositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         depositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        otherDepositMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        otherDepositMotor.setDirection(DcMotor.Direction.REVERSE);
         leftReleaseServo = bot.hMap.get(Servo.class, "leftReleaseServo");
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
@@ -159,10 +161,15 @@ public class Deposit {
     }
 
     public void runLiftPID() {
-        double liftPower = liftPID.getOutput(otherDepositMotor.getCurrentPosition() / TICKS_PER_INCH, clamp(liftSetpoint, -0.5, 21.1));
-        depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
+        //double liftPower = liftPID.(otherDepositMotor.getCurrentPosition(), clamp(liftSetpoint, -0.5, 21.1) * TICKS_PER_INCH);
+        liftPID.setSetPoint(liftSetpoint * TICKS_PER_INCH);
+        liftPID.calculate(otherDepositMotor.getCurrentPosition());
+        double liftPower = liftPID.calculate();
         otherDepositMotor.setPower(clamp(liftPower, -1.0, 1.0));
+        //depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
 
+        bot.telem.addData("PID Power", clamp(liftPower, -1.0, 1.0));
+        bot.telem.addData("Unclamped", liftPower);
         bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
     }
