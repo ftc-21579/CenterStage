@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.mineinjava.quail.util.MiniPID;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -25,9 +26,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 public class Deposit {
 
     Bot bot;
-    public static double liftKp = 0.001, liftKi = 0.0, liftKd = 0.0;
-    //MiniPID liftPID = new MiniPID(liftKp, liftKi, liftKd);
-    PIDController liftPID = new PIDController(liftKp, liftKi, liftKd);
+    public static double liftKp = 0.005, liftKi = 0.0, liftKd = 0.0, liftKf = 0.0;
+    PIDFController liftPID = new PIDFController(liftKp, liftKi, liftKd, liftKf);
     public static double TICKS_PER_INCH = 121.94;
 
     public DepositState state = DepositState.TRANSFER;
@@ -81,24 +81,22 @@ public class Deposit {
     }
 
     public void toBottomPosition() {
-        this.liftSetpoint = 2.0;
+        this.liftSetpoint = 1.0;
 
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToIdleCommand(this).schedule();
 
         if (depositMotor.getCurrentPosition() > 1.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 2.05 * TICKS_PER_INCH) {
-            stopLift();
             state = DepositState.BOTTOM;
         }
     }
 
     public void toTransferPosition() {
-        this.liftSetpoint = -0.5;
+        this.liftSetpoint = 0.0;
 
-        releasePixels();
+        //releasePixels();
 
-        if (depositMotor.getCurrentPosition() < 0.25 * TICKS_PER_INCH) {
-            stopLift();
+        if (depositMotor.getCurrentPosition() < 0.4 * TICKS_PER_INCH) {
             state = DepositState.TRANSFER;
         }
     }
@@ -142,9 +140,9 @@ public class Deposit {
 
     public void raiseLift() {
         if (depositMotor.getCurrentPosition() >= 21 * TICKS_PER_INCH) {
-            liftSetpoint = liftSetpoint;
+            this.liftSetpoint = this.liftSetpoint;
         } else {
-            this.liftSetpoint = clamp(liftSetpoint + 0.5, 0.1, 21.1);
+            this.liftSetpoint = clamp(liftSetpoint + 1.5, 0.1, 21.1);
         }
 
         if (depositMotor.getCurrentPosition() >= 5.0 * TICKS_PER_INCH) {
@@ -154,22 +152,17 @@ public class Deposit {
 
     public void lowerLift() {
         if (depositMotor.getCurrentPosition() <= 0.1 * TICKS_PER_INCH) {
-            liftSetpoint = liftSetpoint;
+            this.liftSetpoint = this.liftSetpoint;
         } else {
-            this.liftSetpoint = clamp(liftSetpoint - 0.5, 0.1, 21.1);
+            this.liftSetpoint = clamp(liftSetpoint - 1.5, 0.1, 21.1);
         }
     }
 
     public void runLiftPID() {
-        //double liftPower = liftPID.(otherDepositMotor.getCurrentPosition(), clamp(liftSetpoint, -0.5, 21.1) * TICKS_PER_INCH);
-        liftPID.setSetPoint(liftSetpoint * TICKS_PER_INCH);
-        liftPID.calculate(otherDepositMotor.getCurrentPosition());
-        double liftPower = liftPID.calculate();
-        otherDepositMotor.setPower(clamp(liftPower, -1.0, 1.0));
-        //depositMotor.setPower(clamp(liftPower, -1.0, 1.0));
+        double liftPower = liftPID.calculate(depositMotor.getCurrentPosition(), this.liftSetpoint * TICKS_PER_INCH);
+        depositMotor.setPower(liftPower);
+        otherDepositMotor.setPower(liftPower);
 
-        bot.telem.addData("PID Power", clamp(liftPower, -1.0, 1.0));
-        bot.telem.addData("Unclamped", liftPower);
         bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
     }

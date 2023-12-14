@@ -22,14 +22,10 @@ public class DepositToTransferPositionCommand extends CommandBase {
     @Override
     public void execute() {
         bot.deposit.toTransferPosition();
-
-        if (this.bot.deposit.state == DepositState.TRANSFER) {
-            ready = true;
-        }
     }
 
     @Override
     public boolean isFinished() {
-        return ready;
+        return this.bot.deposit.state == DepositState.TRANSFER;
     }
 }

@@ -10,10 +10,12 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.opmode.teleop.TeleOp;
 
 public class ToTransferStateCommand extends CommandBase {
     private Bot bot;
@@ -36,18 +38,18 @@ public class ToTransferStateCommand extends CommandBase {
             ready = true;
         } else if (bot.getBotState() == BotState.INTAKE) {
             new ReleasePixelsCommand(bot.deposit).schedule();
-
+            new DepositToBottomPositionCommand(bot).schedule();
             new IntakeTransferPositionCommand(bot.intake).schedule();
 
-            if (timer.milliseconds() > 1000 && timer.milliseconds() < 1400) {
+            if (timer.milliseconds() > 1000) {
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
-                new DepositToTransferPositionCommand(bot).schedule();
                 new DepositV4BToTransferCommand(bot.deposit).schedule();
+                bot.telem.addLine(">1000");
             }
 
-            if (timer.milliseconds() > 1400 && timer.milliseconds() < 1800) {
+            if (timer.milliseconds() > 1500) {
                 new DepositToTransferPositionCommand(bot).schedule();
-                new DepositV4BToTransferCommand(bot.deposit).schedule();
+                bot.telem.addLine(">1500");
             }
 
             if (timer.milliseconds() > 2200) {

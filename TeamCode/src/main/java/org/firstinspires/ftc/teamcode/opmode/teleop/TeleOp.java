@@ -5,9 +5,12 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
@@ -36,6 +39,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
+import java.util.ArrayList;
+
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
 
@@ -45,6 +50,7 @@ public class TeleOp extends LinearOpMode {
     private DroneLauncher launcher;
     private Deposit deposit;
     private GamepadEx driver;
+    private int loopCount = 0;
 
     @Override
     public void runOpMode() {
@@ -56,6 +62,9 @@ public class TeleOp extends LinearOpMode {
         launcher = bot.launcher;
         deposit = bot.deposit;
         driver = new GamepadEx(gamepad1);
+
+        TriggerReader leftTrigger = new TriggerReader(driver, GamepadKeys.Trigger.LEFT_TRIGGER);
+        TriggerReader rightTrigger = new TriggerReader(driver, GamepadKeys.Trigger.RIGHT_TRIGGER);
 
         waitForStart();
 
@@ -112,12 +121,12 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
-                    if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) > 0.2)
+                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
                         {s.schedule(new ManualLiftDownCommand(deposit));}
-                    if (driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) > 0.2)
+                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
                         {s.schedule(new ManualLiftUpCommand(deposit));}
-                    if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
-                        {s.schedule(new DepositStopLiftCommand(deposit));}
+                    //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
+                    //    {s.schedule(new DepositStopLiftCommand(deposit));}
                     break;
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
@@ -130,6 +139,41 @@ public class TeleOp extends LinearOpMode {
             }
 
             s.schedule(new RunLiftPIDCommand(deposit));
+
+            if (loopCount == 5) {
+                ArrayList<PixelColor> held = bot.intake.getPixelColors();
+                switch (held.get(0)) {
+                    case YELLOW:
+                        gamepad1.setLedColor(255, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case PURPLE:
+                        gamepad1.setLedColor(255, 0, 255, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case GREEN:
+                        gamepad1.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case NONE:
+                        gamepad1.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                }
+                switch (held.get(1)) {
+                    case YELLOW:
+                        gamepad2.setLedColor(255, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case PURPLE:
+                        gamepad2.setLedColor(255, 0, 255, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case GREEN:
+                        gamepad2.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case NONE:
+                        gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                }
+                loopCount = 0;
+            } else {
+                loopCount++;
+            }
 
             telemetry.update();
             s.run();
