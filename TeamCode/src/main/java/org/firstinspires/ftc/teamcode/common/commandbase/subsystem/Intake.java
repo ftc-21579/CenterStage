@@ -53,7 +53,8 @@ public class Intake extends SubsystemBase {
 
         leftServo = bot.hMap.get(CRServo.class, "leftIntakeServo");
         rightServo = bot.hMap.get(CRServo.class, "rightIntakeServo");
-        leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        //leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
 
@@ -70,14 +71,15 @@ public class Intake extends SubsystemBase {
 
     public void reverse() {
         spinnerState = intakeSpinnerState.ACTIVE;
-        leftServo.setPower(-1.0);
-        rightServo.setPower(-1.0);
+        double p = leftServo.getPower() * -1.0;
+        leftServo.setPower(p);
+        rightServo.setPower(p);
     }
 
     public void disable() {
         spinnerState = intakeSpinnerState.IDLE;
-        leftServo.setPower(0);
-        rightServo.setPower(0);
+        leftServo.setPower(0.0);
+        rightServo.setPower(0.0);
     }
 
     public void toggleState() {

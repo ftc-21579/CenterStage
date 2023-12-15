@@ -86,13 +86,13 @@ public class Deposit {
         new ReleasePixelsCommand(this).schedule();
         new DepositV4BToIdleCommand(this).schedule();
 
-        if (depositMotor.getCurrentPosition() > 1.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 2.05 * TICKS_PER_INCH) {
+        if (depositMotor.getCurrentPosition() > 0.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 1.05 * TICKS_PER_INCH) {
             state = DepositState.BOTTOM;
         }
     }
 
     public void toTransferPosition() {
-        this.liftSetpoint = 0.0;
+        this.liftSetpoint = -1.5;
 
         //releasePixels();
 
