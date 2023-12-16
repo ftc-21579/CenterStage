@@ -6,20 +6,17 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.common.centerstage.BluePropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous(name="Blue Auto")
-public class BlueAuto extends LinearOpMode {
+public class RedAuto extends LinearOpMode {
     Bot bot;
     String startSide = "LEFT";
     GamepadEx driver;
@@ -34,7 +31,7 @@ public class BlueAuto extends LinearOpMode {
 
         driver = new GamepadEx(gamepad1);
 
-        propPipeline = new PropDetector("BLUE");
+        propPipeline = new PropDetector("RED");
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
