@@ -13,9 +13,12 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToHangHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DoAPullUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
@@ -130,8 +133,8 @@ public class TeleOp extends LinearOpMode {
                     break;
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {}
-                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new DepositToHangHeightCommand(deposit));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new DoAPullUpCommand(bot.deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:

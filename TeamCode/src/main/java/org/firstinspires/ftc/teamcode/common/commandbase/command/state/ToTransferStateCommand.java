@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToHangHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
@@ -37,21 +38,25 @@ public class ToTransferStateCommand extends CommandBase {
         if (bot.getBotState() == BotState.TRANSFER) {
             ready = true;
         } else if (bot.getBotState() == BotState.INTAKE) {
-            new ReleasePixelsCommand(bot.deposit).schedule();
-            new DepositToTransferPositionCommand(bot).schedule();
             new IntakeTransferPositionCommand(bot.intake).schedule();
 
             if (timer.milliseconds() > 1000) {
                 new DepositV4BToTransferCommand(bot.deposit).schedule();
                 bot.telem.addLine(">1000");
+            } else {
+                new DepositToBottomPositionCommand(bot).schedule();
             }
 
             if (timer.milliseconds() > 2000) {
-                new DisableIntakeSpinnerCommand(bot.intake).schedule();
-                new GrabPixelsCommand(bot.deposit).schedule();
+                new DepositToTransferPositionCommand(bot);
+                bot.deposit.toTransferPosition();
+            } else {
+                new ReleasePixelsCommand(bot.deposit).schedule();
             }
 
             if (timer.milliseconds() > 3000) {
+                new DisableIntakeSpinnerCommand(bot.intake).schedule();
+                new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;
             }
         } else if (bot.getBotState() == BotState.DEPOSIT) {

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.command.state;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class ToEndgameStateCommand extends CommandBase {
@@ -22,6 +23,7 @@ public class ToEndgameStateCommand extends CommandBase {
         if (bot.getBotState() != BotState.TRANSFER) {
             new ToTransferStateCommand(bot).schedule();
         } else {
+            new DepositV4BToDepositCommand(bot.deposit);
             bot.toEndgameState();
         }
     }
