@@ -24,6 +24,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.TwoWheelLocalizer;
+import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.opmode.LocalizationTest;
+import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.opmode.SplineTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -72,7 +74,7 @@ public final class TuningOpModes {
                 }
 
                 return new DriveView(
-                    DriveType.MECANUM,
+                        DriveType.MECANUM,
                         MecanumDrive.PARAMS.inPerTick,
                         MecanumDrive.PARAMS.maxWheelVel,
                         MecanumDrive.PARAMS.minProfileAccel,
