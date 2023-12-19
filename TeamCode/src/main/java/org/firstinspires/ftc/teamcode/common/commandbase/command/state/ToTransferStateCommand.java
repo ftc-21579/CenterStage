@@ -39,22 +39,16 @@ public class ToTransferStateCommand extends CommandBase {
             ready = true;
         } else if (bot.getBotState() == BotState.INTAKE) {
             new IntakeTransferPositionCommand(bot.intake).schedule();
+            new DepositToTransferPositionCommand(bot).schedule();
 
             if (timer.milliseconds() > 1000) {
                 new DepositV4BToTransferCommand(bot.deposit).schedule();
                 bot.telem.addLine(">1000");
             } else {
-                new DepositToBottomPositionCommand(bot).schedule();
-            }
-
-            if (timer.milliseconds() > 2000) {
-                new DepositToTransferPositionCommand(bot);
-                bot.deposit.toTransferPosition();
-            } else {
                 new ReleasePixelsCommand(bot.deposit).schedule();
             }
 
-            if (timer.milliseconds() > 3000) {
+            if (timer.milliseconds() > 2000) {
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;
