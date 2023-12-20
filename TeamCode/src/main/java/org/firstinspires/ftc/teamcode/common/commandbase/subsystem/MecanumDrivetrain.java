@@ -26,7 +26,7 @@ public class MecanumDrivetrain extends SubsystemBase {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private PathFollower pathFollower;
     public static boolean fieldCentric = false, headingLock = false;
-    public static double speed = 2; // in/s
+    public static double speed = 1; // in/s
     public static double maxAccel = 1; // in/s^2
     public static double precision = 2.0; // in
     public static double slowDownRadius = 9.0; // in
@@ -67,7 +67,6 @@ public class MecanumDrivetrain extends SubsystemBase {
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
         double x = leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
-        rx *= 0.6;
 
         if (!fieldCentric) {
             y *= 1.1; // counteract imperfect strafe
