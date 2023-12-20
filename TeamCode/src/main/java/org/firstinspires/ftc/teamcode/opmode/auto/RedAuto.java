@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name="Blue Auto")
+@Autonomous(name="Red Auto")
 public class RedAuto extends LinearOpMode {
     Bot bot;
     String startSide = "LEFT";
