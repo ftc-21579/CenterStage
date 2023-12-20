@@ -3,21 +3,13 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
-import com.mineinjava.quail.util.MiniPID;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.centerstage.GripperState;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
@@ -29,21 +21,11 @@ public class Deposit {
     public static double liftKp = 0.005, liftKi = 0.0, liftKd = 0.0, liftKf = 0.0;
     PIDFController liftPID = new PIDFController(liftKp, liftKi, liftKd, liftKf);
     public static double TICKS_PER_INCH = 121.94;
-
     public DepositState state = DepositState.TRANSFER;
     public GripperState leftGripper = GripperState.RELEASE, rightGripper = GripperState.RELEASE;
-    public double liftSetpoint = 0.0;
-
-    public static double leftGripperGrabPosition = 0.35, leftGripperReleasePosition = 0.6;
-    public static double rightGripperGrabPosition = 0.25, rightGripperReleasePosition = 0.5;
-    public static double leftV4bDepositPosition = 0.8, leftV4bTransferPosition = 0.0, leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1;
-    public static double rightV4bDepositPosition = 0.2, rightV4bTransferPosition = 1, rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0;
-
+    private double liftSetpoint = 0.0;
     DcMotor depositMotor, otherDepositMotor;
-
-    Servo leftReleaseServo, rightReleaseServo;
-    Servo leftV4BServo, rightV4BServo;
-
+    Servo leftReleaseServo, rightReleaseServo, leftV4BServo, rightV4BServo;
     public VisionPortal visionPortal;
     public TfodProcessor pixelTfodProcessor;
 
@@ -80,92 +62,79 @@ public class Deposit {
         visionPortal.setProcessorEnabled(pixelTfodProcessor, false);
     }
 
-    public void toBottomPosition() {
-        this.liftSetpoint = 2.0;
-
-        ///new ReleasePixelsCommand(this).schedule();
-        //new DepositV4BToIdleCommand(this).schedule();
-
-        if (depositMotor.getCurrentPosition() > 1.95 * TICKS_PER_INCH && depositMotor.getCurrentPosition() < 2.05 * TICKS_PER_INCH) {
-            state = DepositState.BOTTOM;
-        }
+    /**
+     * Sets the left gripper's position
+     * @param position the position to set the left gripper to
+     */
+    public void setLeftGripperPosition(double position) {
+        leftReleaseServo.setPosition(position);
     }
-
-    public void toHangHeight() {
-        this.liftSetpoint = 21.0;
+    /**
+     * Sets the right gripper's position
+     * @param position the position to set the right gripper to
+     */
+    public void setRightGripperPosition(double position) {
+        rightReleaseServo.setPosition(position);
     }
-
-    public void doAPullUp() {
-        this.liftSetpoint = 6.0;
+    /**
+     * Sets the left V4B's position
+     * @param position the position to set the left V4B to
+     */
+    public void setLeftV4BPosition(double position) {
+        leftV4BServo.setPosition(position);
     }
-
-    public void toTransferPosition() {
-        this.liftSetpoint = -1.5;
-
-        //releasePixels();
-
-        if (depositMotor.getCurrentPosition() < 0.4 * TICKS_PER_INCH) {
-            state = DepositState.TRANSFER;
-        }
+    /**
+     * Gets the left V4B's position
+     * @return the position the left V4B is set to
+     */
+    public double getLeftV4BPosition() {
+        return leftV4BServo.getPosition();
     }
-
-    public void grabPixels() {
-        leftReleaseServo.setPosition(leftGripperGrabPosition);
-        rightReleaseServo.setPosition(rightGripperGrabPosition);
-
-        leftGripper = GripperState.GRAB;
-        rightGripper = GripperState.GRAB;
+    /**
+     * Sets the right V4B's position
+     * @param position the position to set the right V4B to
+     */
+    public void setRightV4BPosition(double position) {
+        rightV4BServo.setPosition(position);
     }
-
-    public void releasePixels() {
-        leftReleaseServo.setPosition(leftGripperReleasePosition);
-        rightReleaseServo.setPosition(rightGripperReleasePosition);
-
-        leftGripper = GripperState.RELEASE;
-        rightGripper = GripperState.RELEASE;
+    /**
+     * Sets the lift's setpoint/target position
+     * @param position the position to set the lift to
+     */
+    public void setLiftTarget(double position) {
+        this.liftSetpoint = position;
     }
-
-    public void toggleLeftPixelServo() {
-        if (leftGripper == GripperState.GRAB) {
-            leftReleaseServo.setPosition(leftGripperReleasePosition);
-            leftGripper = GripperState.RELEASE;
-        } else {
-            leftReleaseServo.setPosition(leftGripperGrabPosition);
-            leftGripper = GripperState.GRAB;
-        }
+    /**
+     * Gets the lift target position
+     * @return the lift target
+     */
+    public double getLiftTarget() {
+        return liftSetpoint;
     }
-
-    public void toggleRightPixelServo() {
-        if (rightGripper == GripperState.GRAB) {
-            rightReleaseServo.setPosition(rightGripperReleasePosition);
-            rightGripper = GripperState.RELEASE;
-        } else {
-            rightReleaseServo.setPosition(rightGripperGrabPosition);
-            rightGripper = GripperState.GRAB;
-        }
-        bot.telem.addData("Right Gripper Position", rightReleaseServo.getPosition());
+    /**
+     * Gets the lift's current position (in inches)
+     * @return the lift's current position (in)
+     */
+    public double getLiftPosition() {
+        return depositMotor.getCurrentPosition() / TICKS_PER_INCH;
     }
-
-    public void raiseLift() {
-        if (depositMotor.getCurrentPosition() >= 21 * TICKS_PER_INCH) {
-            this.liftSetpoint = this.liftSetpoint;
-        } else {
-            this.liftSetpoint = clamp(liftSetpoint + 1.5, 0.1, 21.1);
-        }
-
-        if (depositMotor.getCurrentPosition() >= 5.0 * TICKS_PER_INCH) {
-            new DepositV4BToDepositCommand(this).schedule();
-        }
+    /**
+     * Gets the lift's current state (DepositState)
+     * @return the lift's current state
+     */
+    public DepositState getLiftState() {
+        return state;
     }
-
-    public void lowerLift() {
-        if (depositMotor.getCurrentPosition() <= 0.1 * TICKS_PER_INCH) {
-            this.liftSetpoint = this.liftSetpoint;
-        } else {
-            this.liftSetpoint = clamp(liftSetpoint - 1.5, 0.1, 21.1);
-        }
+    /**
+     * Sets the lift's current state (DepositState)
+     * @param state the state to set the lift to
+     */
+    public void setLiftState(DepositState state) {
+        this.state = state;
     }
-
+    /**
+     * Run the PID loop for the lift
+     */
     public void runLiftPID() {
         double liftPower = liftPID.calculate(depositMotor.getCurrentPosition(), this.liftSetpoint * TICKS_PER_INCH);
         depositMotor.setPower(liftPower);
@@ -173,45 +142,5 @@ public class Deposit {
 
         bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
-    }
-
-    public void stopLift() {
-        depositMotor.setPower(0.0);
-    }
-
-    public void v4bToggle() {
-        if (leftV4BServo.getPosition() == leftV4bDepositPosition) {
-            leftV4BServo.setPosition(leftV4bTransferPosition);
-            rightV4BServo.setPosition(rightV4bTransferPosition);
-        } else {
-            leftV4BServo.setPosition(leftV4bDepositPosition);
-            rightV4BServo.setPosition(rightV4bDepositPosition);
-        }
-        bot.telem.addData("Left V4B Position", leftV4BServo.getPosition());
-        bot.telem.addData("Right V4B Position", rightV4BServo.getPosition());
-    }
-
-    public void v4bToDeposit() {
-        leftV4BServo.setPosition(leftV4bDepositPosition);
-        rightV4BServo.setPosition(rightV4bDepositPosition);
-    }
-
-    public void v4bToTransfer() {
-        leftV4BServo.setPosition(leftV4bTransferPosition);
-        rightV4BServo.setPosition(rightV4bTransferPosition);
-    }
-
-    public void v4bToIdle() {
-        leftV4BServo.setPosition(leftV4bIdlePosition);
-        rightV4BServo.setPosition(rightV4bIdlePosition);
-    }
-
-    public void v4bToDrop() {
-        leftV4BServo.setPosition(leftV4bDropPosition);
-        rightV4BServo.setPosition(rightV4bDropPosition);
-    }
-
-    private static double clamp(double val, double min, double max) {
-        return Math.max(min, Math.min(max, val));
     }
 }
