@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,7 +41,7 @@ public class Bot extends Robot {
     private IMU imu;
     public final Telemetry telem;
     public final HardwareMap hMap;
-    public Motor.Encoder parallelPod, perpendicularPod;
+    //public Motor.Encoder parallelPod, perpendicularPod;
     private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
 
@@ -70,8 +71,8 @@ public class Bot extends Robot {
         );
 
         /* Localizer */
-        parallelPod = hMap.get(Motor.Encoder.class, "frontLeft");
-        perpendicularPod = hMap.get(Motor.Encoder.class, "backRight");
+        //parallelPod = hMap.get(DcMotorEx.class, "frontLeft");
+        //perpendicularPod = hMap.get(Motor.Encoder.class, "backRight");
 
         //localizer = new TwoDeadwheelLocalizer(this);
         localizer = new TwoWheelTrackingLocalizer(hMap, this);
