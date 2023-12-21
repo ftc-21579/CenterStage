@@ -23,7 +23,7 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
     public static double PERPENDICULAR_X = 2.684; // (in)
     public static double PERPENDICULAR_Y = -2.836; // (in)
 
-    private final DoubleSupplier horizontalPosition, lateralPosition;
+    //public final DoubleSupplier horizontalPosition, lateralPosition;
     private final double imuAngle;
 
     private final Bot bot;
@@ -34,8 +34,8 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
                 new Pose2d(PERPENDICULAR_X, PERPENDICULAR_Y, Math.toRadians(90))
         ));
 
-        this.lateralPosition = bot.parallelPod::getCurrentPosition;
-        this.horizontalPosition = bot.perpendicularPod::getCurrentPosition;
+        //this.lateralPosition = bot.parallelPod::getCurrentPosition;
+        //this.horizontalPosition = bot.perpendicularPod::getCurrentPosition;
         this.imuAngle = bot.getImu().getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
         this.bot = bot;
     }
@@ -51,15 +51,15 @@ public class TwoDeadwheelLocalizer extends com.mineinjava.quail.localization.Two
 
     @Override
     public Double getHeadingVelocity() {
-        return 0.0;
+        return (double) bot.getImu().getRobotAngularVelocity(AngleUnit.RADIANS).zRotationRate;
     }
 
     @NonNull
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(-horizontalPosition.getAsDouble()),
-                encoderTicksToInches(lateralPosition.getAsDouble())
+                encoderTicksToInches(bot.parallelPod.getPosition()),
+                encoderTicksToInches(bot.perpendicularPod.getPosition())
         );
     }
 

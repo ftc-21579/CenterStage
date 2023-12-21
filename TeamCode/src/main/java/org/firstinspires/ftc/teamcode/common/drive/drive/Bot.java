@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Robot;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
+import org.firstinspires.ftc.teamcode.common.drive.localization.TwoWheelTrackingLocalizer;
 
 import java.util.ArrayList;
 
@@ -38,7 +40,7 @@ public class Bot extends Robot {
     private IMU imu;
     public final Telemetry telem;
     public final HardwareMap hMap;
-    public DcMotor parallelPod, perpendicularPod;
+    public Motor.Encoder parallelPod, perpendicularPod;
     private Localizer localizer;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
 
@@ -68,10 +70,11 @@ public class Bot extends Robot {
         );
 
         /* Localizer */
-        parallelPod = hMap.get(DcMotor.class, "frontLeft");
-        perpendicularPod = hMap.get(DcMotor.class, "backRight");
+        parallelPod = hMap.get(Motor.Encoder.class, "frontLeft");
+        perpendicularPod = hMap.get(Motor.Encoder.class, "backRight");
 
-        localizer = new TwoDeadwheelLocalizer(this);
+        //localizer = new TwoDeadwheelLocalizer(this);
+        localizer = new TwoWheelTrackingLocalizer(hMap, this);
         localizer.setPos(new Pose2d(0, 0, 0));
 
         /* Subsystems */
