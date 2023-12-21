@@ -35,7 +35,7 @@ public class TestAuto extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         bot = new Bot(telemetry, hardwareMap);
         drivetrain = bot.drivetrain;
-        bot.getLocalizer().setPos(new Pose2d(0, 0, 0));
+        bot.getLocalizer().setPose(new Pose2d(0, 0, 0));
         drivetrain.setPath(p);
 
         waitForStart();

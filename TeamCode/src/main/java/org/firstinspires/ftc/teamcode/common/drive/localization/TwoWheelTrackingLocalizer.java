@@ -20,11 +20,11 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer impleme
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
     // TODO: DO THIS https://learnroadrunner.com/dead-wheels.html#two-wheel-odometry FOR THE WHEELS
-    public static double PARALLEL_X = 4.723; // X is the up and down direction
-    public static double PARALLEL_Y = 4.875; // Y is the strafe direction
+    public static double PARALLEL_X = 4.875; // X is the up and down direction
+    public static double PARALLEL_Y = 4.723; // Y is the strafe direction
 
-    public static double PERPENDICULAR_X = 2.684;
-    public static double PERPENDICULAR_Y = -2.836;
+    public static double PERPENDICULAR_X = -2.836;
+    public static double PERPENDICULAR_Y = 2.684;
 
     public static double X_MULTIPLIER = 1; // Multiplier in the X direction
     public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
@@ -72,8 +72,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer impleme
     @Override
     public List<Double> getWheelPositions() {
         return Arrays.asList(
-                encoderTicksToInches(parallelEncoder.getCurrentPosition()) * X_MULTIPLIER,
-                encoderTicksToInches(perpendicularEncoder.getCurrentPosition()) * Y_MULTIPLIER
+                encoderTicksToInches(perpendicularEncoder.getCurrentPosition()) * X_MULTIPLIER,
+                encoderTicksToInches(parallelEncoder.getCurrentPosition()) * Y_MULTIPLIER
         );
     }
 
@@ -85,8 +85,8 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer impleme
         //  compensation method
 
         return Arrays.asList(
-                encoderTicksToInches(parallelEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
-                encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity()) * Y_MULTIPLIER
+                encoderTicksToInches(perpendicularEncoder.getCorrectedVelocity()) * X_MULTIPLIER,
+                encoderTicksToInches(parallelEncoder.getCorrectedVelocity()) * Y_MULTIPLIER
         );
     }
 
