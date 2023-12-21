@@ -17,8 +17,8 @@ public class Configs {
 
     // Grippers
     public static double
-    leftGripperGrabPosition = 0.35, leftGripperReleasePosition = 0.6,
-    rightGripperGrabPosition = 0.25, rightGripperReleasePosition = 0.5;
+    leftGripperGrabPosition = 0.25, leftGripperReleasePosition = 0.55,
+    rightGripperGrabPosition = 0.27, rightGripperReleasePosition = 0.57;
 
     // V4B
     public static double
