@@ -113,9 +113,9 @@ public class MecanumDrivetrain extends SubsystemBase {
      * Updates the localizer of the Drivetrain
      */
     public void updateLocalizer() {
-        bot.getLocalizer().periodic();
+        bot.getLocalizer().getPose();
 
-        Pose2d current = bot.getLocalizer().getPos();
+        Pose2d current = bot.getLocalizer().getPose();
 
         bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
         bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
@@ -131,7 +131,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         bot.telem.addData("Path Finished", pathFinished());
         bot.telem.addData("Current Point", pathFollower.path.getCurrentPoint());
         if(pathFollower.lastRobotPose != null) {
-            bot.telem.addData("dadadata", pathFollower.lastRobotPose.vectorTo(bot.getLocalizer().getPos()).scale(1/ pathFollower.loopTime));
+            bot.telem.addData("dadadata", pathFollower.lastRobotPose.vectorTo(bot.getLocalizer().getPose()).scale(1/ pathFollower.loopTime));
         }
 
         if (p != pathFollower.path) {
@@ -141,7 +141,7 @@ public class MecanumDrivetrain extends SubsystemBase {
         if (!pathFinished()) {
 
             updateLocalizer();
-            bot.telem.addData("poseses", pathFollower.localizer.getPoseEstimate());
+            bot.telem.addData("poseses", pathFollower.localizer.getPose());
             RobotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
             bot.telem.addData("Next Drive Movement",
                     "X: " + nextDriveMovement.translation.x

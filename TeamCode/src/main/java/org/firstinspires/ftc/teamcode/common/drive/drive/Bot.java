@@ -1,33 +1,22 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Robot;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
-import org.firstinspires.ftc.teamcode.common.drive.localization.Localizer;
-import org.firstinspires.ftc.teamcode.common.drive.localization.TwoDeadwheelLocalizer;
+import com.mineinjava.quail.localization.Localizer;
 import org.firstinspires.ftc.teamcode.common.drive.localization.TwoWheelTrackingLocalizer;
 
 import java.util.ArrayList;
@@ -76,7 +65,7 @@ public class Bot extends Robot {
 
         //localizer = new TwoDeadwheelLocalizer(this);
         localizer = new TwoWheelTrackingLocalizer(hMap, this);
-        localizer.setPos(new Pose2d(0, 0, 0));
+        localizer.setPose(new Pose2d(0, 0, 0));
 
         /* Subsystems */
         drivetrain = new MecanumDrivetrain(this);

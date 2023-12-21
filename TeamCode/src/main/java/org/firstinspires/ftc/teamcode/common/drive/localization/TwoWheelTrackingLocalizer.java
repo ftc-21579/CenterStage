@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.common.hardware.Encoder;
 import java.util.Arrays;
 import java.util.List;
 
-public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer implements Localizer {
+public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer implements com.mineinjava.quail.localization.Localizer {
     public static double TICKS_PER_REV = 8192;
     public static double WHEEL_RADIUS = 0.6889764; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
@@ -90,19 +90,20 @@ public class TwoWheelTrackingLocalizer extends TwoTrackingWheelLocalizer impleme
         );
     }
 
-    @Override
     public void periodic() {
         super.update();
     }
 
     @Override
-    public Pose2d getPos() {
+    public Pose2d getPose() {
+        periodic();
         com.acmerobotics.roadrunner.geometry.Pose2d pose = super.getPoseEstimate();
         return new Pose2d(pose.getX(), pose.getY(), pose.getHeading());
     }
 
     @Override
-    public void setPos(Pose2d pose) {
+    public void setPose(Pose2d pose) {
         super.setPoseEstimate(new com.acmerobotics.roadrunner.geometry.Pose2d(pose.x, pose.y, pose.heading));
+        periodic();
     }
 }
