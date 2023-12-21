@@ -147,7 +147,7 @@ public class MecanumDrivetrain extends SubsystemBase {
                     "X: " + nextDriveMovement.translation.x
                             + " Y: " + nextDriveMovement.translation.y
                             + " Rot: " + nextDriveMovement.rotation);
-            teleopDrive(new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
+            teleopDrive(new Vec2d(-nextDriveMovement.translation.x, nextDriveMovement.translation.y),
                     nextDriveMovement.rotation,
                     1);
             return;
