@@ -26,13 +26,13 @@ public class MecanumDrivetrain extends SubsystemBase {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private PathFollower pathFollower;
     public static boolean fieldCentric = false, headingLock = false;
-    public static double speed = 0.25; // in/s
-    public static double maxAccel = 1; // in/s^2
+    public static double speed = 0.25; // % of max speed
+    public static double maxAccel = 1; // % of max speed per second
     public static double precision = 2.0; // in
     public static double slowDownRadius = 9.0; // in
     public static double slowDownKp = 2;
-    public static double autonMaxTurnSpeed = 0.5; // rad/s
-    public static double autonMaxTurnAccel = 0.5; // rad/s^2
+    public static double autonMaxTurnSpeed = 1; // rad/s
+    public static double autonMaxTurnAccel = 1; // rad/s^2
     public static double turningKp = 0.001, turningKi = 0.0, turningKd = 0.0;
 
     Path emptyPath = new Path(new ArrayList<Pose2d>(
@@ -148,7 +148,7 @@ public class MecanumDrivetrain extends SubsystemBase {
                             + " Y: " + nextDriveMovement.translation.y
                             + " Rot: " + nextDriveMovement.rotation);
             teleopDrive(new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
-                    nextDriveMovement.rotation,
+                    -nextDriveMovement.rotation,
                     1);
             return;
         }

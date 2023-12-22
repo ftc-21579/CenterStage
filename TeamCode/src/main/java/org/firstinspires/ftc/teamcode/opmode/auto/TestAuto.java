@@ -30,6 +30,8 @@ public class TestAuto extends LinearOpMode {
             )
     ));
 
+    Boolean fCentric = false;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -39,6 +41,8 @@ public class TestAuto extends LinearOpMode {
         bot.getLocalizer().setPose(new Pose2d(0, 0, 0));
         drivetrain.setPath(p);
         bot.getImu().resetYaw();
+
+
 
         waitForStart();
 
