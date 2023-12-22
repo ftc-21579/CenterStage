@@ -30,9 +30,9 @@ public class MecanumDrivetrain extends SubsystemBase {
     public static double maxAccel = 1; // % of max speed per second
     public static double precision = 2.0; // in
     public static double slowDownRadius = 9.0; // in
-    public static double slowDownKp = 2;
-    public static double autonMaxTurnSpeed = 1; // rad/s
-    public static double autonMaxTurnAccel = 1; // rad/s^2
+    public static double slowDownKp = 0.025;
+    public static double autonMaxTurnSpeed = 0.65; // rad/s
+    public static double autonMaxTurnAccel = 0.65; // rad/s^2
     public static double turningKp = 0.001, turningKi = 0.0, turningKd = 0.0;
 
     Path emptyPath = new Path(new ArrayList<Pose2d>(

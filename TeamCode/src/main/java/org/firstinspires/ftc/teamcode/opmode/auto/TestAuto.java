@@ -42,7 +42,10 @@ public class TestAuto extends LinearOpMode {
         drivetrain.setPath(p);
         bot.getImu().resetYaw();
 
-
+        if (!MecanumDrivetrain.fieldCentric) {
+            fCentric = false;
+            MecanumDrivetrain.fieldCentric = true;
+        }
 
         waitForStart();
 
