@@ -1,13 +1,28 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.deposit;
 
+import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
+import org.firstinspires.ftc.robotcore.internal.webserver.websockets.CommandNotImplementedException;
+import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 
-public class DepositV4BToDropCommand extends InstantCommand {
+public class DepositV4BToDropCommand extends CommandBase {
+    private Deposit deposit;
+    private boolean ready = false;
     public DepositV4BToDropCommand(Deposit d) {
-        super(
-                () -> d.v4bToDrop()
-        );
+        this.deposit = d;
+    }
+
+    @Override
+    public void execute() {
+        deposit.setLeftV4BPosition(Configs.leftV4bDropPosition);
+        deposit.setRightV4BPosition(Configs.rightV4bDropPosition);
+        ready = true;
+    }
+
+    @Override
+    public boolean isFinished() {
+        return ready;
     }
 }

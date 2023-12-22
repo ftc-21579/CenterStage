@@ -24,16 +24,7 @@ public class MecanumDrivetrain extends SubsystemBase {
     private Bot bot;
 
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
-    private PathFollower pathFollower;
     public static boolean fieldCentric = false, headingLock = false;
-    public static double speed = 0.25; // % of max speed
-    public static double maxAccel = 1; // % of max speed per second
-    public static double precision = 2.0; // in
-    public static double slowDownRadius = 9.0; // in
-    public static double slowDownKp = 0.025;
-    public static double autonMaxTurnSpeed = 0.65; // rad/s
-    public static double autonMaxTurnAccel = 0.65; // rad/s^2
-    public static double turningKp = 0.001, turningKi = 0.0, turningKd = 0.0;
 
     Path emptyPath = new Path(new ArrayList<Pose2d>(
             Arrays.asList(
@@ -51,22 +42,12 @@ public class MecanumDrivetrain extends SubsystemBase {
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        pathFollower = new PathFollower((Localizer) bot.getLocalizer(),
-                emptyPath,
-                speed,
-                autonMaxTurnSpeed,
-                autonMaxTurnAccel,
-                maxAccel,
-                new MiniPID(turningKp, turningKi, turningKd),
-                precision,
-                slowDownRadius,
-                slowDownKp);
     }
 
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
         double x = leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
+        rx *= 0.6;
 
         if (!fieldCentric) {
             y *= 1.1; // counteract imperfect strafe
@@ -107,57 +88,6 @@ public class MecanumDrivetrain extends SubsystemBase {
         frontRight.setPower(powers[1]);
         backLeft.setPower(powers[2]);
         backRight.setPower(powers[3]);
-    }
-
-    /**
-     * Updates the localizer of the Drivetrain
-     */
-    public void updateLocalizer() {
-        bot.getLocalizer().getPose();
-
-        Pose2d current = bot.getLocalizer().getPose();
-
-        bot.telem.addData("Pose X", new DecimalFormat("#.##").format(current.x) + " inches");
-        bot.telem.addData("Pose Y", new DecimalFormat("#.##").format(current.y) + " inches");
-        bot.telem.addData("Pose Heading", new DecimalFormat("#.##").format(current.heading) + " radians");
-    }
-
-    public void setPath(Path p) {
-        pathFollower.setPath(p);
-    }
-
-    public void followPath(Path p) {
-        //updateLocalizer();
-        bot.telem.addData("Path Finished", pathFinished());
-        bot.telem.addData("Current Point", pathFollower.path.getCurrentPoint());
-        if(pathFollower.lastRobotPose != null) {
-            bot.telem.addData("dadadata", pathFollower.lastRobotPose.vectorTo(bot.getLocalizer().getPose()).scale(1/ pathFollower.loopTime));
-        }
-
-        if (p != pathFollower.path) {
-            pathFollower.setPath(p);
-        }
-
-        if (!pathFinished()) {
-
-            updateLocalizer();
-            bot.telem.addData("poseses", pathFollower.localizer.getPose());
-            RobotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
-            bot.telem.addData("Next Drive Movement",
-                    "X: " + nextDriveMovement.translation.x
-                            + " Y: " + nextDriveMovement.translation.y
-                            + " Rot: " + nextDriveMovement.rotation);
-            teleopDrive(new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
-                    -nextDriveMovement.rotation,
-                    1);
-            return;
-        }
-
-        teleopDrive(new Vec2d(0, 0), 0, 1);
-    }
-
-    public boolean pathFinished() {
-        return pathFollower.isFinished();
     }
 
     public void toggleHeadingLock() {

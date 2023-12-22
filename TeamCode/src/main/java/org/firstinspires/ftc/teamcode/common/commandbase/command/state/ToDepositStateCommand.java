@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.state;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.InstantCommand;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
-import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositStopLiftCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class ToDepositStateCommand extends CommandBase {
     Bot bot;
+    private ElapsedTime timer = new ElapsedTime();
+    private boolean ready = false;
 
     public ToDepositStateCommand(Bot bot) {
         this.bot = bot;
@@ -19,6 +20,8 @@ public class ToDepositStateCommand extends CommandBase {
     @Override
     public void initialize() {
         bot.telem.addLine("To Deposit State Init");
+        ready = false;
+        timer.reset();
     }
 
     @Override
@@ -28,15 +31,19 @@ public class ToDepositStateCommand extends CommandBase {
             new ToTransferStateCommand(bot).schedule();
         } else {
             bot.telem.addLine("To Deposit State Exec");
-            new DepositToBottomPositionCommand(bot).schedule();
+            new DepositToBottomPositionCommand(bot.deposit).schedule();
+            if (timer.milliseconds() > 1500) {
+                new DepositV4BToDepositCommand(bot.deposit);
+                ready = true;
+            }
         }
     }
 
     @Override
     public boolean isFinished() {
-        if(bot.deposit.state == DepositState.BOTTOM && bot.getBotState() == BotState.TRANSFER) {
+        if (ready == true) {
             bot.toDepositState();
-            new DepositStopLiftCommand(bot.deposit).schedule();
+            //new DepositStopLiftCommand(bot.deposit).schedule();
             bot.telem.addLine("To Deposit State Finished");
             return true;
         } else {

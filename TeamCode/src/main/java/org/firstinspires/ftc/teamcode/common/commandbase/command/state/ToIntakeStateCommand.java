@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -24,10 +26,12 @@ public class ToIntakeStateCommand extends CommandBase {
     public void execute() {
         if(bot.getBotState() != BotState.TRANSFER) {
             bot.telem.addLine("To Intake State Exec (NOT TRANSFER)");
+            new ReleasePixelsCommand(bot.deposit);
             new ToTransferStateCommand(bot).schedule();
             bot.telem.addLine("To Intake State Exec (NOT TRANSFER) (DONE)");
         } else {
             bot.telem.addLine("To Intake State Exec");
+            new DepositV4BToDepositCommand(bot.deposit).schedule();
             new ActivateIntakeSpinnerCommand(bot.intake).schedule();
             new IntakeIntakePositionCommand(bot.intake).schedule();
             bot.toIntakeState();
