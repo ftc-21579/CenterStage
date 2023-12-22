@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name="Blue Auto")
-public class BlueAuto extends LinearOpMode {
+@Autonomous(name="Red Auto")
+public class RedAuto extends LinearOpMode {
     Bot bot;
     String startSide = "LEFT";
     GamepadEx driver;
@@ -31,7 +31,7 @@ public class BlueAuto extends LinearOpMode {
 
         driver = new GamepadEx(gamepad1);
 
-        propPipeline = new PropDetector("BLUE");
+        propPipeline = new PropDetector("RED");
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
