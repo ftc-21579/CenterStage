@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 import java.util.ArrayList;
@@ -63,6 +64,14 @@ public class Intake extends SubsystemBase {
         rightv4bServo = bot.hMap.get(Servo.class, "intakeRightV4BServo");
     }
 
+    public double getCurrentV4BPosition() {
+        return leftv4bServo.getPosition();
+    }
+    public void setIntakeV4BPosition(double position) {
+        leftv4bServo.setPosition(position);
+        rightv4bServo.setPosition(position);
+    }
+
     public void activate() {
         spinnerState = intakeSpinnerState.ACTIVE;
         leftServo.setPower(1);
@@ -96,15 +105,13 @@ public class Intake extends SubsystemBase {
         rightv4bServo.setPosition(rightV4bIntakePosition);
     }
 
-    public void v4bTransferState() {
-        v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(leftV4bTransferPosition);
-        rightv4bServo.setPosition(rightV4bTransferPosition);
+    public void setV4bState(intakeV4BState state) {
+        v4bState = state;
     }
 
     public void v4bToggleState() {
         if (v4bState != intakeV4BState.TRANSFER) {
-            v4bTransferState();
+            new IntakeTransferPositionCommand(this).schedule();
         } else {
             v4bIntakeState();
         }

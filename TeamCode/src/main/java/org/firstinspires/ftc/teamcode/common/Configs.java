@@ -27,4 +27,10 @@ public class Configs {
             rightV4bDepositPosition = 0.2, rightV4bTransferPosition = 1,
             rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0;
 
+
+    /*
+        INTAKE
+     */
+    public static double
+            intakeV4BMaxAccel = 0.05, intakeV4BMaxVelo = 0.6;
 }
