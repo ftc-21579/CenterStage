@@ -26,7 +26,7 @@ public class MecanumDrivetrain extends SubsystemBase {
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private PathFollower pathFollower;
     public static boolean fieldCentric = false, headingLock = false;
-    public static double speed = 1; // in/s
+    public static double speed = 0.25; // in/s
     public static double maxAccel = 1; // in/s^2
     public static double precision = 2.0; // in
     public static double slowDownRadius = 9.0; // in
