@@ -68,7 +68,7 @@ public class TestAuto extends LinearOpMode {
             CommandScheduler s = CommandScheduler.getInstance();
 
             s.schedule(new UpdateLocalizerCommand(drivetrain));
-            s.schedule(new FollowPathSequenceCommand(drivetrain));
+            s.schedule(new FollowPathSequenceCommand(bot));
 
             telemetry.update();
             s.run();

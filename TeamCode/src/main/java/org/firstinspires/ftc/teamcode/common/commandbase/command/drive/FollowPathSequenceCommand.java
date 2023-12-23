@@ -5,22 +5,25 @@ import com.mineinjava.quail.RobotMovement;
 import com.mineinjava.quail.util.geometry.Vec2d;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
+import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class FollowPathSequenceCommand extends CommandBase {
 
-    private MecanumDrivetrain drivetrain;
+    private Bot bot;
     Boolean ready = false;
 
-    public FollowPathSequenceCommand(MecanumDrivetrain drivetrain) {
-        this.drivetrain = drivetrain;
+    public FollowPathSequenceCommand(Bot bot) {
+        this.bot = bot;
     }
 
     @Override
     public void execute() {
-        RobotMovement nextDriveMovement = drivetrain.pathSequenceFollower.followPathSequence();
-        new TeleOpDriveCommand(drivetrain, new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
+        RobotMovement nextDriveMovement = bot.drivetrain.pathSequenceFollower.followPathSequence();
+        new TeleOpDriveCommand(bot.drivetrain, new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
                 -nextDriveMovement.rotation,
                 1);
+        bot.telem.addData("Path Sequence Follower", bot.drivetrain.pathSequenceFollower.getCurrentSegment().getType());
+        bot.telem.addData("Finished", bot.drivetrain.pathSequenceFollower.isFinished());
         ready = true;
     }
 
