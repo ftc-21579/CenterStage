@@ -64,7 +64,7 @@ public class TestAuto extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (!drivetrain.pathSequenceFollower.isFinished()) {
             CommandScheduler s = CommandScheduler.getInstance();
 
             s.schedule(new UpdateLocalizerCommand(drivetrain));

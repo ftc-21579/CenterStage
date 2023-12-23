@@ -37,7 +37,7 @@ dependencies {
 }
 
 dependencies {
-    implementation 'com.github.mineinjava:quail:e338a9b35a'
+    implementation 'com.github.mineinjava:quail:b21fa28152'
     implementation 'org.ftclib.ftclib:core:2.0.1'
 
     implementation 'org.apache.commons:commons-math3:3.6.1'
