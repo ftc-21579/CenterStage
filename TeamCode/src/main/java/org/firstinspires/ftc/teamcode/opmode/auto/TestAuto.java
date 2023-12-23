@@ -59,5 +59,9 @@ public class TestAuto extends LinearOpMode {
             telemetry.update();
             s.run();
         }
+
+        if (!fCentric) {
+            MecanumDrivetrain.fieldCentric = false;
+        }
     }
 }
