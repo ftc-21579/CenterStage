@@ -63,6 +63,7 @@ public class TestAuto extends LinearOpMode {
                 .addPath(b);
 
         waitForStart();
+        drivetrain.pathSequenceFollower.nextSegment();
 
         while (!drivetrain.pathSequenceFollower.isFinished()) {
             CommandScheduler s = CommandScheduler.getInstance();
@@ -71,6 +72,7 @@ public class TestAuto extends LinearOpMode {
             s.schedule(new FollowPathSequenceCommand(bot));
             telemetry.addData("Path Sequence Follower", drivetrain.pathSequenceFollower.getCurrentSegment().getType());
             telemetry.addData("Finished", drivetrain.pathSequenceFollower.isFinished());
+            telemetry.addData("Segment Running", drivetrain.pathSequenceFollower.getCurrentSegment().isRunning());
 
             telemetry.update();
             s.run();

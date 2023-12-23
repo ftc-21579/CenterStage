@@ -22,8 +22,6 @@ public class FollowPathSequenceCommand extends CommandBase {
         new TeleOpDriveCommand(bot.drivetrain, new Vec2d(nextDriveMovement.translation.x, -nextDriveMovement.translation.y),
                 -nextDriveMovement.rotation,
                 1);
-        bot.telem.addData("Path Sequence Follower", bot.drivetrain.pathSequenceFollower.getCurrentSegment().getType());
-        bot.telem.addData("Finished", bot.drivetrain.pathSequenceFollower.isFinished());
         ready = true;
     }
 
