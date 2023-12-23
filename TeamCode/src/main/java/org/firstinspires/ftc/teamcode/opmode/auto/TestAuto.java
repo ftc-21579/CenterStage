@@ -73,6 +73,8 @@ public class TestAuto extends LinearOpMode {
             telemetry.addData("Path Sequence Follower", drivetrain.pathSequenceFollower.getCurrentSegment().getType());
             telemetry.addData("Finished", drivetrain.pathSequenceFollower.isFinished());
             telemetry.addData("Segment Running", drivetrain.pathSequenceFollower.getCurrentSegment().isRunning());
+            telemetry.addData("Total Segments", drivetrain.pathSequenceFollower.getSegmentCount());
+            telemetry.addData("Current Point", drivetrain.pathSequenceFollower.pathFollower.getPath().getCurrentPoint());
 
             telemetry.update();
             s.run();
