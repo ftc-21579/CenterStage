@@ -57,7 +57,7 @@ public class TestAuto extends LinearOpMode {
             MecanumDrivetrain.fieldCentric = true;
         }
 
-        drivetrain.pathSequenceFollower
+        drivetrain.pathSequenceFollower = drivetrain.pathSequenceFollower
                 .addPath(a)
                 .addDisplacementMarker(() -> new ActivateIntakeSpinnerCommand(bot.intake))
                 .addPath(b);
