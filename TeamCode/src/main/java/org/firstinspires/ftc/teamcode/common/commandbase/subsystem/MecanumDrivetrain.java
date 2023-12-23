@@ -6,6 +6,7 @@ import com.mineinjava.quail.RobotMovement;
 import com.mineinjava.quail.localization.Localizer;
 import com.mineinjava.quail.pathing.Path;
 import com.mineinjava.quail.pathing.PathFollower;
+import com.mineinjava.quail.pathing.PathSequenceFollower;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
@@ -25,6 +26,7 @@ public class MecanumDrivetrain extends SubsystemBase {
 
     private DcMotorEx frontLeft, frontRight, backLeft, backRight;
     private PathFollower pathFollower;
+    public PathSequenceFollower pathSequenceFollower;
     public static boolean fieldCentric = false, headingLock = false;
     public static double speed = 0.25; // % of max speed
     public static double maxAccel = 1; // % of max speed per second
@@ -62,6 +64,8 @@ public class MecanumDrivetrain extends SubsystemBase {
                 precision,
                 slowDownRadius,
                 slowDownKp);
+
+        pathSequenceFollower = new PathSequenceFollower(pathFollower);
     }
 
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
@@ -129,19 +133,19 @@ public class MecanumDrivetrain extends SubsystemBase {
     public void followPath(Path p) {
         //updateLocalizer();
         bot.telem.addData("Path Finished", pathFinished());
-        bot.telem.addData("Current Point", pathFollower.path.getCurrentPoint());
-        if(pathFollower.lastRobotPose != null) {
-            bot.telem.addData("dadadata", pathFollower.lastRobotPose.vectorTo(bot.getLocalizer().getPose()).scale(1/ pathFollower.loopTime));
-        }
+        bot.telem.addData("Current Point", pathFollower.getPath().getCurrentPoint());
+        //if(pathFollower.lastRobotPose != null) {
+        //    bot.telem.addData("dadadata", pathFollower.lastRobotPose.vectorTo(bot.getLocalizer().getPose()).scale(1/ pathFollower.loopTime));
+        //}
 
-        if (p != pathFollower.path) {
+        if (p != pathFollower.getPath()) {
             pathFollower.setPath(p);
         }
 
         if (!pathFinished()) {
 
             updateLocalizer();
-            bot.telem.addData("poseses", pathFollower.localizer.getPose());
+            bot.telem.addData("poseses", pathFollower.getLocalizer().getPose());
             RobotMovement nextDriveMovement = pathFollower.calculateNextDriveMovement();
             bot.telem.addData("Next Drive Movement",
                     "X: " + nextDriveMovement.translation.x
