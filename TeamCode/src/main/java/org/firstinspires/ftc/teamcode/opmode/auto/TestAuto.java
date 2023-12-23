@@ -64,11 +64,13 @@ public class TestAuto extends LinearOpMode {
 
         waitForStart();
 
-        while (!drivetrain.pathFinished()) {
+        while (opModeIsActive()) {
             CommandScheduler s = CommandScheduler.getInstance();
 
             s.schedule(new UpdateLocalizerCommand(drivetrain));
             s.schedule(new FollowPathSequenceCommand(bot));
+            telemetry.addData("Path Sequence Follower", drivetrain.pathSequenceFollower.getCurrentSegment().getType());
+            telemetry.addData("Finished", drivetrain.pathSequenceFollower.isFinished());
 
             telemetry.update();
             s.run();
