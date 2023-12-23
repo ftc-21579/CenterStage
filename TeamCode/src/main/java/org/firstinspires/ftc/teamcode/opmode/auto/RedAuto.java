@@ -50,9 +50,9 @@ public class RedAuto extends LinearOpMode {
             driver.readButtons();
 
             if(driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
-                startSide = "BACKSTAGE";
+                startSide = "LEFT";
             } else if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
-                startSide = "AUDIENCE";
+                startSide = "RIGHT";
             }
 
             telemetry.addLine("AUTO (dpad to change side)");
@@ -66,7 +66,7 @@ public class RedAuto extends LinearOpMode {
         timer.reset();
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
-        if (startSide == "AUDIENCE") {
+        if (startSide == "LEFT") {
             // do something
         } else {
             // do something else
