@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
+import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonCyclePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -53,6 +55,8 @@ public class BlueAuto extends LinearOpMode {
                 //.setAutoStopLiveView(true)
                 //.build();
 
+        portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"));
+
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         while(!isStarted()) {
@@ -79,7 +83,10 @@ public class BlueAuto extends LinearOpMode {
         timer.reset();
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
-        new PropMovementsCommand(bot, drive, PropDetector.PropPosition.CENTER, Alliance.BLUE, startSide).schedule();
+        new SequentialCommandGroup(
+                new PropMovementsCommand(bot, drive, PropDetector.PropPosition.CENTER, Alliance.BLUE, startSide),
+                new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
+        ).schedule();
 
         while (opModeIsActive()) {
             drive.update();

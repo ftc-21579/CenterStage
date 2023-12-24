@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
+import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonCyclePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -42,16 +44,18 @@ public class RedAuto extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(new Pose2d(12, 64, Math.toRadians(90)));
 
-        propPipeline = new PropDetector("RED");
+        //propPipeline = new PropDetector("BLUE");
 
-        portal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(640, 480))
-                .addProcessor(propPipeline)
-                //.setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .enableLiveView(true)
-                .setAutoStopLiveView(true)
-                .build();
+        //portal = new VisionPortal.Builder()
+        //.setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
+        //.setCameraResolution(new Size(640, 480))
+        //.addProcessor(propPipeline)
+        //.setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+        //.enableLiveView(true)
+        //.setAutoStopLiveView(true)
+        //.build();
+
+        portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"));
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -65,22 +69,24 @@ public class RedAuto extends LinearOpMode {
             } else if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 startSide = Side.RIGHT;
             }
-
-            gamepad1.setLedColor(255, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
+            gamepad1.setLedColor(0, 0, 255, Gamepad.LED_DURATION_CONTINUOUS);
 
             telemetry.addLine("RED AUTO (dpad to change side)");
             telemetry.addData("Start Side", startSide);
-            telemetry.addData("Prop: ", propPipeline.getPosition());
+            //telemetry.addData("Prop: ", propPipeline.getPosition());
             telemetry.update();
         }
 
-        PropDetector.PropPosition propPosition = propPipeline.getPosition();
-        portal.close();
-        propPosition = PropDetector.PropPosition.CENTER;
+        //PropDetector.PropPosition propPosition = propPipeline.getPosition();
+        //portal.close();
+        //propPosition = PropDetector.PropPosition.CENTER;
         timer.reset();
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
-        new PropMovementsCommand(bot, drive, propPosition, Alliance.RED, startSide).schedule();
+        new SequentialCommandGroup(
+                new PropMovementsCommand(bot, drive, PropDetector.PropPosition.CENTER, Alliance.RED, startSide),
+                new AutonCyclePixelsCommand(drive, bot, Alliance.RED)
+        ).schedule();
 
         while (opModeIsActive()) {
             drive.update();
