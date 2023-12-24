@@ -42,16 +42,16 @@ public class BlueAuto extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(new Pose2d(12, 64, Math.toRadians(90)));
 
-        propPipeline = new PropDetector("BLUE");
+        //propPipeline = new PropDetector("BLUE");
 
-        portal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(640, 480))
-                .addProcessor(propPipeline)
+        //portal = new VisionPortal.Builder()
+                //.setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
+                //.setCameraResolution(new Size(640, 480))
+                //.addProcessor(propPipeline)
                 //.setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .enableLiveView(true)
-                .setAutoStopLiveView(true)
-                .build();
+                //.enableLiveView(true)
+                //.setAutoStopLiveView(true)
+                //.build();
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -69,17 +69,17 @@ public class BlueAuto extends LinearOpMode {
 
             telemetry.addLine("BLUE AUTO (dpad to change side)");
             telemetry.addData("Start Side", startSide);
-            telemetry.addData("Prop: ", propPipeline.getPosition());
+            //telemetry.addData("Prop: ", propPipeline.getPosition());
             telemetry.update();
         }
 
-        PropDetector.PropPosition propPosition = propPipeline.getPosition();
-        portal.close();
-        propPosition = PropDetector.PropPosition.CENTER;
+        //PropDetector.PropPosition propPosition = propPipeline.getPosition();
+        //portal.close();
+        //propPosition = PropDetector.PropPosition.CENTER;
         timer.reset();
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
-        new PropMovementsCommand(bot, drive, PropDetector.PropPosition.LEFT, Alliance.BLUE, startSide).schedule();
+        new PropMovementsCommand(bot, drive, PropDetector.PropPosition.CENTER, Alliance.BLUE, startSide).schedule();
 
         while (opModeIsActive()) {
             drive.update();

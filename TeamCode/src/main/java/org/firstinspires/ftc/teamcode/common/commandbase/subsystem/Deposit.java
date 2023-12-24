@@ -22,7 +22,7 @@ public class Deposit {
     PIDFController liftPID = new PIDFController(liftKp, liftKi, liftKd, liftKf);
     public static double TICKS_PER_INCH = 121.94;
     public DepositState state = DepositState.TRANSFER;
-    public GripperState leftGripper = GripperState.RELEASE, rightGripper = GripperState.RELEASE;
+    public GripperState leftGripper = GripperState.GRAB, rightGripper = GripperState.GRAB;
     private double liftSetpoint = 0.0;
     DcMotor depositMotor, otherDepositMotor;
     Servo leftReleaseServo, rightReleaseServo, leftV4BServo, rightV4BServo;
