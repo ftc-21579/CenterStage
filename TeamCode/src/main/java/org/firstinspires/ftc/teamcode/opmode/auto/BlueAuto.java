@@ -56,6 +56,7 @@ public class BlueAuto extends LinearOpMode {
                 //.build();
 
         portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"), propPipeline);
+        portal.setProcessorEnabled(propPipeline, true);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -73,7 +74,7 @@ public class BlueAuto extends LinearOpMode {
 
             telemetry.addLine("BLUE AUTO (dpad to change side)");
             telemetry.addData("Start Side", startSide);
-            //telemetry.addData("Prop: ", propPipeline.getPosition());
+            telemetry.addData("Prop: ", propPipeline.getPosition());
             telemetry.update();
         }
 
