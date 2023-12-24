@@ -52,7 +52,7 @@ public class TeleOp extends LinearOpMode {
     private MecanumDrivetrain drivetrain;
     private DroneLauncher launcher;
     private Deposit deposit;
-    private GamepadEx driver;
+    private GamepadEx driver, otherDriver;
     private int loopCount = 0;
 
     @Override
@@ -65,6 +65,7 @@ public class TeleOp extends LinearOpMode {
         launcher = bot.launcher;
         deposit = bot.deposit;
         driver = new GamepadEx(gamepad1);
+        otherDriver = new GamepadEx(gamepad2);
 
         TriggerReader leftTrigger = new TriggerReader(driver, GamepadKeys.Trigger.LEFT_TRIGGER);
         TriggerReader rightTrigger = new TriggerReader(driver, GamepadKeys.Trigger.RIGHT_TRIGGER);
@@ -88,14 +89,14 @@ public class TeleOp extends LinearOpMode {
 
             //if (driver.wasJustPressed(GamepadKeys.Button.BACK))
             //    {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
-            if (driver.wasJustPressed(GamepadKeys.Button.START))
+            if (otherDriver.wasJustPressed(GamepadKeys.Button.START))
             {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
-            if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+            if (otherDriver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || otherDriver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
             {multiplier = 0.5;}
 
             s.schedule(new TeleOpDriveCommand(drivetrain,
-                    new Vec2d(driver.getLeftX(), -driver.getLeftY()),
-                    driver.getRightX(), multiplier));
+                    new Vec2d(otherDriver.getLeftX(), -otherDriver.getLeftY()),
+                    otherDriver.getRightX(), multiplier));
 
             //bot.intakeToTransferCheck();
 
