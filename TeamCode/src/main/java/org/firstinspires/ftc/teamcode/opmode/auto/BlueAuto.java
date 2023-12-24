@@ -79,7 +79,7 @@ public class BlueAuto extends LinearOpMode {
         timer.reset();
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
-        new PropMovementsCommand(bot, drive, propPosition, Alliance.BLUE, startSide).schedule();
+        new PropMovementsCommand(bot, drive, PropDetector.PropPosition.LEFT, Alliance.BLUE, startSide).schedule();
 
         while (opModeIsActive()) {
             drive.update();
