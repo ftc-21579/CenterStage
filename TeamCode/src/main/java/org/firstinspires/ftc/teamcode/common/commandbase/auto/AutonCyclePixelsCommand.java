@@ -26,7 +26,6 @@ public class AutonCyclePixelsCommand extends CommandBase {
 
         switch(alliance) {
             case RED:
-                Red r = new Red(bot);
                 sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .addTemporalMarker(() -> {
 
@@ -34,10 +33,9 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         .build();
                 break;
             case BLUE:
-                Blue b = new Blue(bot);
                 sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
                         .addTemporalMarker(() -> {
-
+                            
                         })
                         .build();
                 break;
