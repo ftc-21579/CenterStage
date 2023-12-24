@@ -14,8 +14,7 @@ public class MeepMeepTesting {
 
         RoadRunnerBotEntity botOne = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(66, 66, Math.toRadians(180), Math.toRadians(180), 12)
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 13)
+                .setConstraints(50, 50, Math.toRadians(142), Math.toRadians(142), 13)
                 .setDimensions(16, 17)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(12, 64, Math.toRadians(90)))
@@ -39,7 +38,7 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity botTwo = new DefaultBotBuilder(meepMeep)
                 .setColorScheme(new ColorSchemeBlueDark())
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(66, 66, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(50, 50, Math.toRadians(142), Math.toRadians(142), 13)
                 .setDimensions(16, 17)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(12, 64, Math.toRadians(90)))
@@ -63,7 +62,7 @@ public class MeepMeepTesting {
         RoadRunnerBotEntity botThree = new DefaultBotBuilder(meepMeep)
                 .setColorScheme(new ColorSchemeRedLight())
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(66, 66, Math.toRadians(180), Math.toRadians(180), 12)
+                .setConstraints(50, 50, Math.toRadians(142), Math.toRadians(142), 13)
                 .setDimensions(16, 17)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(12, 64, Math.toRadians(90)))
