@@ -14,40 +14,38 @@ import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence
 public class Red {
 
     // region STARTING POSITIONS
-    public static double leftX = 12, leftY = 64;
-    public static double rightX = -36, rightY = 64;
+    public static double leftX = 12, leftY = -64;
+    public static double rightX = -36, rightY = -64;
     //endregion
 
-    private SampleMecanumDrive drive;
     private Bot bot;
-    public Red(SampleMecanumDrive drive, Bot bot) {
-        this.drive = drive;
+    public Red(Bot bot) {
         this.bot = bot;
     }
 
     // region LEFT SIDE TRAJECTORIES
-    public TrajectorySequence leftLeft = drive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(90)))
+    public TrajectorySequence leftLeft = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(270)))
             .addDisplacementMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).schedule();
             })
             .build();
 
-    public TrajectorySequence leftCenter = drive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(90)))
+    public TrajectorySequence leftCenter = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(270)))
             .build();
 
-    public TrajectorySequence leftRight = drive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(90)))
+    public TrajectorySequence leftRight = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(270)))
             .build();
 
     // endregion
 
     // region RIGHT SIDE TRAJECTORIES
-    public TrajectorySequence rightLeft = drive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
+    public TrajectorySequence rightLeft = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(270)))
             .build();
 
-    public TrajectorySequence rightCenter = drive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
+    public TrajectorySequence rightCenter = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(270)))
             .build();
 
-    public TrajectorySequence rightRight = drive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
+    public TrajectorySequence rightRight = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(270)))
             .build();
 
     // endregion

@@ -10,6 +10,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -64,6 +65,7 @@ public class BlueAuto extends LinearOpMode {
             } else if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 startSide = Side.RIGHT;
             }
+            gamepad1.setLedColor(0, 0, 255, Gamepad.LED_DURATION_CONTINUOUS);
 
             telemetry.addLine("BLUE AUTO (dpad to change side)");
             telemetry.addData("Start Side", startSide);

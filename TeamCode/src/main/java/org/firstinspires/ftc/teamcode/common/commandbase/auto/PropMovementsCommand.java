@@ -35,7 +35,7 @@ public class PropMovementsCommand extends CommandBase {
                 RED ALLIANCE
              */
             case RED:
-                Red r = new Red(drive, bot);
+                Red r = new Red(bot);
                 switch (side) {
                     // LEFT START SIDE
                     case LEFT:
@@ -71,7 +71,7 @@ public class PropMovementsCommand extends CommandBase {
                 BLUE ALLIANCE
              */
             case BLUE:
-                Blue b = new Blue(drive, bot);
+                Blue b = new Blue(bot);
                 switch (side) {
                     // LEFT START SIDE
                     case LEFT:
@@ -103,7 +103,13 @@ public class PropMovementsCommand extends CommandBase {
                         break;
                 }
                 break;
-
         }
+
+        drive.followTrajectorySequenceAsync(sequence);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return !drive.isBusy();
     }
 }
