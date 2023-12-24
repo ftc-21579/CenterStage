@@ -55,6 +55,8 @@ public class BlueAuto extends LinearOpMode {
                 startSide = "RIGHT";
             }
 
+            bot.deposit.telemCameraState();
+
             telemetry.addLine("AUTO (dpad to change side)");
             telemetry.addData("Start Side", startSide);
             telemetry.addData("Prop: ", propPipeline.getPosition());

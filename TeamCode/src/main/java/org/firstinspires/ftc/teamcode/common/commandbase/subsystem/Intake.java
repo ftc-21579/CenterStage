@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.common.Configs;
+import org.firstinspires.ftc.teamcode.common.Util;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
@@ -92,14 +94,26 @@ public class Intake extends SubsystemBase {
 
     public void v4bIntakeState() {
         v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(leftV4bIntakePosition);
-        rightv4bServo.setPosition(rightV4bIntakePosition);
+        leftv4bServo.setPosition(Configs.intakeV4BintakePosition);
+        rightv4bServo.setPosition(Configs.intakeV4BintakePosition);
     }
 
     public void v4bTransferState() {
         v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(leftV4bTransferPosition);
-        rightv4bServo.setPosition(rightV4bTransferPosition);
+        leftv4bServo.setPosition(Configs.intakeV4BtransferPosition);
+        rightv4bServo.setPosition(Configs.intakeV4BtransferPosition);
+    }
+
+    public void v4bDecrement() {
+        double newpos = Util.clamp(leftv4bServo.getPosition() - 0.05, 0.0, 1.0);
+        leftv4bServo.setPosition(newpos);
+        rightv4bServo.setPosition(newpos);
+    }
+
+    public void v4bIncrement() {
+        double newpos = Util.clamp(leftv4bServo.getPosition() + 0.05, 0.0, 1.0);
+        leftv4bServo.setPosition(newpos);
+        rightv4bServo.setPosition(newpos);
     }
 
     public void v4bToggleState() {

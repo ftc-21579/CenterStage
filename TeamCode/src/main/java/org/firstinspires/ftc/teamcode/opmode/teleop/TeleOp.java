@@ -116,6 +116,10 @@ public class TeleOp extends LinearOpMode {
                     {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                     {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
+                    {intake.v4bDecrement();}
+                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+                    {intake.v4bIncrement();}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))

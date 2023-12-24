@@ -53,13 +53,12 @@ public class Deposit {
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(1024, 576))
-                .addProcessor(pixelTfodProcessor)
+                .setCameraResolution(new Size(640, 480))
+                //.addProcessor(pixelTfodProcessor)
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .enableLiveView(true)
-                .setAutoStopLiveView(true)
                 .build();
-        visionPortal.setProcessorEnabled(pixelTfodProcessor, false);
+        //visionPortal.setProcessorEnabled(pixelTfodProcessor, true);
     }
 
     /**
@@ -142,5 +141,9 @@ public class Deposit {
 
         bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
+    }
+
+    public void telemCameraState() {
+        bot.telem.addData("Camera State", visionPortal.getCameraState());
     }
 }
