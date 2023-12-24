@@ -44,22 +44,22 @@ public class Deposit {
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
         rightV4BServo = bot.hMap.get(Servo.class, "depositRightV4BServo");
 
-        pixelTfodProcessor = new TfodProcessor.Builder()
-                .setModelAssetName("pixel_model.tflite")
-                .setModelLabels(new String[] {
-                        "green", "purple", "white", "yellow"
-                })
-                .build();
+        //pixelTfodProcessor = new TfodProcessor.Builder()
+        //        .setModelAssetName("pixel_model.tflite")
+        //       .setModelLabels(new String[] {
+        //                "green", "purple", "white", "yellow"
+        //        })
+        //        .build();
 
-        visionPortal = new VisionPortal.Builder()
-                .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(1024, 576))
-                .addProcessor(pixelTfodProcessor)
-                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .enableLiveView(true)
-                .setAutoStopLiveView(true)
-                .build();
-        visionPortal.setProcessorEnabled(pixelTfodProcessor, false);
+        //visionPortal = new VisionPortal.Builder()
+        //        .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
+        //        .setCameraResolution(new Size(1024, 576))
+        //        .addProcessor(pixelTfodProcessor)
+        //        .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+        //        .enableLiveView(true)
+        //        .setAutoStopLiveView(true)
+        //        .build();
+        //visionPortal.setProcessorEnabled(pixelTfodProcessor, false);
     }
 
     /**
