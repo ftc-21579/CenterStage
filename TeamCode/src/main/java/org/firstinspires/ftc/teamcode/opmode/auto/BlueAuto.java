@@ -44,7 +44,7 @@ public class BlueAuto extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(new Pose2d(12, 64, Math.toRadians(90)));
 
-        //propPipeline = new PropDetector("BLUE");
+        propPipeline = new PropDetector("BLUE");
 
         //portal = new VisionPortal.Builder()
                 //.setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
@@ -55,7 +55,7 @@ public class BlueAuto extends LinearOpMode {
                 //.setAutoStopLiveView(true)
                 //.build();
 
-        portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"));
+        portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"), propPipeline);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -77,7 +77,7 @@ public class BlueAuto extends LinearOpMode {
             telemetry.update();
         }
 
-        //PropDetector.PropPosition propPosition = propPipeline.getPosition();
+        PropDetector.PropPosition propPosition = propPipeline.getPosition();
         //portal.close();
         //propPosition = PropDetector.PropPosition.CENTER;
         timer.reset();
