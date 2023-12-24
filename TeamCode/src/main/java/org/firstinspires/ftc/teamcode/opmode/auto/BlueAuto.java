@@ -46,16 +46,16 @@ public class BlueAuto extends LinearOpMode {
 
         propPipeline = new PropDetector("BLUE");
 
-        //portal = new VisionPortal.Builder()
-                //.setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
-                //.setCameraResolution(new Size(640, 480))
-                //.addProcessor(propPipeline)
-                //.setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                //.enableLiveView(true)
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
+                .setCameraResolution(new Size(640, 480))
+                .addProcessor(propPipeline)
+                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+                .enableLiveView(true)
                 //.setAutoStopLiveView(true)
-                //.build();
+                .build();
 
-        portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"), propPipeline);
+        //portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"), propPipeline);
         portal.setProcessorEnabled(propPipeline, true);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
