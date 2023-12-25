@@ -48,7 +48,7 @@ public class BlueAuto extends LinearOpMode {
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(640, 480))
+                .setCameraResolution(new Size(640, 360))
                 .addProcessor(propPipeline)
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .enableLiveView(true)
