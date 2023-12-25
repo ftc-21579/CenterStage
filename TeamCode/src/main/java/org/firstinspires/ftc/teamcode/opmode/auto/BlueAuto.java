@@ -85,8 +85,8 @@ public class BlueAuto extends LinearOpMode {
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
         new SequentialCommandGroup(
-                new PropMovementsCommand(bot, drive, PropDetector.PropPosition.CENTER, Alliance.BLUE, startSide),
-                new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
+                new PropMovementsCommand(bot, drive, propPosition, Alliance.BLUE, startSide)
+                //new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
         ).schedule();
 
         while (opModeIsActive()) {
