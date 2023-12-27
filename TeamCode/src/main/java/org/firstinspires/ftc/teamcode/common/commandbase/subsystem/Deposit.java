@@ -24,7 +24,7 @@ public class Deposit {
     public DepositState state = DepositState.TRANSFER;
     public GripperState leftGripper = GripperState.GRAB, rightGripper = GripperState.GRAB;
     private double liftSetpoint = 0.0;
-    DcMotor depositMotor, otherDepositMotor;
+    public DcMotor depositMotor, otherDepositMotor;
     Servo leftReleaseServo, rightReleaseServo, leftV4BServo, rightV4BServo;
     public VisionPortal visionPortal;
     public TfodProcessor pixelTfodProcessor;

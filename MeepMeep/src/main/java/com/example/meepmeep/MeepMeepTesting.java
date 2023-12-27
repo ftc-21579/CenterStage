@@ -160,11 +160,11 @@ public class MeepMeepTesting {
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
                 //.addEntity(blueLeftRight)
-                .addEntity(blueLeftCenter)
+                //.addEntity(blueLeftCenter)
                 //.addEntity(blueLeftLeft)
-                //.addEntity(blueRightRight)
-                //.addEntity(blueRightCenter)
-                //.addEntity(blueRightLeft)
+                .addEntity(blueRightRight)
+                .addEntity(blueRightCenter)
+                .addEntity(blueRightLeft)
                 .start();
     }
 }

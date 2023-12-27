@@ -41,14 +41,14 @@ public class ToTransferStateCommand extends CommandBase {
             new IntakeTransferPositionCommand(bot.intake).schedule();
             new DepositToTransferPositionCommand(bot).schedule();
 
-            if (timer.milliseconds() > 3000) {
+            if (timer.milliseconds() > 1500) {
                 new DepositV4BToTransferCommand(bot.deposit).schedule();
                 bot.telem.addLine(">3000");
             } else {
                 new ReleasePixelsCommand(bot.deposit).schedule();
             }
 
-            if (timer.milliseconds() > 5000) {
+            if (timer.milliseconds() > 2500) {
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;

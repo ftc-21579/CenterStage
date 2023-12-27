@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
@@ -52,8 +54,8 @@ public class TeleOp extends LinearOpMode {
     private MecanumDrivetrain drivetrain;
     private DroneLauncher launcher;
     private Deposit deposit;
-    private GamepadEx driver;
-    private int loopCount = 0;
+    private GamepadEx driver, otherDriver;
+    private int loopCount = 0, a = 0;
 
     @Override
     public void runOpMode() {
@@ -65,6 +67,7 @@ public class TeleOp extends LinearOpMode {
         launcher = bot.launcher;
         deposit = bot.deposit;
         driver = new GamepadEx(gamepad1);
+        otherDriver = new GamepadEx(gamepad2);
 
         TriggerReader leftTrigger = new TriggerReader(driver, GamepadKeys.Trigger.LEFT_TRIGGER);
         TriggerReader rightTrigger = new TriggerReader(driver, GamepadKeys.Trigger.RIGHT_TRIGGER);
@@ -88,14 +91,14 @@ public class TeleOp extends LinearOpMode {
 
             //if (driver.wasJustPressed(GamepadKeys.Button.BACK))
             //    {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
-            if (driver.wasJustPressed(GamepadKeys.Button.START))
+            if (otherDriver.wasJustPressed(GamepadKeys.Button.START))
                 {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
-            if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+            if (otherDriver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || otherDriver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
                 {multiplier = 0.5;}
 
             s.schedule(new TeleOpDriveCommand(drivetrain,
-                    new Vec2d(driver.getLeftX(), -driver.getLeftY()),
-                    driver.getRightX(), multiplier));
+                    new Vec2d(otherDriver.getLeftX(), -otherDriver.getLeftY()),
+                    otherDriver.getRightX(), multiplier));
 
             //bot.intakeToTransferCheck();
 
@@ -123,7 +126,7 @@ public class TeleOp extends LinearOpMode {
                     break;
                 case DEPOSIT:
                     if (driver.isDown(GamepadKeys.Button.A))
-                        {s.schedule(new DepositAutomaticHeightCommand(bot));}
+                        {s.schedule(new ReleasePixelsCommand(bot.deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
                         {s.schedule(new DepositToggleRightPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
@@ -148,6 +151,21 @@ public class TeleOp extends LinearOpMode {
             }
 
             s.schedule(new RunLiftPIDCommand(deposit));
+
+            if (otherDriver.isDown(GamepadKeys.Button.X)) {
+                deposit.depositMotor.setPower(-0.5);
+                deposit.otherDepositMotor.setPower(-0.5);
+                a++;
+                if (a == 2) {
+                    deposit.otherDepositMotor.setPower(0.0);
+                    deposit.otherDepositMotor.setPower(0.0);
+                    deposit.otherDepositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    deposit.depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    deposit.depositMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    deposit.otherDepositMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    a = 0;
+                }
+            }
 
             if (loopCount == 5) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();

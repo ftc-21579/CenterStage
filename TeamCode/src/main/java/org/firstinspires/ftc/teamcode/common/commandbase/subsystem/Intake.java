@@ -119,14 +119,14 @@ public class Intake extends SubsystemBase {
         //ArrayList<Integer> rightRGB = new ArrayList<>(Arrays.asList(rightSensor.red(), rightSensor.green(), rightSensor.blue()));
 
         ArrayList<PixelColor> colors = new ArrayList<>();
-
-        if (leftRGB.get(0) > greenRLower && leftRGB.get(0) < greenRUpper
-                && leftRGB.get(1) > greenGLower && leftRGB.get(1) < greenGUpper
-                && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenBUpper) {
-            colors.add(PixelColor.GREEN);
-        } else if (leftRGB.get(0) > whiteRLower && leftRGB.get(0) < whiteRUpper
-                && leftRGB.get(1) > whiteGLower && leftRGB.get(1) < whiteGUpper
-                && leftRGB.get(2) > whiteBLower && leftRGB.get(2) < whiteBUpper) {
+        /*
+        //if (leftRGB.get(0) > greenRLower && leftRGB.get(0) < greenRUpper
+        //        && leftRGB.get(1) > greenGLower && leftRGB.get(1) < greenGUpper
+        //        && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenBUpper) {
+        //    colors.add(PixelColor.GREEN);
+        //} else if (leftRGB.get(0) > whiteRLower && leftRGB.get(0) < whiteRUpper
+        //        && leftRGB.get(1) > whiteGLower && leftRGB.get(1) < whiteGUpper
+         //       && leftRGB.get(2) > whiteBLower && leftRGB.get(2) < whiteBUpper) {
             colors.add(PixelColor.WHITE);
         } else if (leftRGB.get(0) > purpleRLower && leftRGB.get(0) < purpleRUpper
                 && leftRGB.get(1) > purpleGLower && leftRGB.get(1) < purpleGUpper
@@ -138,7 +138,7 @@ public class Intake extends SubsystemBase {
             colors.add(PixelColor.YELLOW);
         } else {
             colors.add(PixelColor.NONE);
-        }
+        }*/
 
         //if (rightRGB.get(0) > greenRLower && rightRGB.get(0) < greenRUpper
         //        && rightRGB.get(1) > greenGLower && rightRGB.get(1) < greenGUpper
@@ -160,6 +160,7 @@ public class Intake extends SubsystemBase {
         //    colors.add(PixelColor.NONE);
         //}
 
+        colors.add(PixelColor.NONE);
         colors.add(PixelColor.NONE);
 
         bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
