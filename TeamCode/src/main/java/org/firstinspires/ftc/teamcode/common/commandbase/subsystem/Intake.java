@@ -32,6 +32,7 @@ public class Intake extends SubsystemBase {
     private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
     public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
+    public static double leftV4bAboveIntakePosition = 0.05, rightV4bAboveIntakePosition = 0.05;
     public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
 
     public static int yellowRLower = 2200, yellowRUpper = 2800, yellowGLower = 3900, yellowGUpper = 4300, yellowBLower = 900, yellowBUpper = 1600;
@@ -94,6 +95,12 @@ public class Intake extends SubsystemBase {
         v4bState = intakeV4BState.INTAKE;
         leftv4bServo.setPosition(leftV4bIntakePosition);
         rightv4bServo.setPosition(rightV4bIntakePosition);
+    }
+
+    public void v4bAboveIntakeState() {
+        v4bState = intakeV4BState.INTAKE;
+        leftv4bServo.setPosition(leftV4bAboveIntakePosition);
+        rightv4bServo.setPosition(rightV4bAboveIntakePosition);
     }
 
     public void v4bTransferState() {

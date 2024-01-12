@@ -12,7 +12,7 @@ public class Configs {
     // Lift
     public static double
     liftBottomPosition = 4.0,
-    liftTransferPosition = 0.0,
+    liftTransferPosition = -0.5,
     liftHangHeightPosition = 21.0;
 
     // Grippers

@@ -147,7 +147,8 @@ public class OneDriver extends LinearOpMode {
 
             s.schedule(new RunLiftPIDCommand(deposit));
 
-            if (driver.isDown(GamepadKeys.Button.X)) {
+
+            if (driver.isDown(GamepadKeys.Button.BACK)) {
                 deposit.depositMotor.setPower(-0.5);
                 deposit.otherDepositMotor.setPower(-0.5);
                 a++;
