@@ -14,7 +14,7 @@ public class DroneLauncher {
     public DroneLauncher(Bot bot) {
         this.bot = bot;
         this.releaseServo = bot.hMap.servo.get("droneServo");
-        this.releaseServo.setPosition(0.25);
+        this.releaseServo.setPosition(0.0);
     }
 
     public void launch() {

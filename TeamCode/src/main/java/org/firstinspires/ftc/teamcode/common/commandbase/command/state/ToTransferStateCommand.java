@@ -55,7 +55,7 @@ public class ToTransferStateCommand extends CommandBase {
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;
             }
-        } else if (bot.getBotState() == BotState.DEPOSIT) {
+        } else if (bot.getBotState() == BotState.DEPOSIT || bot.getBotState() == BotState.ENDGAME) {
             new DepositToTransferPositionCommand(bot).schedule();
             new DepositV4BToDepositCommand(bot.deposit).schedule();
             ready = true;

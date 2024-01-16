@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoControllerEx;
+import com.qualcomm.robotcore.hardware.ServoImpl;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
@@ -22,7 +25,7 @@ public class Intake extends SubsystemBase {
     private CRServo leftServo, rightServo;
     private ColorSensor leftSensor, rightSensor;
 
-    private Servo leftv4bServo, rightv4bServo;
+    private ServoImplEx leftv4bServo, rightv4bServo;
     enum intakeV4BState {
         INTAKE,
         TRANSFER,
@@ -32,7 +35,7 @@ public class Intake extends SubsystemBase {
     private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
     public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
-    public static double leftV4bAboveIntakePosition = 0.05, rightV4bAboveIntakePosition = 0.05;
+    public static double leftV4bAboveIntakePosition = 0.1, rightV4bAboveIntakePosition = 0.1;
     public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
 
     public static int yellowRLower = 2200, yellowRUpper = 2800, yellowGLower = 3900, yellowGUpper = 4300, yellowBLower = 900, yellowBUpper = 1600;
@@ -59,9 +62,9 @@ public class Intake extends SubsystemBase {
 
         leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
 
-        leftv4bServo = bot.hMap.get(Servo.class, "intakeLeftV4BServo");
+        leftv4bServo = bot.hMap.get(ServoImplEx.class, "intakeLeftV4BServo");
         leftv4bServo.setDirection(Servo.Direction.REVERSE);
-        rightv4bServo = bot.hMap.get(Servo.class, "intakeRightV4BServo");
+        rightv4bServo = bot.hMap.get(ServoImplEx.class, "intakeRightV4BServo");
     }
 
     public void activate() {
@@ -93,20 +96,25 @@ public class Intake extends SubsystemBase {
 
     public void v4bIntakeState() {
         v4bState = intakeV4BState.INTAKE;
+        leftv4bServo.setPwmEnable();
+        rightv4bServo.setPwmEnable();
         leftv4bServo.setPosition(leftV4bIntakePosition);
         rightv4bServo.setPosition(rightV4bIntakePosition);
     }
 
-    public void v4bAboveIntakeState() {
-        v4bState = intakeV4BState.INTAKE;
+    public void v4bAboveTransferState() {
         leftv4bServo.setPosition(leftV4bAboveIntakePosition);
         rightv4bServo.setPosition(rightV4bAboveIntakePosition);
     }
 
     public void v4bTransferState() {
-        v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(leftV4bTransferPosition);
-        rightv4bServo.setPosition(rightV4bTransferPosition);
+        v4bState = intakeV4BState.TRANSFER;
+        leftv4bServo.setPwmDisable();
+        rightv4bServo.setPwmDisable();
+        bot.telem.addData("Left V4B Servo PWM Status: ", leftv4bServo.isPwmEnabled());
+        bot.telem.addData("Right V4B Servo PWM Status: ", rightv4bServo.isPwmEnabled());
+        //leftv4bServo.setPosition(leftV4bTransferPosition);
+        //rightv4bServo.setPosition(rightV4bTransferPosition);
     }
 
     public void v4bToggleState() {

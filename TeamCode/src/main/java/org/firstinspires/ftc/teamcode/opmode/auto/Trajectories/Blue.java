@@ -13,6 +13,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositRightV4BToDropCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
@@ -65,7 +66,7 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            .lineTo(new Vector2d(46, 42))
+            .lineTo(new Vector2d(backdropX - 6, 42))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
             })
@@ -91,7 +92,7 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            .lineTo(new Vector2d(46, 36))
+            .lineTo(new Vector2d(backdropX - 6, 36))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
             })
@@ -117,7 +118,7 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            .lineTo(new Vector2d(46, 30))
+            .lineTo(new Vector2d(backdropX - 6, 30))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
             })

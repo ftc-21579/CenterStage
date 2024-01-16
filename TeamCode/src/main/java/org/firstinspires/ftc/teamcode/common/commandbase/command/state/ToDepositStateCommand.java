@@ -22,6 +22,7 @@ public class ToDepositStateCommand extends CommandBase {
         bot.telem.addLine("To Deposit State Init");
         ready = false;
         timer.reset();
+
     }
 
     @Override
@@ -31,8 +32,8 @@ public class ToDepositStateCommand extends CommandBase {
             new ToTransferStateCommand(bot).schedule();
         } else {
             bot.telem.addLine("To Deposit State Exec");
-            new DepositV4BToDepositCommand(bot.deposit).execute();
             new DepositToBottomPositionCommand(bot.deposit).execute();
+            new DepositV4BToDepositCommand(bot.deposit).schedule();
             ready = true;
         }
     }
