@@ -52,6 +52,10 @@ public class BetterPTOTest extends LinearOpMode {
             }
 
             //CommandScheduler.getInstance().run();
+            telemetry.addData("Left Motor Position: ", bot.pto.leftMotor.getCurrentPosition());
+            telemetry.addData("Right Motor Position: ", bot.pto.rightMotor.getCurrentPosition());
+            telemetry.addData("Left Motor Target: ", bot.pto.leftMotor.getTargetPosition());
+            telemetry.addData("Right Motor Target: ", bot.pto.rightMotor.getTargetPosition());
 
             telemetry.addData("Status", "Running");
             telemetry.update();
