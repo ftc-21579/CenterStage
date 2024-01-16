@@ -21,11 +21,11 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.extension.ManualRetractExtensionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
@@ -114,6 +114,10 @@ public class OneDriver extends LinearOpMode {
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
+                        {s.schedule(new ManualRetractExtensionCommand(bot));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+                        {s.schedule(new ManualRetractExtensionCommand(bot));}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))
@@ -145,6 +149,7 @@ public class OneDriver extends LinearOpMode {
                     break;
             }
 
+            /*
             s.schedule(new RunLiftPIDCommand(deposit));
 
 
@@ -162,6 +167,7 @@ public class OneDriver extends LinearOpMode {
                     a = 0;
                 }
             }
+            */
 
             if (loopCount == 5) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();

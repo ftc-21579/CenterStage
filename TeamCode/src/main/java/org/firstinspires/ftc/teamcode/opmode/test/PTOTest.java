@@ -28,6 +28,7 @@ public class PTOTest extends LinearOpMode {
 
         while(opModeIsActive()) {
 
+            // extension extend
             if (gamepad1.b) {
                 leftMotor.setTargetPosition(100);
                 rightMotor.setTargetPosition(100);
@@ -37,6 +38,7 @@ public class PTOTest extends LinearOpMode {
                 rightMotor.setPower(1.0);
             }
 
+            // lift down
             else if (gamepad1.a) {
                 leftMotor.setTargetPosition(100);
                 rightMotor.setTargetPosition(-100);
@@ -46,6 +48,7 @@ public class PTOTest extends LinearOpMode {
                 rightMotor.setPower(1.0);
             }
 
+            // lift up
             else if (gamepad1.x) {
                 leftMotor.setTargetPosition(-100);
                 rightMotor.setTargetPosition(100);
@@ -55,6 +58,7 @@ public class PTOTest extends LinearOpMode {
                 rightMotor.setPower(1.0);
             }
 
+            // extension retract
             else if (gamepad1.y) {
                 leftMotor.setTargetPosition(-100);
                 rightMotor.setTargetPosition(-100);

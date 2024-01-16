@@ -24,6 +24,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.PTO;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,7 @@ public class Bot extends Robot {
     public Intake intake;
     public Deposit deposit;
     public DroneLauncher launcher;
+    public PTO pto;
 
     /*
         Constructor for the bot (initialize hardware)
@@ -69,6 +71,7 @@ public class Bot extends Robot {
         perpendicularPod = hMap.get(DcMotor.class, "backRight");
 
         /* Subsystems */
+        pto = new PTO(this);
         drivetrain = new MecanumDrivetrain(this);
         intake = new Intake(this);
         launcher = new DroneLauncher(this);

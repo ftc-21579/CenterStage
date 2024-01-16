@@ -25,17 +25,12 @@ public class ManualLiftUpCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deposit.setLiftTarget(Util.clamp(deposit.getLiftTarget() + 1.5, 0.0, 22.0));
-        deposit.setLiftState(DepositState.MANUAL_LIFTING);
-
-        if (deposit.getLiftPosition() >= 5.0) {
-            new DepositV4BToDepositCommand(deposit).schedule();
-        }
+        deposit.pto.liftUp(0.5);
     }
 
     @Override
     public boolean isFinished() {
-        return this.deposit.state == DepositState.MANUAL_LIFTING;
+        return true;
     }
 }
 

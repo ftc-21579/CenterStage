@@ -22,7 +22,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
@@ -150,6 +149,7 @@ public class TeleOp extends LinearOpMode {
                     break;
             }
 
+            /*
             s.schedule(new RunLiftPIDCommand(deposit));
 
             if (otherDriver.isDown(GamepadKeys.Button.X)) {
@@ -166,6 +166,7 @@ public class TeleOp extends LinearOpMode {
                     a = 0;
                 }
             }
+            */
 
             if (loopCount == 5) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();

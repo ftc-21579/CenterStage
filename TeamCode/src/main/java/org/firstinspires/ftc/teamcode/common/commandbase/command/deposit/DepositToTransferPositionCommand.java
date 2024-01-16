@@ -21,18 +21,11 @@ public class DepositToTransferPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        bot.deposit.setLiftTarget(Configs.liftTransferPosition);
-
-        if (
-                bot.deposit.getLiftPosition() > Configs.liftTransferPosition - 0.05 ||
-                bot.deposit.getLiftPosition() < Configs.liftTransferPosition + 0.5
-        ) {
-            bot.deposit.setLiftState(DepositState.TRANSFER);
-        }
+        bot.pto.liftToBottom(0.5);
     }
 
     @Override
     public boolean isFinished() {
-        return this.bot.deposit.state == DepositState.TRANSFER;
+        return true;
     }
 }
