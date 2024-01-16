@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
+@TeleOp(name = "Better PTO Test", group = "Test")
 public class BetterPTOTest extends LinearOpMode {
     private Bot bot;
     private Intake intake;
