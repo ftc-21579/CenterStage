@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDri
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.extension.ManualExtendExtensionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.extension.ManualRetractExtensionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
@@ -117,7 +118,7 @@ public class OneDriver extends LinearOpMode {
                     if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
                         {s.schedule(new ManualRetractExtensionCommand(bot));}
                     if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-                        {s.schedule(new ManualRetractExtensionCommand(bot));}
+                        {s.schedule(new ManualExtendExtensionCommand(bot));}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))
