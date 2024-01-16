@@ -90,7 +90,7 @@ public class RedAuto extends LinearOpMode {
 
         while (opModeIsActive()) {
             drive.update();
-            new RunLiftPIDCommand(bot.deposit).schedule();
+            //new RunLiftPIDCommand(bot.deposit).schedule();
             telemetry.update();
             CommandScheduler.getInstance().run();
         }

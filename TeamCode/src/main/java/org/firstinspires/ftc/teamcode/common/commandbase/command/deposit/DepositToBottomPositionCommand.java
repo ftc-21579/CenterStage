@@ -22,14 +22,7 @@ public class DepositToBottomPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deposit.setLiftTarget(Configs.liftBottomPosition);
-
-        if (
-                deposit.getLiftPosition() > Configs.liftBottomPosition - 0.05 ||
-                deposit.getLiftPosition() < Configs.liftBottomPosition + 0.05
-        ) {
-            deposit.setLiftState(DepositState.BOTTOM);
-        }
+        // todo
     }
 
     @Override
