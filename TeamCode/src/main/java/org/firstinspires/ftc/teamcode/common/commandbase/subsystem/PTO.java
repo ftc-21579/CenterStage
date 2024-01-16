@@ -72,8 +72,8 @@ public class PTO {
             return;
         }
 
-        leftMotor.setTargetPosition((int) (current - 10) * -1);
-        rightMotor.setTargetPosition((int) (current + 10));
+        leftMotor.setTargetPosition((int) (current - 10));
+        rightMotor.setTargetPosition((int) (current + 10) * -1);
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -91,8 +91,8 @@ public class PTO {
             rightTarget = LIFT_MIN_POS;
         }
 
-        leftMotor.setTargetPosition((int) leftTarget * -1);
-        rightMotor.setTargetPosition((int) rightTarget);
+        leftMotor.setTargetPosition((int) leftTarget);
+        rightMotor.setTargetPosition((int) rightTarget * -1);
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(speed);
