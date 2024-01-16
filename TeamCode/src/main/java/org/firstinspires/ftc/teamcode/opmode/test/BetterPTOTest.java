@@ -39,19 +39,19 @@ public class BetterPTOTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             if (driver.wasJustPressed(GamepadKeys.Button.B)) {
-                new ManualExtendExtensionCommand(bot).execute();
+                bot.pto.extend(0.5);
             }
             if (driver.wasJustPressed(GamepadKeys.Button.X)) {
-                new ManualRetractExtensionCommand(bot).execute();
+                bot.pto.retract(0.5);
             }
             if (driver.wasJustPressed(GamepadKeys.Button.A)) {
-                new ManualLiftDownCommand(deposit).execute();
+                bot.pto.liftDown(0.5);
             }
             if (driver.wasJustPressed(GamepadKeys.Button.Y)) {
-                new ManualLiftUpCommand(deposit).execute();
+                bot.pto.liftUp(0.5);
             }
 
-            CommandScheduler.getInstance().run();
+            //CommandScheduler.getInstance().run();
 
             telemetry.addData("Status", "Running");
             telemetry.update();
