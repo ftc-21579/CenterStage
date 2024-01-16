@@ -11,9 +11,9 @@ public class PTO {
     public static double EXT_TICKS_PER_INCH = 22.78149; // TODO
     public static double LIFT_TICKS_PER_INCH = 0; // TODO
 
-    public static double EXT_MAX_POS = 20; // TODO
+    public static double EXT_MAX_POS = 50000; // TODO
     public static double EXT_MIN_POS = 0; // TODO
-    public static double LIFT_MAX_POS = 20; // TODO
+    public static double LIFT_MAX_POS = 50000; // TODO
     public static double LIFT_MIN_POS = 0; // TODO
     public DcMotor leftMotor, rightMotor;
 
@@ -85,12 +85,12 @@ public class PTO {
         double current = leftMotor.getCurrentPosition();
         double target = current - 10;
 
-        if (current - 10 < LIFT_MIN_POS) {
+        if (Math.abs(current - 10) < LIFT_MIN_POS) {
             target = LIFT_MIN_POS;
         }
 
-        leftMotor.setTargetPosition((int) target);
-        rightMotor.setTargetPosition((int) target * -1);
+        leftMotor.setTargetPosition((int) target * -1);
+        rightMotor.setTargetPosition((int) target);
         leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftMotor.setPower(speed);

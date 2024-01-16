@@ -37,7 +37,7 @@ public class BetterPTOTest extends LinearOpMode {
 
         waitForStart();
         while (opModeIsActive()) {
-
+            driver.readButtons();
             if (driver.wasJustPressed(GamepadKeys.Button.B)) {
                 bot.pto.extend(0.5);
             }
