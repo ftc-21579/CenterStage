@@ -182,6 +182,9 @@ public class OneDriver extends LinearOpMode {
                     case GREEN:
                         gamepad1.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
+                    case WHITE:
+                        gamepad1.setLedColor(255, 255, 255, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
                     case NONE:
                         gamepad1.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
@@ -195,6 +198,9 @@ public class OneDriver extends LinearOpMode {
                         break;
                     case GREEN:
                         gamepad2.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case WHITE:
+                        gamepad2.setLedColor(255, 255, 255, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
                     case NONE:
                         gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);

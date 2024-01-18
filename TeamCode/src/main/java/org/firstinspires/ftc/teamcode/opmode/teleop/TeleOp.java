@@ -181,7 +181,7 @@ public class TeleOp extends LinearOpMode {
             }
             */
 
-            if (loopCount == 5 && bot.getBotState() == BotState.INTAKE) {
+            if (loopCount == 5) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:
@@ -192,6 +192,9 @@ public class TeleOp extends LinearOpMode {
                         break;
                     case GREEN:
                         gamepad1.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case WHITE:
+                        gamepad1.setLedColor(255, 255, 255, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
                     case NONE:
                         gamepad1.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
@@ -206,6 +209,9 @@ public class TeleOp extends LinearOpMode {
                         break;
                     case GREEN:
                         gamepad2.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case WHITE:
+                        gamepad2.setLedColor(255, 255, 255, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
                     case NONE:
                         gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
