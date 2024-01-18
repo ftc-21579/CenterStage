@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
@@ -99,16 +100,28 @@ public class TeleOp extends LinearOpMode {
                     new Vec2d(otherDriver.getLeftX(), -otherDriver.getLeftY()),
                     otherDriver.getRightX(), multiplier));
 
-            //bot.intakeToTransferCheck();
+            bot.intakeToTransferCheck();
 
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT))
-                {s.schedule(new ToIntakeStateCommand(bot));}
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP))
-                {s.schedule(new ToTransferStateCommand(bot));}
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT))
-                {s.schedule(new ToDepositStateCommand(bot));}
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN))
-                {s.schedule(new ToEndgameStateCommand(bot));}
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                s.schedule(new ToIntakeStateCommand(bot));
+                gamepad1.rumble(500);
+                gamepad2.rumble(500);
+            }
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                s.schedule(new ToTransferStateCommand(bot));
+                gamepad1.rumble(500);
+                gamepad2.rumble(500);
+            }
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                s.schedule(new ToDepositStateCommand(bot));
+                gamepad1.rumble(500);
+                gamepad2.rumble(500);
+            }
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                s.schedule(new ToEndgameStateCommand(bot));
+                gamepad1.rumble(500);
+                gamepad2.rumble(500);
+            }
 
             switch(bot.getBotState()) {
                 case INTAKE:
@@ -168,7 +181,7 @@ public class TeleOp extends LinearOpMode {
             }
             */
 
-            if (loopCount == 5) {
+            if (loopCount == 5 && bot.getBotState() == BotState.INTAKE) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:
@@ -198,6 +211,21 @@ public class TeleOp extends LinearOpMode {
                         gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
                 }
+
+                if (held.get(0) != PixelColor.NONE && held.get(1) == PixelColor.NONE) {
+                    gamepad1.rumble(1.0, 0.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    gamepad2.rumble(1.0, 0.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else if (held.get(0) == PixelColor.NONE && held.get(1) != PixelColor.NONE) {
+                    gamepad1.rumble(0.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    gamepad2.rumble(0.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else if (held.get(0) != PixelColor.NONE && held.get(1) != PixelColor.NONE) {
+                    gamepad1.rumble(1.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    gamepad2.rumble(1.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else {
+                    gamepad1.stopRumble();
+                    gamepad2.stopRumble();
+                }
+
                 loopCount = 0;
             } else {
                 loopCount++;
