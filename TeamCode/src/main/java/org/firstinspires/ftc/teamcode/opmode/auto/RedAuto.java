@@ -19,16 +19,19 @@ import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonCyclePixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonParkCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Red;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous(name="Red Auto")
 public class RedAuto extends LinearOpMode {
     Bot bot;
-    Side startSide = Side.LEFT;
+    Side startSide = Side.LEFT, parkingSide = Side.LEFT;
     GamepadEx driver;
     ElapsedTime timer = new ElapsedTime();
     private SampleMecanumDrive drive;
@@ -42,20 +45,21 @@ public class RedAuto extends LinearOpMode {
 
         driver = new GamepadEx(gamepad1);
         drive = new SampleMecanumDrive(hardwareMap);
-        drive.setPoseEstimate(new Pose2d(12, 64, Math.toRadians(90)));
+        drive.setPoseEstimate(new Pose2d(Red.leftX, Red.leftY, Math.toRadians(270))); // TODO CHANGE TO WHAT IT SHOULD BE
 
-        //propPipeline = new PropDetector("BLUE");
+        propPipeline = new PropDetector("RED");
 
-        //portal = new VisionPortal.Builder()
-        //.setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
-        //.setCameraResolution(new Size(640, 480))
-        //.addProcessor(propPipeline)
-        //.setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-        //.enableLiveView(true)
-        //.setAutoStopLiveView(true)
-        //.build();
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "DepositCam"))
+                .setCameraResolution(new Size(640, 360))
+                .addProcessor(propPipeline)
+                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+                .enableLiveView(true)
+                //.setAutoStopLiveView(true)
+                .build();
 
-        portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"));
+        //portal = VisionPortal.easyCreateWithDefaults(hardwareMap.get(WebcamName.class, "DepositCam"), propPipeline);
+        portal.setProcessorEnabled(propPipeline, true);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -66,26 +70,38 @@ public class RedAuto extends LinearOpMode {
 
             if(driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 startSide = Side.LEFT;
+                drive.setPoseEstimate(new Pose2d(Red.leftX, Red.leftY, Math.toRadians(270)));
             } else if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 startSide = Side.RIGHT;
+                drive.setPoseEstimate(new Pose2d(Red.rightX, Red.rightY, Math.toRadians(270)));
+            }
+            if(driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                parkingSide = Side.LEFT;
+            } else if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                parkingSide = Side.RIGHT;
             }
             gamepad1.setLedColor(0, 0, 255, Gamepad.LED_DURATION_CONTINUOUS);
 
+            if (driver.wasJustPressed(GamepadKeys.Button.A)) {
+                new GrabPixelsCommand(bot.deposit).execute();
+            }
+
             telemetry.addLine("RED AUTO (dpad to change side)");
             telemetry.addData("Start Side", startSide);
-            //telemetry.addData("Prop: ", propPipeline.getPosition());
+            telemetry.addData("Prop: ", propPipeline.getPosition());
             telemetry.update();
         }
 
-        //PropDetector.PropPosition propPosition = propPipeline.getPosition();
-        //portal.close();
+        PropDetector.PropPosition propPosition = propPipeline.getPosition();
+        portal.close();
         //propPosition = PropDetector.PropPosition.CENTER;
         timer.reset();
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
         new SequentialCommandGroup(
-                new PropMovementsCommand(bot, drive, PropDetector.PropPosition.CENTER, Alliance.RED, startSide),
-                new AutonCyclePixelsCommand(drive, bot, Alliance.RED)
+                new PropMovementsCommand(bot, drive, propPosition, Alliance.RED, startSide),
+                //new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
+                new AutonParkCommand(bot, drive, Alliance.RED, parkingSide)
         ).schedule();
 
         while (opModeIsActive()) {
