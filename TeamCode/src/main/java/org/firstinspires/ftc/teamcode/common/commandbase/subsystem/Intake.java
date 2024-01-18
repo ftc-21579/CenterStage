@@ -61,6 +61,7 @@ public class Intake extends SubsystemBase {
         rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
         leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
+        rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
         leftv4bServo = bot.hMap.get(ServoImplEx.class, "intakeLeftV4BServo");
         leftv4bServo.setDirection(Servo.Direction.REVERSE);
@@ -131,17 +132,17 @@ public class Intake extends SubsystemBase {
 
     public ArrayList<PixelColor> getPixelColors() {
         ArrayList<Integer> leftRGB = new ArrayList<>(Arrays.asList(leftSensor.red(), leftSensor.green(), leftSensor.blue()));
-        //ArrayList<Integer> rightRGB = new ArrayList<>(Arrays.asList(rightSensor.red(), rightSensor.green(), rightSensor.blue()));
+        ArrayList<Integer> rightRGB = new ArrayList<>(Arrays.asList(rightSensor.red(), rightSensor.green(), rightSensor.blue()));
 
         ArrayList<PixelColor> colors = new ArrayList<>();
-        /*
-        //if (leftRGB.get(0) > greenRLower && leftRGB.get(0) < greenRUpper
-        //        && leftRGB.get(1) > greenGLower && leftRGB.get(1) < greenGUpper
-        //        && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenBUpper) {
-        //    colors.add(PixelColor.GREEN);
-        //} else if (leftRGB.get(0) > whiteRLower && leftRGB.get(0) < whiteRUpper
-        //        && leftRGB.get(1) > whiteGLower && leftRGB.get(1) < whiteGUpper
-         //       && leftRGB.get(2) > whiteBLower && leftRGB.get(2) < whiteBUpper) {
+
+        if (leftRGB.get(0) > greenRLower && leftRGB.get(0) < greenRUpper
+                && leftRGB.get(1) > greenGLower && leftRGB.get(1) < greenGUpper
+                && leftRGB.get(2) > greenBLower && leftRGB.get(2) < greenBUpper) {
+            colors.add(PixelColor.GREEN);
+        } else if (leftRGB.get(0) > whiteRLower && leftRGB.get(0) < whiteRUpper
+                && leftRGB.get(1) > whiteGLower && leftRGB.get(1) < whiteGUpper
+                && leftRGB.get(2) > whiteBLower && leftRGB.get(2) < whiteBUpper) {
             colors.add(PixelColor.WHITE);
         } else if (leftRGB.get(0) > purpleRLower && leftRGB.get(0) < purpleRUpper
                 && leftRGB.get(1) > purpleGLower && leftRGB.get(1) < purpleGUpper
@@ -153,30 +154,27 @@ public class Intake extends SubsystemBase {
             colors.add(PixelColor.YELLOW);
         } else {
             colors.add(PixelColor.NONE);
-        }*/
+        }
 
-        //if (rightRGB.get(0) > greenRLower && rightRGB.get(0) < greenRUpper
-        //        && rightRGB.get(1) > greenGLower && rightRGB.get(1) < greenGUpper
-        //        && rightRGB.get(2) > greenBLower && rightRGB.get(2) < greenGUpper) {
-        //    colors.add(PixelColor.GREEN);
-        //} else if (rightRGB.get(0) > whiteRLower && rightRGB.get(0) < whiteRUpper
-        //        && rightRGB.get(1) > whiteGLower && rightRGB.get(1) < whiteGUpper
-        //        && rightRGB.get(2) > whiteBLower && rightRGB.get(2) < whiteBUpper) {
-        //    colors.add(PixelColor.WHITE);
-        //} else if (rightRGB.get(0) > purpleRLower && rightRGB.get(0) < purpleRUpper
-        //        && rightRGB.get(1) > purpleGLower && rightRGB.get(1) < purpleGUpper
-        //        && rightRGB.get(2) > purpleBLower && rightRGB.get(2) < purpleRUpper) {
-        //    colors.add(PixelColor.PURPLE);
-        //} else if (rightRGB.get(0) > yellowRLower && rightRGB.get(0) < yellowRUpper
-        //        && rightRGB.get(1) > yellowGLower && rightRGB.get(1) < yellowGUpper
-        //        && rightRGB.get(2) > yellowBLower && rightRGB.get(2) < yellowBUpper) {
-        //    colors.add(PixelColor.YELLOW);
-        //} else {
-        //    colors.add(PixelColor.NONE);
-        //}
-
-        colors.add(PixelColor.NONE);
-        colors.add(PixelColor.NONE);
+        if (rightRGB.get(0) > greenRLower && rightRGB.get(0) < greenRUpper
+                && rightRGB.get(1) > greenGLower && rightRGB.get(1) < greenGUpper
+                && rightRGB.get(2) > greenBLower && rightRGB.get(2) < greenGUpper) {
+            colors.add(PixelColor.GREEN);
+        } else if (rightRGB.get(0) > whiteRLower && rightRGB.get(0) < whiteRUpper
+                && rightRGB.get(1) > whiteGLower && rightRGB.get(1) < whiteGUpper
+                && rightRGB.get(2) > whiteBLower && rightRGB.get(2) < whiteBUpper) {
+            colors.add(PixelColor.WHITE);
+        } else if (rightRGB.get(0) > purpleRLower && rightRGB.get(0) < purpleRUpper
+                && rightRGB.get(1) > purpleGLower && rightRGB.get(1) < purpleGUpper
+                && rightRGB.get(2) > purpleBLower && rightRGB.get(2) < purpleRUpper) {
+            colors.add(PixelColor.PURPLE);
+        } else if (rightRGB.get(0) > yellowRLower && rightRGB.get(0) < yellowRUpper
+                && rightRGB.get(1) > yellowGLower && rightRGB.get(1) < yellowGUpper
+                && rightRGB.get(2) > yellowBLower && rightRGB.get(2) < yellowBUpper) {
+            colors.add(PixelColor.YELLOW);
+        } else {
+            colors.add(PixelColor.NONE);
+        }
 
         bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
         return colors;
