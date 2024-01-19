@@ -237,6 +237,11 @@ public class TeleOp extends LinearOpMode {
                 loopCount++;
             }
 
+            if (bot.getBotState() != BotState.INTAKE) {
+                gamepad1.stopRumble();
+                gamepad2.stopRumble();
+            }
+
             telemetry.update();
             s.run();
         }

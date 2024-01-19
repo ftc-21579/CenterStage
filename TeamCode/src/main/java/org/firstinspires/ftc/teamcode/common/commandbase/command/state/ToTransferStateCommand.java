@@ -40,18 +40,24 @@ public class ToTransferStateCommand extends CommandBase {
             ready = true;
         } else if (bot.getBotState() == BotState.INTAKE) {
 
-            bot.telem.addData("Time: ", timer.milliseconds());
+            bot.telem.addLine("Time: " + timer.milliseconds());
+
+            if (timer.milliseconds() < 1000) {
+                new IntakeAboveTransferPositionCommand(bot.intake).schedule();
+                bot.telem.addData("Intake", "Sub 1000");
+            }
 
             if (timer.milliseconds() < 1500) {
-                new IntakeAboveTransferPositionCommand(bot.intake).schedule();
+                //new IntakeAboveTransferPositionCommand(bot.intake).schedule();
                 new DepositToTransferPositionCommand(bot).schedule();
                 new ReleasePixelsCommand(bot.deposit).schedule();
+                bot.telem.addData("Intake", "Sub 1500");
             } else if (timer.milliseconds() >= 1500 && timer.milliseconds() < 2500) {
-                new IntakeTransferPositionCommand(bot.intake).schedule();
-                new DepositV4BToTransferCommand(bot.deposit).schedule();
-                bot.telem.addLine(">3000");
-            } else {
                 //new IntakeTransferPositionCommand(bot.intake).schedule();
+                new DepositV4BToTransferCommand(bot.deposit).execute();
+                bot.telem.addData("Intake", "Sub 2500");
+            } else {
+                new IntakeTransferPositionCommand(bot.intake).schedule();
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;

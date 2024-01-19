@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
     private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
     public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
-    public static double leftV4bAboveIntakePosition = 0.1, rightV4bAboveIntakePosition = 0.1;
+    public static double leftV4bAboveIntakePosition = 0.05, rightV4bAboveIntakePosition = 0.05;
     public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
 
     public static int leftYellowRLower = 2000, leftYellowRUpper = 3000, leftYellowGLower = 3000, leftYellowGUpper = 5000, leftYellowBLower = 500, leftYellowBUpper = 1500;
@@ -186,12 +186,12 @@ public class Intake extends SubsystemBase {
         }
 
         bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
-        bot.telem.addData("Left Red: ", leftSensor.red());
-        bot.telem.addData("Left Green: ", leftSensor.green());
-        bot.telem.addData("Left Blue: ", leftSensor.blue());
-        bot.telem.addData("Right Red: ", rightSensor.red());
-        bot.telem.addData("Right Green: ", rightSensor.green());
-        bot.telem.addData("Right Blue: ", rightSensor.blue());
+        //bot.telem.addData("Left Red: ", leftSensor.red());
+        //bot.telem.addData("Left Green: ", leftSensor.green());
+        //bot.telem.addData("Left Blue: ", leftSensor.blue());
+        //bot.telem.addData("Right Red: ", rightSensor.red());
+        //bot.telem.addData("Right Green: ", rightSensor.green());
+        //bot.telem.addData("Right Blue: ", rightSensor.blue());
         return colors;
     }
 }
