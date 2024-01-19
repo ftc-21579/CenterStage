@@ -9,7 +9,6 @@ import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
@@ -25,8 +24,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDri
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.extension.ManualExtendExtensionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.extension.ManualRetractExtensionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
@@ -115,10 +112,6 @@ public class OneDriver extends LinearOpMode {
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
-                        {s.schedule(new ManualRetractExtensionCommand(bot));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-                        {s.schedule(new ManualExtendExtensionCommand(bot));}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))
