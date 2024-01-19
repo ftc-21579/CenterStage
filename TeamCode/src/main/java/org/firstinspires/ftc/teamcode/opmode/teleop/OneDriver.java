@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
@@ -20,6 +21,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
@@ -93,7 +95,7 @@ public class OneDriver extends LinearOpMode {
                     new Vec2d(driver.getLeftX(), -driver.getLeftY()),
                     driver.getRightX(), multiplier));
 
-            //bot.intakeToTransferCheck();
+            bot.intakeToTransferCheck();
 
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT))
                 {s.schedule(new ToIntakeStateCommand(bot));}
@@ -126,9 +128,9 @@ public class OneDriver extends LinearOpMode {
                         {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
+                    if (driver.isDown(GamepadKeys.Button.LEFT_BUMPER))
                         {s.schedule(new ManualLiftDownCommand(deposit));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+                    if (driver.isDown(GamepadKeys.Button.RIGHT_BUMPER))
                         {s.schedule(new ManualLiftUpCommand(deposit));}
                     //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
                     //    {s.schedule(new DepositStopLiftCommand(deposit));}
@@ -143,9 +145,8 @@ public class OneDriver extends LinearOpMode {
                     break;
             }
 
-            /*
-            s.schedule(new RunLiftPIDCommand(deposit));
 
+            s.schedule(new RunLiftPIDCommand(deposit));
 
             if (driver.isDown(GamepadKeys.Button.BACK)) {
                 deposit.depositMotor.setPower(-0.5);
@@ -161,7 +162,6 @@ public class OneDriver extends LinearOpMode {
                     a = 0;
                 }
             }
-            */
 
             if (loopCount == 5) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
