@@ -5,5 +5,6 @@ public enum DepositState {
     AUTOMATIC_LIFTING,
     DEPOSIT_READY,
     BOTTOM,
-    TRANSFER
+    TRANSFER,
+    HANG
 }
