@@ -127,51 +127,88 @@ public class Blue {
 
     // region RIGHT SIDE TRAJECTORIES
     public TrajectorySequence rightLeft = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
-            .addDisplacementMarker(() -> {
-                new DepositV4BToDropCommand(bot.deposit).schedule();
+            .addTemporalMarker(() -> {
+                new DepositRightV4BToDropCommand(bot.deposit).execute();
             })
             .setReversed(true)
-            .lineTo(new Vector2d(12, 32))
-            .addDisplacementMarker(() -> {
-                new ReleasePixelsCommand(bot.deposit).schedule();
+            .lineToSplineHeading(new Pose2d(-36, 32, Math.toRadians(180)))
+            .addTemporalMarker(() -> {
+                new DepositToggleLeftPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            .setReversed(false)
-            .setTangent(0)
-            .splineToSplineHeading(new Pose2d(48, 36, Math.toRadians(180)), Math.toRadians(0))
+            .lineTo(new Vector2d(-36, 12))
+            .lineTo(new Vector2d(24, 12))
+            .addTemporalMarker(() -> {
+                new DepositToBottomPositionCommand(bot.deposit).execute();
+                new DepositV4BToDepositCommand(bot.deposit).execute();
+            })
+            .splineToConstantHeading(new Vector2d(backdropX, 42), Math.toRadians(0))
             .waitSeconds(0.5)
+            .addTemporalMarker(() -> {
+                new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 30))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+            })
             .build();
 
     public TrajectorySequence rightCenter = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
-            .addDisplacementMarker(() -> {
-                new DepositV4BToDropCommand(bot.deposit).schedule();
+            .addTemporalMarker(() -> {
+                new DepositRightV4BToDropCommand(bot.deposit).execute();
             })
             .setReversed(true)
-            .lineTo(new Vector2d(12, 32))
-            .addDisplacementMarker(() -> {
-                new ReleasePixelsCommand(bot.deposit).schedule();
+            .lineToSplineHeading(new Pose2d(-36, 12, Math.toRadians(270)))
+            .addTemporalMarker(() -> {
+                new DepositToggleLeftPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            .setReversed(false)
-            .setTangent(0)
-            .splineToSplineHeading(new Pose2d(48, 36, Math.toRadians(180)), Math.toRadians(0))
+            .turn(Math.toRadians(-90))
+            .lineTo(new Vector2d(24, 12))
+            .addTemporalMarker(() -> {
+                new DepositToBottomPositionCommand(bot.deposit).execute();
+                new DepositV4BToDepositCommand(bot.deposit).execute();
+            })
+            .splineToConstantHeading(new Vector2d(backdropX, 36), Math.toRadians(0))
             .waitSeconds(0.5)
+            .addTemporalMarker(() -> {
+                new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 30))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+            })
             .build();
 
     public TrajectorySequence rightRight = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
-            .addDisplacementMarker(() -> {
-                new DepositV4BToDropCommand(bot.deposit).schedule();
+            .addTemporalMarker(() -> {
+                new DepositRightV4BToDropCommand(bot.deposit).execute();
             })
             .setReversed(true)
-            .lineTo(new Vector2d(12, 32))
-            .addDisplacementMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+            .lineToSplineHeading(new Pose2d(-36, 32, Math.toRadians(0)))
+            .addTemporalMarker(() -> {
+                new DepositToggleLeftPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            .setReversed(false)
-            .setTangent(0)
-            .splineToSplineHeading(new Pose2d(48, 36, Math.toRadians(180)), Math.toRadians(0))
+            .lineTo(new Vector2d(-36, 12))
+            .turn(Math.toRadians(180))
+            .lineTo(new Vector2d(24, 12))
+            .addTemporalMarker(() -> {
+                new DepositToBottomPositionCommand(bot.deposit).execute();
+                new DepositV4BToDepositCommand(bot.deposit).execute();
+            })
+            .splineToConstantHeading(new Vector2d(backdropX, 30), Math.toRadians(0))
             .waitSeconds(0.5)
+            .addTemporalMarker(() -> {
+                new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 30))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+            })
             .build();
     // endregion
 }

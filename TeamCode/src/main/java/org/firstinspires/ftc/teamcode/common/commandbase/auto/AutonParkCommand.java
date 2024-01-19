@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.auto;
 
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
@@ -13,6 +14,9 @@ public class AutonParkCommand extends CommandBase {
     private final SampleMecanumDrive drive;
     private final Side side;
     private final Alliance alliance;
+
+    public static double backdropX = 49;
+
     private Bot bot;
 
     public AutonParkCommand(Bot bot, SampleMecanumDrive drive, Alliance alliance, Side side) {
@@ -31,16 +35,12 @@ public class AutonParkCommand extends CommandBase {
                 switch(side) {
                     case LEFT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                                .addDisplacementMarker(() -> {
-                                    // empty
-                                })
+                                .lineTo(new Vector2d(backdropX - 6, -12))
                                 .build();
                         break;
                     case RIGHT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                                .addTemporalMarker(() -> {
-                                    // empt
-                                })
+                                .lineTo(new Vector2d(backdropX - 6, -60))
                                 .build();
                         break;
                 }
@@ -49,16 +49,12 @@ public class AutonParkCommand extends CommandBase {
                 switch(side) {
                     case LEFT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                                .addTemporalMarker(() -> {
-                                    // empty
-                                })
+                                .lineTo(new Vector2d(backdropX - 6, 60))
                                 .build();
                         break;
                     case RIGHT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                                .addDisplacementMarker(() -> {
-                                    // empty
-                                })
+                                .lineTo(new Vector2d(backdropX - 6, 12))
                                 .build();
                         break;
                 }
