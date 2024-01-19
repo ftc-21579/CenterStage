@@ -1,30 +1,21 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.arcrobotics.ftclib.command.Robot;
-import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.PTO;
 
 import java.util.ArrayList;
 
@@ -47,7 +38,6 @@ public class Bot extends Robot {
     public Intake intake;
     public Deposit deposit;
     public DroneLauncher launcher;
-    public PTO pto;
 
     /*
         Constructor for the bot (initialize hardware)
@@ -71,7 +61,6 @@ public class Bot extends Robot {
         perpendicularPod = hMap.get(DcMotor.class, "backRight");
 
         /* Subsystems */
-        pto = new PTO(this);
         drivetrain = new MecanumDrivetrain(this);
         intake = new Intake(this);
         launcher = new DroneLauncher(this);

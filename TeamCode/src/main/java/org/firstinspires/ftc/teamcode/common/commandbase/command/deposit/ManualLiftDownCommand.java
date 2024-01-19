@@ -20,11 +20,12 @@ public class ManualLiftDownCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deposit.pto.liftDown(0.5);
+        deposit.setLiftTarget(Util.clamp(deposit.getLiftTarget() - 1.5, 0.0, 22.0));
+        deposit.setLiftState(DepositState.MANUAL_LIFTING);
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return this.deposit.state == DepositState.MANUAL_LIFTING;
     }
 }
