@@ -42,9 +42,9 @@ public class ToTransferStateCommand extends CommandBase {
 
             bot.telem.addLine("Time: " + timer.milliseconds());
 
-            if (timer.milliseconds() < 1000) {
+            if (timer.milliseconds() < 500) {
                 new IntakeAboveTransferPositionCommand(bot.intake).schedule();
-                bot.telem.addData("Intake", "Sub 1000");
+                bot.telem.addData("Intake", "Sub 500");
             }
 
             if (timer.milliseconds() < 1500) {
@@ -62,25 +62,9 @@ public class ToTransferStateCommand extends CommandBase {
                 new GrabPixelsCommand(bot.deposit).schedule();
                 ready = true;
             }
-            //new IntakeAboveTransferPositionCommand(bot.intake).schedule();
-            //new DepositToTransferPositionCommand(bot).schedule();
-
-            //if (timer.milliseconds() > 1500) {
-                //new IntakeTransferPositionCommand(bot.intake).schedule();
-                //new DepositV4BToTransferCommand(bot.deposit).schedule();
-                //bot.telem.addLine(">3000");
-            //} else {
-                //new ReleasePixelsCommand(bot.deposit).schedule();
-            //}
-
-            //if (timer.milliseconds() > 2500) {
-                //new DisableIntakeSpinnerCommand(bot.intake).schedule();
-                //new GrabPixelsCommand(bot.deposit).schedule();
-                //ready = true;
-            //}
         } else if (bot.getBotState() == BotState.DEPOSIT || bot.getBotState() == BotState.ENDGAME) {
-            //new DepositToTransferPositionCommand(bot).schedule();
-            //new DepositV4BToDepositCommand(bot.deposit).schedule();
+            new DepositToTransferPositionCommand(bot).schedule();
+            new DepositV4BToDepositCommand(bot.deposit).schedule();
             ready = true;
         }
     }
