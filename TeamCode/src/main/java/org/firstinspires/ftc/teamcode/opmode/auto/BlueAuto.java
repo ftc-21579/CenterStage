@@ -18,11 +18,14 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
+import org.firstinspires.ftc.teamcode.common.centerstage.Time;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonCyclePixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonDelayCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonParkCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Blue;
@@ -32,12 +35,16 @@ import org.firstinspires.ftc.vision.VisionPortal;
 public class BlueAuto extends LinearOpMode {
     Bot bot;
     Side startSide = Side.LEFT, parkingSide = Side.LEFT;
+    Time time = Time.ZERO;
     GamepadEx driver;
     ElapsedTime timer = new ElapsedTime();
     private SampleMecanumDrive drive;
 
     private PropDetector propPipeline;
     private VisionPortal portal;
+
+    private int timeCount = 0;
+    private final String[] timeName = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN"};
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -80,14 +87,28 @@ public class BlueAuto extends LinearOpMode {
             } else if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 parkingSide = Side.RIGHT;
             }
+            if(driver.wasJustPressed(GamepadKeys.Button.B)) {
+                if(timeCount <= 14) {
+                    timeCount++;
+                    time = Time.valueOf(timeName[timeCount]);
+                }
+            } else if (driver.wasJustPressed(GamepadKeys.Button.X)) {
+                if (timeCount >= 1) {
+                    timeCount--;
+                    time = Time.valueOf(timeName[timeCount]);
+                }
+            }
+
             gamepad1.setLedColor(0, 0, 255, Gamepad.LED_DURATION_CONTINUOUS);
 
             if (driver.wasJustPressed(GamepadKeys.Button.A)) {
                 new GrabPixelsCommand(bot.deposit).execute();
             }
 
-            telemetry.addLine("BLUE AUTO (dpad to change side)");
-            telemetry.addData("Start Side", startSide);
+            telemetry.addLine("BLUE AUTO (dpad to change side/parking)");
+            telemetry.addData("Start Side: ", startSide);
+            telemetry.addData("Parking: ", parkingSide);
+            telemetry.addData("Delay: ", time);
             telemetry.addData("Prop: ", propPipeline.getPosition());
             telemetry.update();
         }
@@ -99,6 +120,7 @@ public class BlueAuto extends LinearOpMode {
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
         new SequentialCommandGroup(
+                new AutonDelayCommand(bot, drive, time),
                 new PropMovementsCommand(bot, drive, propPosition, Alliance.BLUE, startSide),
                 //new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
                 new AutonParkCommand(bot, drive, Alliance.BLUE, parkingSide)
@@ -106,7 +128,7 @@ public class BlueAuto extends LinearOpMode {
 
         while (opModeIsActive()) {
             drive.update();
-            //new RunLiftPIDCommand(bot.deposit).schedule();
+            new RunLiftPIDCommand(bot.deposit).schedule();
             telemetry.update();
             CommandScheduler.getInstance().run();
         }
