@@ -8,9 +8,11 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.Util;
 public class ManualLiftDownCommand extends CommandBase {
     private Deposit deposit;
+    private double multiplier;
 
-    public ManualLiftDownCommand(Deposit deposit) {
+    public ManualLiftDownCommand(Deposit deposit, double multiplier) {
         this.deposit = deposit;
+        this.multiplier = multiplier;
     }
 
     @Override
@@ -20,7 +22,7 @@ public class ManualLiftDownCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deposit.setLiftTarget(Util.clamp(deposit.getLiftTarget() - 0.25, 0.0, 22.0));
+        deposit.setLiftTarget(Util.clamp(deposit.getLiftTarget() - (multiplier * 0.25), 0.0, 22.0));
         deposit.setLiftState(DepositState.MANUAL_LIFTING);
     }
 

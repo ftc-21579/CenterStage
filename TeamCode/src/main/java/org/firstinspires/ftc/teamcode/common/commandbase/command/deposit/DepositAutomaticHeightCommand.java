@@ -46,7 +46,7 @@ public class DepositAutomaticHeightCommand extends CommandBase {
             }
 
             if (needsToBeLifted) {
-                new ManualLiftUpCommand(deposit).schedule();
+                new ManualLiftUpCommand(deposit, 0.2).schedule();
             } else {
                 ready = true;
             }
