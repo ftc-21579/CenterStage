@@ -53,7 +53,7 @@ public class Blue {
             .setReversed(true)
             .lineToSplineHeading(new Pose2d(30, 48, Math.toRadians(45)))
             .addTemporalMarker(() -> {
-                new DepositToggleLeftPixelCommand(bot.deposit).execute();
+                new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
@@ -80,7 +80,7 @@ public class Blue {
             .setReversed(true)
             .lineToSplineHeading(new Pose2d(26, 36, Math.toRadians(45)))
             .addTemporalMarker(() -> {
-                new DepositToggleLeftPixelCommand(bot.deposit).execute();
+                new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
@@ -107,7 +107,7 @@ public class Blue {
             .setReversed(true)
             .lineToSplineHeading(new Pose2d(10, 46, Math.toRadians(45)))
             .addTemporalMarker(() -> {
-                new DepositToggleLeftPixelCommand(bot.deposit).execute();
+                new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
@@ -136,7 +136,7 @@ public class Blue {
             .setReversed(true)
             .lineToSplineHeading(new Pose2d(-36, 32, Math.toRadians(180)))
             .addTemporalMarker(() -> {
-                new DepositToggleLeftPixelCommand(bot.deposit).execute();
+                new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .lineTo(new Vector2d(-36, 12))
@@ -165,7 +165,7 @@ public class Blue {
             .setReversed(true)
             .lineToSplineHeading(new Pose2d(-36, 12, Math.toRadians(270)))
             .addTemporalMarker(() -> {
-                new DepositToggleLeftPixelCommand(bot.deposit).execute();
+                new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .turn(Math.toRadians(-90))
@@ -194,7 +194,7 @@ public class Blue {
             .setReversed(true)
             .lineToSplineHeading(new Pose2d(-36, 32, Math.toRadians(0)))
             .addTemporalMarker(() -> {
-                new DepositToggleLeftPixelCommand(bot.deposit).execute();
+                new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .lineTo(new Vector2d(-36, 12))

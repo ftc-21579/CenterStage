@@ -141,11 +141,11 @@ public class TeleOp extends LinearOpMode {
                     if (driver.isDown(GamepadKeys.Button.A))
                         {s.schedule(new ReleasePixelsCommand(bot.deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
-                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
-                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
                     s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
                     s.schedule(new ManualLiftUpCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
                     //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
