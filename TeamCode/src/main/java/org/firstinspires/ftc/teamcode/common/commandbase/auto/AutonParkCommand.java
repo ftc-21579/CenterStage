@@ -60,15 +60,11 @@ public class AutonParkCommand extends CommandBase {
                 }
                 break;
         }
+
+        drive.followTrajectorySequenceAsync(sequence);
     }
-
-    @Override
-    public void execute() {
-
-    }
-
     @Override
     public boolean isFinished() {
-        return false;
+        return !drive.isBusy();
     }
 }
