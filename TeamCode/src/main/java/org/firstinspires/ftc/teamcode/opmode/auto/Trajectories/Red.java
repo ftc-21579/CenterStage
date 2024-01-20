@@ -142,11 +142,14 @@ public class Red {
 
     // region RIGHT SIDE TRAJECTORIES
     public TrajectorySequence rightLeft = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(270)))
+            .setReversed(true)
+            .lineTo(new Vector2d(rightX, -60))
+            .turn(Math.toRadians(90))
+            .lineToSplineHeading(new Pose2d(rightX + 3, -36, Math.toRadians(0)))
             .addTemporalMarker(() -> {
                 new DepositRightV4BToDropCommand(bot.deposit).execute();
             })
-            .setReversed(true)
-            .lineToSplineHeading(new Pose2d(10, -46, Math.toRadians(315)))
+            .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
@@ -174,7 +177,7 @@ public class Red {
                 new DepositRightV4BToDropCommand(bot.deposit).execute();
             })
             .setReversed(true)
-            .lineToSplineHeading(new Pose2d(26, -36, Math.toRadians(315)))
+            .lineToSplineHeading(new Pose2d(28, -36, Math.toRadians(315)))
             .addTemporalMarker(() -> {
                 new DepositToggleRightPixelCommand(bot.deposit).execute();
             })
@@ -202,7 +205,7 @@ public class Red {
                 new DepositRightV4BToDropCommand(bot.deposit).execute();
             })
             .setReversed(true)
-            .lineToSplineHeading(new Pose2d(30, -48, Math.toRadians(315)))
+            .lineToSplineHeading(new Pose2d(36, -48, Math.toRadians(315)))
             .addTemporalMarker(() -> {
                 new DepositToggleRightPixelCommand(bot.deposit).execute();
             })

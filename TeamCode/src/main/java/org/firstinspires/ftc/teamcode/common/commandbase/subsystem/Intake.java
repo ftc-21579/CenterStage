@@ -186,12 +186,12 @@ public class Intake extends SubsystemBase {
         }
 
         bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
-        //bot.telem.addData("Left Red: ", leftSensor.red());
-        //bot.telem.addData("Left Green: ", leftSensor.green());
-        //bot.telem.addData("Left Blue: ", leftSensor.blue());
-        //bot.telem.addData("Right Red: ", rightSensor.red());
-        //bot.telem.addData("Right Green: ", rightSensor.green());
-        //bot.telem.addData("Right Blue: ", rightSensor.blue());
+        bot.telem.addData("Left Red: ", leftSensor.red());
+        bot.telem.addData("Left Green: ", leftSensor.green());
+        bot.telem.addData("Left Blue: ", leftSensor.blue());
+        bot.telem.addData("Right Red: ", rightSensor.red());
+        bot.telem.addData("Right Green: ", rightSensor.green());
+        bot.telem.addData("Right Blue: ", rightSensor.blue());
         return colors;
     }
 }
