@@ -110,18 +110,18 @@ public class TeleOp extends LinearOpMode {
             }
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
                 s.schedule(new ToTransferStateCommand(bot));
-                gamepad1.rumble(500);
-                gamepad2.rumble(500);
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
             }
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
                 s.schedule(new ToDepositStateCommand(bot));
-                gamepad1.rumble(500);
-                gamepad2.rumble(500);
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
             }
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
                 s.schedule(new ToEndgameStateCommand(bot));
-                gamepad1.rumble(500);
-                gamepad2.rumble(500);
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
             }
 
             switch(bot.getBotState()) {
@@ -146,8 +146,8 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
-                    s.schedule(new ManualLiftUpCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
-                    s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                    s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
+                    s.schedule(new ManualLiftUpCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
                     //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
                     //    {s.schedule(new DepositStopLiftCommand(deposit));}
                     break;
