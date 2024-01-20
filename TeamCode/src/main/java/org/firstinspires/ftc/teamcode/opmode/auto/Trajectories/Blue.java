@@ -69,6 +69,7 @@ public class Blue {
             .lineTo(new Vector2d(backdropX - 6, 42))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
+                new DepositToTransferPositionCommand(bot).execute();
             })
             .build();
 
@@ -95,6 +96,7 @@ public class Blue {
             .lineTo(new Vector2d(backdropX - 6, 36))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
+                new DepositToTransferPositionCommand(bot).execute();
             })
             .build();
 
@@ -121,6 +123,7 @@ public class Blue {
             .lineTo(new Vector2d(backdropX - 6, 30))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
+                new DepositToTransferPositionCommand(bot).execute();
             })
             .build();
     // endregion
@@ -151,6 +154,7 @@ public class Blue {
             .lineTo(new Vector2d(backdropX - 6, 30))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
+                new DepositToTransferPositionCommand(bot).execute();
             })
             .build();
 
@@ -179,6 +183,7 @@ public class Blue {
             .lineTo(new Vector2d(backdropX - 6, 30))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
+                new DepositToTransferPositionCommand(bot).execute();
             })
             .build();
 
@@ -208,6 +213,7 @@ public class Blue {
             .lineTo(new Vector2d(backdropX - 6, 30))
             .addTemporalMarker(() -> {
                 new GrabPixelsCommand(bot.deposit).execute();
+                new DepositToTransferPositionCommand(bot).execute();
             })
             .build();
     // endregion
