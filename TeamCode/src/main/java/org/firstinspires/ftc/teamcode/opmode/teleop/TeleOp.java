@@ -101,8 +101,6 @@ public class TeleOp extends LinearOpMode {
                     new Vec2d(otherDriver.getLeftX(), -otherDriver.getLeftY()),
                     otherDriver.getRightX(), multiplier));
 
-            bot.intakeToTransferCheck();
-
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 s.schedule(new ToIntakeStateCommand(bot));
                 gamepad1.rumble(500);
@@ -179,6 +177,7 @@ public class TeleOp extends LinearOpMode {
             }
 
             if (loopCount == 5 && !otherDriver.isDown(GamepadKeys.Button.B)) {
+                bot.intakeToTransferCheck();
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:

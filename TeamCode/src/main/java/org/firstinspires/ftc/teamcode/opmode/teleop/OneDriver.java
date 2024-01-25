@@ -96,8 +96,6 @@ public class OneDriver extends LinearOpMode {
                     new Vec2d(driver.getLeftX(), -driver.getLeftY()),
                     driver.getRightX(), multiplier));
 
-            bot.intakeToTransferCheck();
-
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT))
                 {s.schedule(new ToIntakeStateCommand(bot));}
             if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP))
@@ -167,6 +165,7 @@ public class OneDriver extends LinearOpMode {
             }
 
             if (loopCount == 5 && !autoTransfer) {
+                bot.intakeToTransferCheck();
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:
