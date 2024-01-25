@@ -178,7 +178,7 @@ public class TeleOp extends LinearOpMode {
                 }
             }
 
-            if (loopCount == 5 && otherDriver.isDown(GamepadKeys.Button.B)) {
+            if (loopCount == 5 && !otherDriver.isDown(GamepadKeys.Button.B)) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:

@@ -166,7 +166,7 @@ public class OneDriver extends LinearOpMode {
                 }
             }
 
-            if (loopCount == 5 && autoTransfer) {
+            if (loopCount == 5 && !autoTransfer) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:
