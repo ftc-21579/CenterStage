@@ -59,6 +59,7 @@ public class ToTransferStateCommand extends CommandBase {
                 new IntakeTransferPositionCommand(bot.intake).schedule();
                 bot.telem.addData("Transfer Position @ Time: ", timer.milliseconds());
             } else {
+                new IntakeTransferPositionCommand(bot.intake).schedule();
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new GrabPixelsCommand(bot.deposit).schedule();
                 bot.telem.addData("Grab Pixels @ Time: ", timer.milliseconds());
