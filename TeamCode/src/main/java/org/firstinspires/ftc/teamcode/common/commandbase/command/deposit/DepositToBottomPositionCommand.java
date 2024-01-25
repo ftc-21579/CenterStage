@@ -26,7 +26,7 @@ public class DepositToBottomPositionCommand extends CommandBase {
 
         if (
                 deposit.getLiftPosition() > Configs.liftBottomPosition - 0.05 ||
-                deposit.getLiftPosition() < Configs.liftBottomPosition + 0.05
+                        deposit.getLiftPosition() < Configs.liftBottomPosition + 0.05
         ) {
             deposit.setLiftState(DepositState.BOTTOM);
         }

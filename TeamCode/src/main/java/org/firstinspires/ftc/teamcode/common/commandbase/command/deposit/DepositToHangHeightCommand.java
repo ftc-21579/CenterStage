@@ -8,14 +8,32 @@ import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 
 public class DepositToHangHeightCommand extends CommandBase {
+
     private Deposit deposit;
+
     public DepositToHangHeightCommand(Deposit d) {
         this.deposit = d;
     }
 
     @Override
+    public void initialize() {
+
+    }
+
+    @Override
     public void execute() {
         deposit.setLiftTarget(Configs.liftHangHeightPosition);
-        deposit.setLiftState(DepositState.MANUAL_LIFTING);
+
+        if (
+                deposit.getLiftPosition() > Configs.liftHangHeightPosition - 0.05 ||
+                        deposit.getLiftPosition() < Configs.liftHangHeightPosition + 0.05
+        ) {
+            deposit.setLiftState(DepositState.HANG);
+        }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return this.deposit.state == DepositState.HANG;
     }
 }

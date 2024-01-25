@@ -13,9 +13,11 @@ import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 public class ManualLiftUpCommand extends CommandBase {
 
     private Deposit deposit;
+    private double multiplier;
 
-    public ManualLiftUpCommand(Deposit deposit) {
+    public ManualLiftUpCommand(Deposit deposit, double multiplier) {
         this.deposit = deposit;
+        this.multiplier = multiplier;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class ManualLiftUpCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deposit.setLiftTarget(Util.clamp(deposit.getLiftTarget() + 1.5, 0.0, 22.0));
+        deposit.setLiftTarget(Util.clamp(deposit.getLiftTarget() + (multiplier * 0.25), 0.0, 22.0));
         deposit.setLiftState(DepositState.MANUAL_LIFTING);
 
         if (deposit.getLiftPosition() >= 5.0) {
