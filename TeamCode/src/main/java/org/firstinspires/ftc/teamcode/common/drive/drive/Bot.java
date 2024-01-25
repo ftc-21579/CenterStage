@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.common.drive.drive;
 import com.acmerobotics.dashboard.config.Config;
 
 import com.arcrobotics.ftclib.command.Robot;
-import com.mineinjava.quail.util.geometry.Pose2d;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -16,8 +15,6 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
-import com.mineinjava.quail.localization.Localizer;
-import org.firstinspires.ftc.teamcode.common.drive.localization.TwoWheelTrackingLocalizer;
 
 import java.util.ArrayList;
 
@@ -30,8 +27,7 @@ public class Bot extends Robot {
     private IMU imu;
     public final Telemetry telem;
     public final HardwareMap hMap;
-    //public Motor.Encoder parallelPod, perpendicularPod;
-    private Localizer localizer;
+    public DcMotor parallelPod, perpendicularPod;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
 
     /*
@@ -63,10 +59,6 @@ public class Bot extends Robot {
         //parallelPod = hMap.get(DcMotorEx.class, "frontLeft");
         //perpendicularPod = hMap.get(Motor.Encoder.class, "backRight");
 
-        //localizer = new TwoDeadwheelLocalizer(this);
-        localizer = new TwoWheelTrackingLocalizer(hMap, this);
-        localizer.setPose(new Pose2d(0, 0, 0));
-
         /* Subsystems */
         drivetrain = new MecanumDrivetrain(this);
         intake = new Intake(this);
@@ -93,10 +85,6 @@ public class Bot extends Robot {
 
     public BotState getBotState() {
         return botState;
-    }
-
-    public Localizer getLocalizer() {
-        return localizer;
     }
 
     public IMU getImu() {

@@ -22,16 +22,15 @@ public class Deposit {
     PIDFController liftPID = new PIDFController(liftKp, liftKi, liftKd, liftKf);
     public static double TICKS_PER_INCH = 121.94;
     public DepositState state = DepositState.TRANSFER;
-    public GripperState leftGripper = GripperState.RELEASE, rightGripper = GripperState.RELEASE;
+    public GripperState leftGripper = GripperState.GRAB, rightGripper = GripperState.GRAB;
     private double liftSetpoint = 0.0;
-    DcMotor depositMotor, otherDepositMotor;
+    public DcMotor depositMotor, otherDepositMotor;
     Servo leftReleaseServo, rightReleaseServo, leftV4BServo, rightV4BServo;
     public VisionPortal visionPortal;
     public TfodProcessor pixelTfodProcessor;
 
     public Deposit(Bot bot) {
         this.bot = bot;
-
         depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
         otherDepositMotor = bot.hMap.get(DcMotor.class, "otherDepositMotor");
         otherDepositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -44,21 +43,22 @@ public class Deposit {
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
         rightV4BServo = bot.hMap.get(Servo.class, "depositRightV4BServo");
 
-        pixelTfodProcessor = new TfodProcessor.Builder()
-                .setModelAssetName("pixel_model.tflite")
-                .setModelLabels(new String[] {
-                        "green", "purple", "white", "yellow"
-                })
-                .build();
+        //pixelTfodProcessor = new TfodProcessor.Builder()
+        //        .setModelAssetName("pixel_model.tflite")
+        //       .setModelLabels(new String[] {
+        //                "green", "purple", "white", "yellow"
+        //        })
+        //        .build();
 
-        visionPortal = new VisionPortal.Builder()
-                .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
-                .setCameraResolution(new Size(640, 480))
-                //.addProcessor(pixelTfodProcessor)
-                .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
-                .enableLiveView(true)
-                .build();
-        //visionPortal.setProcessorEnabled(pixelTfodProcessor, true);
+        //visionPortal = new VisionPortal.Builder()
+        //        .setCamera(bot.hMap.get(WebcamName.class, "DepositCam"))
+        //        .setCameraResolution(new Size(1024, 576))
+        //        .addProcessor(pixelTfodProcessor)
+        //        .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+        //        .enableLiveView(true)
+        //        .setAutoStopLiveView(true)
+        //        .build();
+        //visionPortal.setProcessorEnabled(pixelTfodProcessor, false);
     }
 
     /**
@@ -141,9 +141,5 @@ public class Deposit {
 
         bot.telem.addData("Lift Setpoint", liftSetpoint);
         bot.telem.addData("Lift Position", depositMotor.getCurrentPosition() / TICKS_PER_INCH);
-    }
-
-    public void telemCameraState() {
-        bot.telem.addData("Camera State", visionPortal.getCameraState());
     }
 }

@@ -11,25 +11,21 @@ public class Configs {
 
     // Lift
     public static double
-            liftBottomPosition = 2.0,
-            liftTransferPosition = -0.5,
-            liftHangHeightPosition = 21.0;
+    liftTransferPosition = 0.0,
+    liftAutonBackdropPosition = 1.0,
+    liftBottomPosition = 4.0,
+    liftHangHeightPosition = 18.0;
 
     // Grippers
     public static double
-            leftGripperGrabPosition = 0.25, leftGripperReleasePosition = 0.55,
-            rightGripperGrabPosition = 0.27, rightGripperReleasePosition = 0.57;
+    leftGripperGrabPosition = 0.25, leftGripperReleasePosition = 0.55,
+    rightGripperGrabPosition = 0.27, rightGripperReleasePosition = 0.57;
 
     // V4B
     public static double
-            leftV4bDepositPosition = 0.85, leftV4bTransferPosition = 0.0,
-            leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1,
-            rightV4bDepositPosition = 0.15, rightV4bTransferPosition = 1,
-            rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0;
+    leftV4bDepositPosition = 0.9, leftV4bTransferPosition = 0.0,
+    leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1.0,
+    rightV4bDepositPosition = 0.1, rightV4bTransferPosition = 1.0,
+    rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0.0;
 
-    /*
-        INTAKE
-     */
-    public static double
-        intakeV4BintakePosition = 1.0, intakeV4BtransferPosition = 0.0;
 }

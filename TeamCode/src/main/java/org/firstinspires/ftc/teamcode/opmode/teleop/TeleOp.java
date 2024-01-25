@@ -9,8 +9,10 @@ import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
@@ -20,8 +22,9 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
@@ -53,7 +56,7 @@ public class TeleOp extends LinearOpMode {
     private DroneLauncher launcher;
     private Deposit deposit;
     private GamepadEx driver, otherDriver;
-    private int loopCount = 0;
+    private int loopCount = 0, a = 0;
 
     @Override
     public void runOpMode() {
@@ -90,24 +93,34 @@ public class TeleOp extends LinearOpMode {
             //if (driver.wasJustPressed(GamepadKeys.Button.BACK))
             //    {s.schedule(new ToggleHeadingLockCommand(drivetrain));}
             if (otherDriver.wasJustPressed(GamepadKeys.Button.START))
-            {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
+                {s.schedule(new ToggleFieldCentricCommand(drivetrain));}
             if (otherDriver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) || otherDriver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-            {multiplier = 0.5;}
+                {multiplier = 0.5;}
 
             s.schedule(new TeleOpDriveCommand(drivetrain,
                     new Vec2d(otherDriver.getLeftX(), -otherDriver.getLeftY()),
                     otherDriver.getRightX(), multiplier));
 
-            //bot.intakeToTransferCheck();
-
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT))
-            {s.schedule(new ToIntakeStateCommand(bot));}
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP))
-            {s.schedule(new ToTransferStateCommand(bot));}
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT))
-            {s.schedule(new ToDepositStateCommand(bot));}
-            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN))
-            {s.schedule(new ToEndgameStateCommand(bot));}
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
+                s.schedule(new ToIntakeStateCommand(bot));
+                gamepad1.rumble(500);
+                gamepad2.rumble(500);
+            }
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_UP)) {
+                s.schedule(new ToTransferStateCommand(bot));
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
+            }
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_RIGHT)) {
+                s.schedule(new ToDepositStateCommand(bot));
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
+            }
+            if (driver.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) {
+                s.schedule(new ToEndgameStateCommand(bot));
+                gamepad1.rumble(1000);
+                gamepad2.rumble(1000);
+            }
 
             switch(bot.getBotState()) {
                 case INTAKE:
@@ -128,17 +141,15 @@ public class TeleOp extends LinearOpMode {
                     break;
                 case DEPOSIT:
                     if (driver.isDown(GamepadKeys.Button.A))
-                    {s.schedule(new DepositAutomaticHeightCommand(bot));}
+                        {s.schedule(new ReleasePixelsCommand(bot.deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
-                    {s.schedule(new DepositToggleRightPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                     {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
-                    {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
-                    {s.schedule(new ManualLiftDownCommand(deposit));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-                    {s.schedule(new ManualLiftUpCommand(deposit));}
+                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
+                    s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
+                    s.schedule(new ManualLiftUpCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
                     //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
                     //    {s.schedule(new DepositStopLiftCommand(deposit));}
                     break;
@@ -154,7 +165,23 @@ public class TeleOp extends LinearOpMode {
 
             s.schedule(new RunLiftPIDCommand(deposit));
 
-            if (loopCount == 5) {
+            if (otherDriver.isDown(GamepadKeys.Button.X)) {
+                deposit.depositMotor.setPower(-0.5);
+                deposit.otherDepositMotor.setPower(-0.5);
+                a++;
+                if (a == 2) {
+                    deposit.otherDepositMotor.setPower(0.0);
+                    deposit.otherDepositMotor.setPower(0.0);
+                    deposit.otherDepositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    deposit.depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    deposit.depositMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    deposit.otherDepositMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    a = 0;
+                }
+            }
+
+            if (loopCount == 5 && !otherDriver.isDown(GamepadKeys.Button.B)) {
+                bot.intakeToTransferCheck();
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:
@@ -165,6 +192,9 @@ public class TeleOp extends LinearOpMode {
                         break;
                     case GREEN:
                         gamepad1.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
+                    case WHITE:
+                        gamepad1.setLedColor(255, 255, 255, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
                     case NONE:
                         gamepad1.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
@@ -180,13 +210,36 @@ public class TeleOp extends LinearOpMode {
                     case GREEN:
                         gamepad2.setLedColor(0, 255, 0, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
+                    case WHITE:
+                        gamepad2.setLedColor(255, 255, 255, Gamepad.LED_DURATION_CONTINUOUS);
+                        break;
                     case NONE:
                         gamepad2.setLedColor(0, 0, 0, Gamepad.LED_DURATION_CONTINUOUS);
                         break;
                 }
+
+                if (held.get(0) != PixelColor.NONE && held.get(1) == PixelColor.NONE) {
+                    gamepad1.rumble(1.0, 0.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    gamepad2.rumble(1.0, 0.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else if (held.get(0) == PixelColor.NONE && held.get(1) != PixelColor.NONE) {
+                    gamepad1.rumble(0.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    gamepad2.rumble(0.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else if (held.get(0) != PixelColor.NONE && held.get(1) != PixelColor.NONE) {
+                    gamepad1.rumble(1.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                    gamepad2.rumble(1.0, 1.0, Gamepad.RUMBLE_DURATION_CONTINUOUS);
+                } else {
+                    gamepad1.stopRumble();
+                    gamepad2.stopRumble();
+                }
+
                 loopCount = 0;
             } else {
                 loopCount++;
+            }
+
+            if (bot.getBotState() != BotState.INTAKE) {
+                gamepad1.stopRumble();
+                gamepad2.stopRumble();
             }
 
             telemetry.update();

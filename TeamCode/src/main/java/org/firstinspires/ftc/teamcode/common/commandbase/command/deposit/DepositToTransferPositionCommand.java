@@ -25,7 +25,7 @@ public class DepositToTransferPositionCommand extends CommandBase {
 
         if (
                 bot.deposit.getLiftPosition() > Configs.liftTransferPosition - 0.05 ||
-                bot.deposit.getLiftPosition() < Configs.liftTransferPosition + 0.5
+                        bot.deposit.getLiftPosition() < Configs.liftTransferPosition + 0.5
         ) {
             bot.deposit.setLiftState(DepositState.TRANSFER);
         }
