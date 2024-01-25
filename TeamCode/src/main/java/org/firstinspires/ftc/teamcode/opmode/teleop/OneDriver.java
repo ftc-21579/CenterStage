@@ -51,6 +51,7 @@ public class OneDriver extends LinearOpMode {
     private DroneLauncher launcher;
     private Deposit deposit;
     private GamepadEx driver;
+    private static boolean autoTransfer = true;
     private int loopCount = 0, a = 0;
 
     @Override
@@ -114,6 +115,8 @@ public class OneDriver extends LinearOpMode {
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.A))
+                        {autoTransfer = !autoTransfer;}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))
@@ -163,7 +166,7 @@ public class OneDriver extends LinearOpMode {
                 }
             }
 
-            if (loopCount == 5) {
+            if (loopCount == 5 && autoTransfer) {
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
                     case YELLOW:
