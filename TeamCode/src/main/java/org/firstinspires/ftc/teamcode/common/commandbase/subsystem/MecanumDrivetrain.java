@@ -6,6 +6,7 @@ import com.mineinjava.quail.RobotMovement;
 import com.mineinjava.quail.localization.Localizer;
 import com.mineinjava.quail.pathing.Path;
 import com.mineinjava.quail.pathing.PathFollower;
+import com.mineinjava.quail.pathing.PathSequenceFollower;
 import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
@@ -47,7 +48,6 @@ public class MecanumDrivetrain extends SubsystemBase {
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
         double x = leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
-        rx *= 0.6;
 
         if (!fieldCentric) {
             y *= 1.1; // counteract imperfect strafe

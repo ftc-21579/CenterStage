@@ -22,7 +22,6 @@ public class ToDepositStateCommand extends CommandBase {
         bot.telem.addLine("To Deposit State Init");
         ready = false;
         timer.reset();
-
     }
 
     @Override

@@ -40,3 +40,4 @@ public class ManualLiftUpCommand extends CommandBase {
         return this.deposit.state == DepositState.MANUAL_LIFTING;
     }
 }
+

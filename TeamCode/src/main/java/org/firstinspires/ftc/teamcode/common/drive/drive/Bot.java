@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 
 import com.arcrobotics.ftclib.command.Robot;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
@@ -57,8 +56,8 @@ public class Bot extends Robot {
         );
 
         /* Localizer */
-        parallelPod = hMap.get(DcMotor.class, "frontLeft");
-        perpendicularPod = hMap.get(DcMotor.class, "backRight");
+        //parallelPod = hMap.get(DcMotorEx.class, "frontLeft");
+        //perpendicularPod = hMap.get(Motor.Encoder.class, "backRight");
 
         /* Subsystems */
         drivetrain = new MecanumDrivetrain(this);

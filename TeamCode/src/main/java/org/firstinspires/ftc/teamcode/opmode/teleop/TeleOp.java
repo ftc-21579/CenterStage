@@ -125,11 +125,15 @@ public class TeleOp extends LinearOpMode {
             switch(bot.getBotState()) {
                 case INTAKE:
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
-                        {s.schedule(new ToggleIntakeV4BCommand(intake));}
+                    {s.schedule(new ToggleIntakeV4BCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
-                        {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
+                    {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
-                        {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                    {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
+                    {intake.v4bDecrement();}
+                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+                    {intake.v4bIncrement();}
                     break;
                 case TRANSFER:
                     //if (driver.wasJustPressed(GamepadKeys.Button.A))
@@ -141,7 +145,7 @@ public class TeleOp extends LinearOpMode {
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
                         {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
-                        {s.schedule(new DepositToggleV4BCommand(deposit));}
+                    {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleRightPixelCommand(deposit));}
                     s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));

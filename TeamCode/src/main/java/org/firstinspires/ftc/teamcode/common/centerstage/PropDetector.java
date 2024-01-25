@@ -23,9 +23,15 @@ public class PropDetector implements VisionProcessor {
 
     private Paint linePaint = new Paint();
 
+<<<<<<< HEAD
     private final Point LEFT_RECT_P = new Point(20, 300);
     private final Point CENTER_RECT_P = new Point(320, 260);
     private final Point RIGHT_RECT_P = new Point(580, 300);
+=======
+    private final Point LEFT_RECT_P = new Point(20, 330);
+    private final Point CENTER_RECT_P = new Point(320, 300);
+    private final Point RIGHT_RECT_P = new Point(580, 330);
+>>>>>>> main
 
     private final Rect LEFT_RECT = new Rect(
             LEFT_RECT_P,
