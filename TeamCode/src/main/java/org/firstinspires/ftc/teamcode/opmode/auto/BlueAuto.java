@@ -35,7 +35,6 @@ import org.firstinspires.ftc.vision.VisionPortal;
 public class BlueAuto extends LinearOpMode {
     Bot bot;
     Side startSide = Side.LEFT, parkingSide = Side.LEFT;
-    Time time = Time.ZERO;
     GamepadEx driver;
     ElapsedTime timer = new ElapsedTime();
     private SampleMecanumDrive drive;
@@ -44,8 +43,6 @@ public class BlueAuto extends LinearOpMode {
     private VisionPortal portal;
 
     private int timeCount = 0;
-    private final String[] timeName = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN", "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN"};
-
     @Override
     public void runOpMode() throws InterruptedException {
         bot = new Bot(telemetry, hardwareMap);
@@ -90,12 +87,10 @@ public class BlueAuto extends LinearOpMode {
             if(driver.wasJustPressed(GamepadKeys.Button.B)) {
                 if(timeCount <= 14) {
                     timeCount++;
-                    time = Time.valueOf(timeName[timeCount]);
                 }
             } else if (driver.wasJustPressed(GamepadKeys.Button.X)) {
                 if (timeCount >= 1) {
                     timeCount--;
-                    time = Time.valueOf(timeName[timeCount]);
                 }
             }
 
@@ -108,7 +103,7 @@ public class BlueAuto extends LinearOpMode {
             telemetry.addLine("BLUE AUTO (dpad to change side/parking)");
             telemetry.addData("Start Side: ", startSide);
             telemetry.addData("Parking: ", parkingSide);
-            telemetry.addData("Delay: ", time);
+            telemetry.addData("Delay: ", timeCount);
             telemetry.addData("Prop: ", propPipeline.getPosition());
             telemetry.update();
         }
@@ -120,7 +115,7 @@ public class BlueAuto extends LinearOpMode {
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
         new SequentialCommandGroup(
-                new AutonDelayCommand(bot, drive, time),
+                new AutonDelayCommand(bot, drive, timeCount),
                 new PropMovementsCommand(bot, drive, propPosition, Alliance.BLUE, startSide),
                 //new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
                 new AutonParkCommand(bot, drive, Alliance.BLUE, parkingSide)
