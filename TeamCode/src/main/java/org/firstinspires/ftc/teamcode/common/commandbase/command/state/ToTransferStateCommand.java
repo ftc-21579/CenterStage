@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.state;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -19,10 +20,14 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTr
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.opmode.teleop.TeleOp;
 
+@Config
 public class ToTransferStateCommand extends CommandBase {
     private Bot bot;
     private ElapsedTime timer = new ElapsedTime();
     private boolean ready = false;
+    public static int delay1 = 500;
+    public static int delay2 = 1500;
+    public static int delay3 = 2000;
 
     public ToTransferStateCommand(Bot bot) {
         this.bot = bot;
@@ -40,26 +45,23 @@ public class ToTransferStateCommand extends CommandBase {
             ready = true;
         } else if (bot.getBotState() == BotState.INTAKE) {
 
-            bot.telem.addLine("Time: " + timer.milliseconds());
+            bot.telem.addData("Time: ", timer.milliseconds());
 
-            if (timer.milliseconds() < 500) {
+            if (timer.milliseconds() < delay1) {
                 new IntakeAboveTransferPositionCommand(bot.intake).schedule();
-                bot.telem.addData("Intake", "Sub 500");
-            }
-
-            if (timer.milliseconds() < 1500) {
-                //new IntakeAboveTransferPositionCommand(bot.intake).schedule();
                 new DepositToTransferPositionCommand(bot).schedule();
                 new ReleasePixelsCommand(bot.deposit).schedule();
-                bot.telem.addData("Intake", "Sub 1500");
-            } else if (timer.milliseconds() >= 1500 && timer.milliseconds() < 2500) {
-                //new IntakeTransferPositionCommand(bot.intake).schedule();
+                bot.telem.addData("Above Transfer Position @ Time: ", timer.milliseconds());
+            } else if (timer.milliseconds() > delay1 && timer.milliseconds() < delay2) {
                 new DepositV4BToTransferCommand(bot.deposit).execute();
-                bot.telem.addData("Intake", "Sub 2500");
-            } else {
+                bot.telem.addData("Deposit V4B Transfer Position @ Time: ", timer.milliseconds());
+            } else if (timer.milliseconds() > delay2 && timer.milliseconds() < delay3) {
                 new IntakeTransferPositionCommand(bot.intake).schedule();
+                bot.telem.addData("Transfer Position @ Time: ", timer.milliseconds());
+            } else {
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new GrabPixelsCommand(bot.deposit).schedule();
+                bot.telem.addData("Grab Pixels @ Time: ", timer.milliseconds());
                 ready = true;
             }
         } else if (bot.getBotState() == BotState.DEPOSIT || bot.getBotState() == BotState.ENDGAME) {

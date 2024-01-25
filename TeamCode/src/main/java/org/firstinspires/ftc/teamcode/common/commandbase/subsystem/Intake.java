@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
     private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
     public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
-    public static double leftV4bAboveIntakePosition = 0.05, rightV4bAboveIntakePosition = 0.05;
+    public static double leftV4bAboveIntakePosition = 0.08, rightV4bAboveIntakePosition = 0.08;
     public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
 
     public static int leftYellowRLower = 2000, leftYellowRUpper = 3000, leftYellowGLower = 3000, leftYellowGUpper = 5000, leftYellowBLower = 500, leftYellowBUpper = 1500;
