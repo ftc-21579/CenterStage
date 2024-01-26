@@ -103,6 +103,23 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    public void v4bIncrement() {
+        leftv4bServo.setPosition(leftv4bServo.getPosition() + 0.01);
+        rightv4bServo.setPosition(rightv4bServo.getPosition() + 0.01);
+
+        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
+        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
+    }
+
+    public void v4bDecrement() {
+        leftv4bServo.setPosition(leftv4bServo.getPosition() - 0.01);
+        rightv4bServo.setPosition(rightv4bServo.getPosition() - 0.01);
+
+        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
+        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
+    }
+
+
     public void v4bIntakeState() {
         v4bState = intakeV4BState.INTAKE;
         leftv4bServo.setPosition(leftV4bIntakePosition);

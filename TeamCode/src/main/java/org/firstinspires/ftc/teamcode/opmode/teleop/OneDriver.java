@@ -129,10 +129,8 @@ public class OneDriver extends LinearOpMode {
                         {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleRightPixelCommand(deposit));}
-                    if (driver.isDown(GamepadKeys.Button.LEFT_BUMPER))
-                        {s.schedule(new ManualLiftDownCommand(deposit, 1.0));}
-                    if (driver.isDown(GamepadKeys.Button.RIGHT_BUMPER))
-                        {s.schedule(new ManualLiftUpCommand(deposit, 1.0));}
+                    s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
+                    s.schedule(new ManualLiftUpCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
                     //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
                     //    {s.schedule(new DepositStopLiftCommand(deposit));}
                     break;

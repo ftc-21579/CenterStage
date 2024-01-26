@@ -49,6 +49,8 @@ public class MecanumDrivetrain extends SubsystemBase {
         double x = leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
 
+        rx *= 0.8;
+
         if (!fieldCentric) {
             y *= 1.1; // counteract imperfect strafe
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);

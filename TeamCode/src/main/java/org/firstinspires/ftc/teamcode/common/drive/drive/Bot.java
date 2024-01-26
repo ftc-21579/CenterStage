@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 import com.arcrobotics.ftclib.command.Robot;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 

@@ -65,7 +65,7 @@ public class Blue {
                 new DepositRightV4BToIdleCommand(bot.deposit).execute();
                 new DepositLeftV4BToDepositCommand(bot.deposit).execute();
             })
-            .lineToSplineHeading(new Pose2d(backdropX, 48, Math.toRadians(180)))
+            .lineToSplineHeading(new Pose2d(backdropX, 46, Math.toRadians(180)))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
@@ -166,7 +166,7 @@ public class Blue {
             .addTemporalMarker(() -> {
                 new DepositToAutonBackdropCommand(bot.deposit).execute();
             })
-            .splineToConstantHeading(new Vector2d(backdropX, 47), Math.toRadians(0))
+            .splineToConstantHeading(new Vector2d(backdropX, 46), Math.toRadians(0))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
