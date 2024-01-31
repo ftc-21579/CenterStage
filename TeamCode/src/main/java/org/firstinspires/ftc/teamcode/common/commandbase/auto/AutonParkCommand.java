@@ -5,6 +5,9 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
@@ -35,11 +38,23 @@ public class AutonParkCommand extends CommandBase {
                 switch(side) {
                     case LEFT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                                .forward(6)
+                                .addTemporalMarker(() -> {
+                                    new GrabPixelsCommand(bot.deposit).execute();
+                                    new DepositV4BToDepositCommand(bot.deposit).execute();
+                                    new DepositToTransferPositionCommand(bot).execute();
+                                })
                                 .lineTo(new Vector2d(backdropX - 6, -12))
                                 .build();
                         break;
                     case RIGHT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                                .forward(6)
+                                .addTemporalMarker(() -> {
+                                    new GrabPixelsCommand(bot.deposit).execute();
+                                    new DepositV4BToDepositCommand(bot.deposit).execute();
+                                    new DepositToTransferPositionCommand(bot).execute();
+                                })
                                 .lineTo(new Vector2d(backdropX - 6, -60))
                                 .build();
                         break;

@@ -71,13 +71,6 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            //.lineTo(new Vector2d(backdropX - 6, 48))
-            .addTemporalMarker(() -> {
-                new DepositV4BToDepositCommand(bot.deposit).execute();
-                new GrabPixelsCommand(bot.deposit).execute();
-                new DepositToTransferPositionCommand(bot).execute();
-            })
-            //.waitSeconds(0.5)
             .build();
 
     public TrajectorySequence leftCenter = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(90)))
@@ -101,12 +94,6 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            //.lineTo(new Vector2d(backdropX - 6, 37))
-            .addTemporalMarker(() -> {
-                new GrabPixelsCommand(bot.deposit).execute();
-                new DepositToTransferPositionCommand(bot).execute();
-            })
-            //.waitSeconds(0.5)
             .build();
 
     public TrajectorySequence leftRight = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(leftX, leftY, Math.toRadians(90)))
@@ -132,12 +119,6 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            //.lineTo(new Vector2d(backdropX - 6, 32))
-            .addTemporalMarker(() -> {
-                new GrabPixelsCommand(bot.deposit).execute();
-                new DepositToTransferPositionCommand(bot).execute();
-            })
-            //.waitSeconds(0.5)
             .build();
     // endregion
 
@@ -172,12 +153,6 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            //.lineTo(new Vector2d(backdropX - 6, 47))
-            .addTemporalMarker(() -> {
-                new GrabPixelsCommand(bot.deposit).execute();
-                new DepositToTransferPositionCommand(bot).execute();
-            })
-            //.waitSeconds(0.5)
             .build();
 
     public TrajectorySequence rightCenter = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
@@ -203,12 +178,6 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            //.lineTo(new Vector2d(backdropX - 6, 38))
-            .addTemporalMarker(() -> {
-                new GrabPixelsCommand(bot.deposit).execute();
-                new DepositToTransferPositionCommand(bot).execute();
-            })
-            //.waitSeconds(0.5)
             .build();
 
     public TrajectorySequence rightRight = SampleMecanumDrive.trajectorySequenceBuilder(new Pose2d(rightX, rightY, Math.toRadians(90)))
@@ -240,12 +209,6 @@ public class Blue {
                 new ReleasePixelsCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
-            //.lineTo(new Vector2d(backdropX - 6, 34))
-            .addTemporalMarker(() -> {
-                new GrabPixelsCommand(bot.deposit).execute();
-                new DepositToTransferPositionCommand(bot).execute();
-            })
-            //.waitSeconds(0.5)
             .build();
     // endregion
 }
