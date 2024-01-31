@@ -130,9 +130,9 @@ public class Intake extends SubsystemBase {
         bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
     }
 
-    public void v4bAboveStackState() {
-        leftv4bServo.setPosition(leftV4bAboveStackPosition);
-        rightv4bServo.setPosition(rightV4bAboveStackPosition);
+    public void v4bCustomHeight(double height) {
+        leftv4bServo.setPosition(height);
+        rightv4bServo.setPosition(height);
 
         bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
         bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());

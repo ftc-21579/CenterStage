@@ -2,19 +2,15 @@ package org.firstinspires.ftc.teamcode.common.commandbase.auto;
 
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeAboveStackPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeCustomHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeDecrementCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Blue;
-import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Red;
 
 public class AutonCyclePixelsCommand extends CommandBase {
     private Bot bot;
@@ -44,7 +40,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         .splineToConstantHeading(new Vector2d(24, 12), Math.toRadians(180))
                         .lineTo(new Vector2d(-48, 13))
                         .addTemporalMarker(() -> {
-                            new IntakeAboveStackPositionCommand(bot.intake).schedule();
+                            new IntakeCustomHeightCommand(bot, Configs.intakeAboveStackPosition).schedule();
                             new ActivateIntakeSpinnerCommand(bot.intake).schedule();
                         })
                         .waitSeconds(2)
