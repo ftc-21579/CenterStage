@@ -38,6 +38,7 @@ public class Intake extends SubsystemBase {
     private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
     public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
+    public static double leftV4bAboveStackPosition = 0.89, rightV4bAboveStackPosition = 0.89;
     public static double leftV4bAboveIntakePosition = 0.08, rightV4bAboveIntakePosition = 0.08;
     public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
 
@@ -104,16 +105,16 @@ public class Intake extends SubsystemBase {
     }
 
     public void v4bIncrement() {
-        leftv4bServo.setPosition(leftv4bServo.getPosition() + 0.01);
-        rightv4bServo.setPosition(rightv4bServo.getPosition() + 0.01);
+        leftv4bServo.setPosition(leftv4bServo.getPosition() - 0.01);
+        rightv4bServo.setPosition(rightv4bServo.getPosition() - 0.01);
 
         bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
         bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
     }
 
     public void v4bDecrement() {
-        leftv4bServo.setPosition(leftv4bServo.getPosition() - 0.01);
-        rightv4bServo.setPosition(rightv4bServo.getPosition() - 0.01);
+        leftv4bServo.setPosition(leftv4bServo.getPosition() + 0.01);
+        rightv4bServo.setPosition(rightv4bServo.getPosition() + 0.01);
 
         bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
         bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
@@ -124,6 +125,14 @@ public class Intake extends SubsystemBase {
         v4bState = intakeV4BState.INTAKE;
         leftv4bServo.setPosition(leftV4bIntakePosition);
         rightv4bServo.setPosition(rightV4bIntakePosition);
+
+        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
+        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
+    }
+
+    public void v4bAboveStackState() {
+        leftv4bServo.setPosition(leftV4bAboveStackPosition);
+        rightv4bServo.setPosition(rightV4bAboveStackPosition);
 
         bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
         bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
@@ -205,12 +214,12 @@ public class Intake extends SubsystemBase {
         }
 
         bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
-        bot.telem.addData("Left Red: ", leftSensor.red());
-        bot.telem.addData("Left Green: ", leftSensor.green());
-        bot.telem.addData("Left Blue: ", leftSensor.blue());
-        bot.telem.addData("Right Red: ", rightSensor.red());
-        bot.telem.addData("Right Green: ", rightSensor.green());
-        bot.telem.addData("Right Blue: ", rightSensor.blue());
+        //bot.telem.addData("Left Red: ", leftSensor.red());
+        //bot.telem.addData("Left Green: ", leftSensor.green());
+        //bot.telem.addData("Left Blue: ", leftSensor.blue());
+        //bot.telem.addData("Right Red: ", rightSensor.red());
+        //bot.telem.addData("Right Green: ", rightSensor.green());
+        //bot.telem.addData("Right Blue: ", rightSensor.blue());
         return colors;
     }
 }

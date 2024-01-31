@@ -117,8 +117,8 @@ public class BlueAuto extends LinearOpMode {
         new SequentialCommandGroup(
                 new AutonDelayCommand(bot, drive, timeCount),
                 new PropMovementsCommand(bot, drive, propPosition, Alliance.BLUE, startSide),
-                //new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
-                new AutonParkCommand(bot, drive, Alliance.BLUE, parkingSide)
+                new AutonCyclePixelsCommand(drive, bot, Alliance.BLUE)
+                //new AutonParkCommand(bot, drive, Alliance.BLUE, parkingSide)
         ).schedule();
 
         while (opModeIsActive()) {

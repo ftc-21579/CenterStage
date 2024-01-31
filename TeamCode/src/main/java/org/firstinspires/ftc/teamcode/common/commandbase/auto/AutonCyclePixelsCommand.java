@@ -1,9 +1,15 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.auto;
 
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeAboveStackPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeDecrementCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
@@ -34,8 +40,25 @@ public class AutonCyclePixelsCommand extends CommandBase {
                 break;
             case BLUE:
                 sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                        .setReversed(false)
+                        .splineToConstantHeading(new Vector2d(24, 12), Math.toRadians(180))
+                        .lineTo(new Vector2d(-48, 13))
                         .addTemporalMarker(() -> {
-                            
+                            new IntakeAboveStackPositionCommand(bot.intake).schedule();
+                            new ActivateIntakeSpinnerCommand(bot.intake).schedule();
+                        })
+                        .waitSeconds(2)
+                        .lineTo(new Vector2d(-51.5, 14))
+                        .waitSeconds(1)
+                        .addTemporalMarker(() -> {
+                            new IntakeDecrementCommand(bot.intake).schedule();
+                        })
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(3.5))
+                        .waitSeconds(1)
+                        .addTemporalMarker(() -> {
+                            new IntakeDecrementCommand(bot.intake).schedule();
+                            new IntakeDecrementCommand(bot.intake).schedule();
                         })
                         .build();
                 break;

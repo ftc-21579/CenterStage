@@ -18,7 +18,7 @@ public class MeepMeepTesting {
     public static double redRightX = 12, redRightY = -64;
     public static double backdropX = 49;
 
-    public static double maxVelo = 25, maxAccel = 25;
+    public static double maxVelo = 50, maxAccel = 50;
 
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
@@ -106,7 +106,12 @@ public class MeepMeepTesting {
                                 .lineTo(new Vector2d(24, 12))
                                 .splineToConstantHeading(new Vector2d(backdropX, 36), Math.toRadians(0))
                                 .waitSeconds(0.5)
-                                .lineTo(new Vector2d(backdropX - 6, 36))
+                                //.forward(6)
+                                //.lineTo(new Vector2d(backdropX - 6, 36))
+                                .setReversed(false)
+                                .splineToConstantHeading(new Vector2d(24, 12), Math.toRadians(180))
+                                .lineTo(new Vector2d(-40, 12))
+                                .turn(Math.toRadians(2.5))
                                 .build());
 
         RoadRunnerBotEntity blueRightLeft = new DefaultBotBuilder(meepMeep)
@@ -254,14 +259,14 @@ public class MeepMeepTesting {
                 //.addEntity(blueLeftCenter)
                 //.addEntity(blueLeftLeft)
                 //.addEntity(blueRightRight)
-                //.addEntity(blueRightCenter)
+                .addEntity(blueRightCenter)
                 //.addEntity(blueRightLeft)
                 //.addEntity(redLeftRight)
                 //.addEntity(redLeftCenter)
                 //.addEntity(redLeftLeft)
                 //.addEntity(redRightRight)
                 //.addEntity(redRightCenter)
-                .addEntity(redRightLeft)
+                //.addEntity(redRightLeft)
                 //.addEntity(test)
                 .start();
     }
