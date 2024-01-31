@@ -113,6 +113,10 @@ public class OneDriver extends LinearOpMode {
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
+                        {intake.v4bIncrement();}
+                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
+                        {intake.v4bDecrement();}
                     if (driver.wasJustPressed(GamepadKeys.Button.A))
                         {autoTransfer = !autoTransfer;}
                     break;
@@ -162,7 +166,7 @@ public class OneDriver extends LinearOpMode {
                 }
             }
 
-            if (loopCount == 5 && !autoTransfer) {
+            if (loopCount > 5 && autoTransfer) {
                 bot.intakeToTransferCheck();
                 ArrayList<PixelColor> held = bot.intake.getPixelColors();
                 switch (held.get(0)) {
