@@ -65,12 +65,22 @@ public class AutonParkCommand extends CommandBase {
                     case LEFT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
                                 .forward(6)
+                                .addTemporalMarker(() -> {
+                                    new GrabPixelsCommand(bot.deposit).execute();
+                                    new DepositV4BToDepositCommand(bot.deposit).execute();
+                                    new DepositToTransferPositionCommand(bot).execute();
+                                })
                                 .lineTo(new Vector2d(backdropX - 6, 60))
                                 .build();
                         break;
                     case RIGHT:
                         sequence = SampleMecanumDrive.trajectorySequenceBuilder(drive.getPoseEstimate())
                                 .forward(6)
+                                .addTemporalMarker(() -> {
+                                    new GrabPixelsCommand(bot.deposit).execute();
+                                    new DepositV4BToDepositCommand(bot.deposit).execute();
+                                    new DepositToTransferPositionCommand(bot).execute();
+                                })
                                 .lineTo(new Vector2d(backdropX - 6, 12))
                                 .build();
                         break;

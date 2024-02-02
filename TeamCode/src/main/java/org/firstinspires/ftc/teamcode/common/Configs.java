@@ -33,5 +33,5 @@ public class Configs {
         INTAKE
      */
     public static double
-    intakeAboveStackPosition = 0.89;
+    intakeAboveStackPosition = 0.87;
 }

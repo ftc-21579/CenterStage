@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToAutonBackdropCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
@@ -29,7 +30,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
         this.alliance = alliance;
     }
 
-    public static double backdropX = 49;
+    public static double backdropX = 47;
 
     @Override
     public void initialize() {
@@ -50,13 +51,13 @@ public class AutonCyclePixelsCommand extends CommandBase {
                             new ActivateIntakeSpinnerCommand(bot.intake).schedule();
                         })
                         .waitSeconds(2)
-                        .lineTo(new Vector2d(-51.5, -14))
+                        .lineTo(new Vector2d(-51.5, -13))
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {
                             new IntakeDecrementCommand(bot.intake).schedule();
                         })
                         .waitSeconds(1)
-                        .turn(Math.toRadians(-3.5))
+                        .turn(Math.toRadians(-5))
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {
                             new IntakeDecrementCommand(bot.intake).schedule();
@@ -68,7 +69,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         })
                         .lineToSplineHeading(new Pose2d(24, -12, Math.toRadians(0)))
                         .addTemporalMarker(() -> {
-                            new DepositToAutonBackdropCommand(bot.deposit).execute();
+                            new DepositToBottomPositionCommand(bot.deposit).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .splineToConstantHeading(new Vector2d(backdropX, -38), Math.toRadians(0))
@@ -93,15 +94,17 @@ public class AutonCyclePixelsCommand extends CommandBase {
                             new ActivateIntakeSpinnerCommand(bot.intake).schedule();
                         })
                         .waitSeconds(2)
-                        .lineTo(new Vector2d(-51.5, 14))
+                        .lineTo(new Vector2d(-50.5, 12.5))
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {
                             new IntakeDecrementCommand(bot.intake).schedule();
+                            new IntakeDecrementCommand(bot.intake).schedule();
                         })
                         .waitSeconds(1)
-                        .turn(Math.toRadians(3.5))
+                        .turn(Math.toRadians(7.5))
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {
+                            new IntakeDecrementCommand(bot.intake).schedule();
                             new IntakeDecrementCommand(bot.intake).schedule();
                             new IntakeDecrementCommand(bot.intake).schedule();
                         })
@@ -109,12 +112,12 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         .addTemporalMarker(() -> {
                             new ToTransferStateCommand(bot).schedule();
                         })
-                        .lineToSplineHeading(new Pose2d(24, 12, Math.toRadians(0)))
+                        .lineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)))
                         .addTemporalMarker(() -> {
-                            new DepositToAutonBackdropCommand(bot.deposit).execute();
+                            new DepositToBottomPositionCommand(bot.deposit).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
-                        .splineToConstantHeading(new Vector2d(backdropX, 38), Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(backdropX, 38), Math.toRadians(180))
                         .waitSeconds(1)
                         .addTemporalMarker(() -> {
                             new ReleasePixelsCommand(bot.deposit).execute();
