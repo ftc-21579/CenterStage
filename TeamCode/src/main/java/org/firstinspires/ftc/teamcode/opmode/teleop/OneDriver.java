@@ -141,7 +141,7 @@ public class OneDriver extends LinearOpMode {
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new DepositToHangHeightCommand(deposit));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new DepositToBottomPositionCommand(deposit));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new DepositToBottomPositionCommand(bot.pto));}
                     if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:

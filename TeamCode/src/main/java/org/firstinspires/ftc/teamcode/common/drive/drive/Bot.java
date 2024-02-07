@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.drive.drive;
 import com.acmerobotics.dashboard.config.Config;
 
 import com.arcrobotics.ftclib.command.Robot;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -16,6 +17,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.PTO;
 
 import java.util.ArrayList;
 
@@ -38,6 +40,9 @@ public class Bot extends Robot {
     public Intake intake;
     public Deposit deposit;
     public DroneLauncher launcher;
+    public PTO pto;
+
+    public RevBlinkinLedDriver blinkin;
 
     /*
         Constructor for the bot (initialize hardware)
@@ -55,6 +60,9 @@ public class Bot extends Robot {
                 )
             )
         );
+
+        blinkin = hMap.get(RevBlinkinLedDriver.class, "blinkin");
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
 
         /* Localizer */
         //parallelPod = hMap.get(DcMotorEx.class, "frontLeft");

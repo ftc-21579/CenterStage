@@ -5,13 +5,14 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
+import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.PTO;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class DepositToBottomPositionCommand extends CommandBase {
 
-    private Deposit deposit;
+    private PTO deposit;
 
-    public DepositToBottomPositionCommand(Deposit deposit) {
+    public DepositToBottomPositionCommand(PTO deposit) {
         this.deposit = deposit;
     }
 
@@ -22,18 +23,11 @@ public class DepositToBottomPositionCommand extends CommandBase {
 
     @Override
     public void execute() {
-        deposit.setLiftTarget(Configs.liftBottomPosition);
-
-        if (
-                deposit.getLiftPosition() > Configs.liftBottomPosition - 0.05 ||
-                        deposit.getLiftPosition() < Configs.liftBottomPosition + 0.05
-        ) {
-            deposit.setLiftState(DepositState.BOTTOM);
-        }
+        deposit.liftUp(Configs.liftSpeed);
     }
 
     @Override
     public boolean isFinished() {
-        return this.deposit.state == DepositState.BOTTOM;
+        return true;
     }
 }

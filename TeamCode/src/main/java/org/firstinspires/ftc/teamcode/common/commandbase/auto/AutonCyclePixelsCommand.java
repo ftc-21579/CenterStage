@@ -69,7 +69,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         })
                         .lineToSplineHeading(new Pose2d(24, -12, Math.toRadians(0)))
                         .addTemporalMarker(() -> {
-                            new DepositToBottomPositionCommand(bot.deposit).execute();
+                            new DepositToBottomPositionCommand(bot.pto).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .splineToConstantHeading(new Vector2d(backdropX, -38), Math.toRadians(0))
@@ -114,7 +114,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         })
                         .lineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)))
                         .addTemporalMarker(() -> {
-                            new DepositToBottomPositionCommand(bot.deposit).execute();
+                            new DepositToBottomPositionCommand(bot.pto).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .splineToConstantHeading(new Vector2d(backdropX, 38), Math.toRadians(180))
