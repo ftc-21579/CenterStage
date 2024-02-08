@@ -8,8 +8,7 @@ import org.firstinspires.ftc.teamcode.common.centerstage.Side;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
 

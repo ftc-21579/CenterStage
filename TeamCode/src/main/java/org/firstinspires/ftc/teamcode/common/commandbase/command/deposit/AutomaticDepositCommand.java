@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.command.deposit;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 public class AutomaticDepositCommand extends InstantCommand {
     public AutomaticDepositCommand(Bot b) {

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
 

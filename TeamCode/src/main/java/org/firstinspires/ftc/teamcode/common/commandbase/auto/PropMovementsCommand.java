@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Blue;

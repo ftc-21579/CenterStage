@@ -2,21 +2,15 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.mineinjava.quail.RobotMovement;
-import com.mineinjava.quail.localization.Localizer;
 import com.mineinjava.quail.pathing.Path;
-import com.mineinjava.quail.pathing.PathFollower;
-import com.mineinjava.quail.pathing.PathSequenceFollower;
-import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 

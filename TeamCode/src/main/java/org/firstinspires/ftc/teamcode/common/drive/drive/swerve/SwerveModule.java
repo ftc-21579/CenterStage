@@ -1,16 +1,6 @@
 package org.firstinspires.ftc.teamcode.common.drive.drive.swerve;
 
 
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.mineinjava.quail.util.MiniPID;
-import com.mineinjava.quail.util.geometry.Vec2d;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
-import org.firstinspires.ftc.teamcode.common.hardware.AbsoluteAnalogEncoder;
-
 /*
 @Config
 public class SwerveModule extends differentialSwerveModuleBase {

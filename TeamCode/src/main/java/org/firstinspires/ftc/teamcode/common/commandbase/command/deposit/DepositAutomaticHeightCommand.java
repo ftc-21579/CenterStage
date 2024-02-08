@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 import java.util.List;
 

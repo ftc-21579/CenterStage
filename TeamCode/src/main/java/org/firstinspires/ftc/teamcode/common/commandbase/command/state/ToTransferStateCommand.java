@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
@@ -13,9 +12,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Release
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeAboveTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ResetPTOCommand;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 @Config
 public class ToTransferStateCommand extends CommandBase {

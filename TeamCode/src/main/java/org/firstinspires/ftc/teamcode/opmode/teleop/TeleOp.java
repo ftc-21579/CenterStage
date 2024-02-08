@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -40,7 +39,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 import java.util.ArrayList;
 import java.util.List;

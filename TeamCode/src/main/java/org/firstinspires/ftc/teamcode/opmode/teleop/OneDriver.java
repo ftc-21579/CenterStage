@@ -39,7 +39,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 import java.util.ArrayList;
 import java.util.List;

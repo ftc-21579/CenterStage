@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import com.mineinjava.quail.util.geometry.Pose2d;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 import java.util.Arrays;
 import java.util.List;

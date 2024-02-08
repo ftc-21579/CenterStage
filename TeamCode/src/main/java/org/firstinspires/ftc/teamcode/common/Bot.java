@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.common.drive.drive;
+package org.firstinspires.ftc.teamcode.common;
 
 import com.acmerobotics.dashboard.config.Config;
 

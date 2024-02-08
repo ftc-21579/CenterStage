@@ -18,7 +18,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
-import org.firstinspires.ftc.teamcode.common.centerstage.Time;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonCyclePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonDelayCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonParkCommand;
@@ -26,7 +25,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsComma
 //import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Blue;
 import org.firstinspires.ftc.vision.VisionPortal;
