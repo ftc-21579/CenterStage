@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.common.commandbase.command.state;
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 public class ToDepositStateCommand extends CommandBase {
@@ -31,7 +32,7 @@ public class ToDepositStateCommand extends CommandBase {
             new ToTransferStateCommand(bot).schedule();
         } else {
             bot.telem.addLine("To Deposit State Exec");
-            new DepositToBottomPositionCommand(bot.pto).schedule();
+            new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition).schedule();
             new DepositV4BToDepositCommand(bot.deposit).schedule();
             ready = true;
         }
@@ -39,7 +40,7 @@ public class ToDepositStateCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (ready == true) {
+        if (ready) {
             bot.toDepositState();
             //new DepositStopLiftCommand(bot.deposit).schedule();
             bot.telem.addLine("To Deposit State Finished");

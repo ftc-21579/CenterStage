@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 @Config
@@ -33,89 +34,28 @@ public class PTO {
         rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void extend(double speed) {
-        double current = leftMotor.getCurrentPosition();
+    /**
+     * Set the motors to a certain power and target position
+     * @param power the power to set the motors to (speed)
+     * @param leftTarget the target position for the left motor (ticks)
+     * @param rightTarget the target position for the right motor (ticks)
+     */
+    public void setMotors(double power, double leftTarget, double rightTarget) {
+        leftMotor.setTargetPosition((int) (leftTarget));
+        rightMotor.setTargetPosition((int) (rightTarget));
 
-        if (current + 10 > EXT_MAX_POS) {
-            return;
-        }
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftMotor.setTargetPosition((int) (current + 10));
-        rightMotor.setTargetPosition((int) (current + 10));
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
     }
 
-    public void retract(double speed) {
-        double current = leftMotor.getCurrentPosition();
-        double target = current - 10;
-
-        if (current - 10 < EXT_MIN_POS) {
-            target = EXT_MIN_POS;
-        }
-
-        leftMotor.setTargetPosition((int) target);
-        rightMotor.setTargetPosition((int) target);
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
+    /**
+     * Get the current positions of the motors
+     * @return an array of the current positions of the motors [left, right]
+     */
+    public int[] getPositions() {
+        return new int[] {leftMotor.getCurrentPosition(), rightMotor.getCurrentPosition()};
     }
-
-    public void liftUp(double speed) {
-        double current = leftMotor.getCurrentPosition();
-
-        if (current + 10 > LIFT_MAX_POS) {
-            return;
-        }
-
-        leftMotor.setTargetPosition((int) (current - 10));
-        rightMotor.setTargetPosition((int) (current + 10) * -1);
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
-    }
-
-    public void liftDown(double speed) {
-        double current = leftMotor.getCurrentPosition();
-        double leftTarget = current + 10;
-        double rightTarget = current - 10;
-
-        if (Math.abs(current - 10) < LIFT_MIN_POS) {
-            leftTarget = LIFT_MIN_POS;
-            rightTarget = LIFT_MIN_POS;
-        }
-
-        leftMotor.setTargetPosition((int) leftTarget);
-        rightMotor.setTargetPosition((int) rightTarget * -1);
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
-    }
-
-    public void liftToBottom(double speed) {
-        leftMotor.setTargetPosition((int) LIFT_MIN_POS);
-        rightMotor.setTargetPosition((int) LIFT_MIN_POS);
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
-    }
-
-    public void extensionToEndstops(double speed) {
-        leftMotor.setTargetPosition((int) EXT_MIN_POS);
-        rightMotor.setTargetPosition((int) EXT_MIN_POS);
-        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotor.setPower(speed);
-        rightMotor.setPower(speed);
-    }
-
-
 }

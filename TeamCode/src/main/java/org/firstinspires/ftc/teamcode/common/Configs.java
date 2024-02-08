@@ -14,8 +14,7 @@ public class Configs {
     liftTransferPosition = 0.0,
     liftAutonBackdropPosition = 1.0,
     liftBottomPosition = 4.0,
-    liftHangHeightPosition = 18.0,
-    liftSpeed = 0.0;
+    liftHangHeightPosition = 18.0;
 
     // Grippers
     public static double
@@ -35,4 +34,16 @@ public class Configs {
      */
     public static double
     intakeAboveStackPosition = 0.87;
+
+    /*
+        PTO
+     */
+    public static int
+    extensionMaxPos = 50000, extensionMinPos = 0,
+    liftMaxPos = 50000, liftMinPos = 0;
+
+    public static double
+    liftIncrement = 1, extensionIncrement = 1,
+    liftSpeed = 0.5, extensionSpeed = 0.5,
+    LIFT_TICKS_PER_INCH = 0, EXTENSION_TICKS_PER_INCH = 22.78149; // TODO: THESE VALUES ASAP
 }

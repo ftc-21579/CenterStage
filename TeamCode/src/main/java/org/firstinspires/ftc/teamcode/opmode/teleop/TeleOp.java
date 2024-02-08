@@ -9,36 +9,32 @@ import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositAutomaticHeightCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToHangHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftDownCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
-//import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.RotateHeadingLockCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
-//import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleHeadingLockCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualExtensionInCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualExtensionOutCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualLiftDownCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualLiftUpCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToDepositStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToEndgameStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToIntakeStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
-//import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DifferentialSwerveDrivetrain;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.MecanumDrivetrain;
@@ -49,26 +45,19 @@ import java.util.List;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
 public class TeleOp extends LinearOpMode {
-
-    private Bot bot;
-    private Intake intake;
-    private MecanumDrivetrain drivetrain;
-    private DroneLauncher launcher;
-    private Deposit deposit;
-    private GamepadEx driver, otherDriver;
     private int loopCount = 0, a = 0;
 
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        bot = new Bot(telemetry, hardwareMap);
-        intake = bot.intake;
-        drivetrain = bot.drivetrain;
-        launcher = bot.launcher;
-        deposit = bot.deposit;
-        driver = new GamepadEx(gamepad1);
-        otherDriver = new GamepadEx(gamepad2);
+        Bot bot = new Bot(telemetry, hardwareMap);
+        Intake intake = bot.intake;
+        MecanumDrivetrain drivetrain = bot.drivetrain;
+        DroneLauncher launcher = bot.launcher;
+        Deposit deposit = bot.deposit;
+        GamepadEx driver = new GamepadEx(gamepad1);
+        GamepadEx otherDriver = new GamepadEx(gamepad2);
 
         TriggerReader leftTrigger = new TriggerReader(driver, GamepadKeys.Trigger.LEFT_TRIGGER);
         TriggerReader rightTrigger = new TriggerReader(driver, GamepadKeys.Trigger.RIGHT_TRIGGER);
@@ -134,10 +123,13 @@ public class TeleOp extends LinearOpMode {
                     {intake.v4bDecrement();}
                     if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
                     {intake.v4bIncrement();}
+
+                    s.schedule(new ManualExtensionInCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                    s.schedule(new ManualExtensionOutCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
+
                     break;
                 case TRANSFER:
-                    //if (driver.wasJustPressed(GamepadKeys.Button.A))
-                    //    {s.schedule(new RotateHeadingLockCommand(drivetrain));}
+
                     break;
                 case DEPOSIT:
                     if (driver.isDown(GamepadKeys.Button.A))
@@ -148,23 +140,26 @@ public class TeleOp extends LinearOpMode {
                     {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleRightPixelCommand(deposit));}
-                    s.schedule(new ManualLiftDownCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
-                    s.schedule(new ManualLiftUpCommand(deposit, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
-                    //if (driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) < 0.2 && driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) < 0.2)
-                    //    {s.schedule(new DepositStopLiftCommand(deposit));}
+
+                    s.schedule(new ManualLiftDownCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                    s.schedule(new ManualLiftUpCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+
                     break;
                 case ENDGAME:
-                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new DepositToHangHeightCommand(deposit));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new DepositToBottomPositionCommand(bot.pto));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B))
+                        {s.schedule(new LaunchDroneCommand(launcher));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y))
+                        {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X))
+                        {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.A))
+                        {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:
                     break;
             }
 
-            s.schedule(new RunLiftPIDCommand(deposit));
-
+            /*
             if (otherDriver.isDown(GamepadKeys.Button.X)) {
                 deposit.depositMotor.setPower(-0.5);
                 deposit.otherDepositMotor.setPower(-0.5);
@@ -179,6 +174,7 @@ public class TeleOp extends LinearOpMode {
                     a = 0;
                 }
             }
+             */
 
             if (loopCount == 5 && !otherDriver.isDown(GamepadKeys.Button.B)) {
                 bot.intakeToTransferCheck();
