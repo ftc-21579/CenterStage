@@ -15,26 +15,10 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 public class Deposit {
 
     Bot bot;
-    public static double liftKp = 0.005, liftKi = 0.0, liftKd = 0.0, liftKf = 0.0;
-    PIDFController liftPID = new PIDFController(liftKp, liftKi, liftKd, liftKf);
-    public static double TICKS_PER_INCH = 121.94;
-    public DepositState state = DepositState.TRANSFER;
-    public GripperState leftGripper = GripperState.GRAB, rightGripper = GripperState.GRAB;
-    private double liftSetpoint = 0.0;
-    public DcMotor depositMotor, otherDepositMotor;
     Servo leftReleaseServo, rightReleaseServo, leftV4BServo, rightV4BServo;
-    public VisionPortal visionPortal;
-    public TfodProcessor pixelTfodProcessor;
 
     public Deposit(Bot bot) {
         this.bot = bot;
-        depositMotor = bot.hMap.get(DcMotor.class, "depositMotor");
-        otherDepositMotor = bot.hMap.get(DcMotor.class, "otherDepositMotor");
-        otherDepositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        otherDepositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        depositMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        depositMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        otherDepositMotor.setDirection(DcMotor.Direction.REVERSE);
         leftReleaseServo = bot.hMap.get(Servo.class, "leftReleaseServo");
         rightReleaseServo = bot.hMap.get(Servo.class, "rightReleaseServo");
         leftV4BServo = bot.hMap.get(Servo.class, "depositLeftV4BServo");
