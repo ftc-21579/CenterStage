@@ -33,7 +33,8 @@ public class Configs {
         INTAKE
      */
     public static double
-    intakeAboveStackPosition = 0.87;
+    intakeAboveStackPosition = 0.87, intakeIntakePosition = 1.0,
+    intakeTransferPosition = 0.0, intakeAboveTransferPosition = 0.05;
 
     /*
         PTO

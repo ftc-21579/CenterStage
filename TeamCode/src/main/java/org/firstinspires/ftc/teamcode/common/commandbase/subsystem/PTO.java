@@ -3,19 +3,11 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
 
 @Config
 public class PTO {
     Bot bot;
-    public static double EXT_TICKS_PER_INCH = 22.78149; // TODO
-    public static double LIFT_TICKS_PER_INCH = 0; // TODO
-
-    public static double EXT_MAX_POS = 50000; // TODO
-    public static double EXT_MIN_POS = 0; // TODO
-    public static double LIFT_MAX_POS = 50000; // TODO
-    public static double LIFT_MIN_POS = 0; // TODO
     public DcMotor leftMotor, rightMotor;
 
     public PTO(Bot bot) {

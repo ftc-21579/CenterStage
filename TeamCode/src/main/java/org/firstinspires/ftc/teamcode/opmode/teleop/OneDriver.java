@@ -21,6 +21,8 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDri
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeDecrementCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIncrementCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ToggleIntakeV4BCommand;
@@ -102,17 +104,15 @@ public class OneDriver extends LinearOpMode {
             switch(bot.getBotState()) {
                 case INTAKE:
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
-                    {s.schedule(new ToggleIntakeV4BCommand(intake));}
+                        {s.schedule(new ToggleIntakeV4BCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
-                    {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
+                        {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
-                    {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
+                        {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
-                    {
-                        intake.v4bDecrement();}
+                        {s.schedule(new IntakeDecrementCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-                    {
-                        intake.v4bIncrement();}
+                        {s.schedule(new IntakeIncrementCommand(intake));}
 
                     s.schedule(new ManualExtensionInCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
                     s.schedule(new ManualExtensionOutCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
@@ -123,13 +123,13 @@ public class OneDriver extends LinearOpMode {
                     break;
                 case DEPOSIT:
                     if (driver.isDown(GamepadKeys.Button.A))
-                    {s.schedule(new ReleasePixelsCommand(bot.deposit));}
+                        {s.schedule(new ReleasePixelsCommand(bot.deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
-                    {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
-                    {s.schedule(new DepositToggleV4BCommand(deposit));}
+                        {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
-                    {s.schedule(new DepositToggleRightPixelCommand(deposit));}
+                        {s.schedule(new DepositToggleRightPixelCommand(deposit));}
 
                     s.schedule(new ManualLiftDownCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
                     s.schedule(new ManualLiftUpCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));

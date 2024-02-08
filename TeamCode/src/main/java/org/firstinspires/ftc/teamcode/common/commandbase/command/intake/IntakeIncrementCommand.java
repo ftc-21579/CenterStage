@@ -4,12 +4,12 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 
-public class ActivateIntakeSpinnerCommand extends InstantCommand {
-    public ActivateIntakeSpinnerCommand(Intake intake) {
+public class IntakeIncrementCommand extends InstantCommand {
+    public IntakeIncrementCommand(Intake intake) {
         super(
                 () -> {
 
-                    intake.setSpinnerPower(1.0);
+                    intake.v4bCustomHeight(intake.getV4BPosition() + 0.1);
 
                 }
         );
