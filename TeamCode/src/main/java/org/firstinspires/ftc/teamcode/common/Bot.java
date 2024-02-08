@@ -30,7 +30,6 @@ public class Bot extends Robot {
     private IMU imu;
     public final Telemetry telem;
     public final HardwareMap hMap;
-    public DcMotor parallelPod, perpendicularPod;
     private ArrayList<PixelColor> heldPixels = new ArrayList<>();
 
     /*
