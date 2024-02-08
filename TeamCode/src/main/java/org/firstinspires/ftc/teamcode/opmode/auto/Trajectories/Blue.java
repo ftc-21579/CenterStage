@@ -1,11 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmode.auto.Trajectories;
 
-import static org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.DriveConstants.MAX_ACCEL;
-import static org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.DriveConstants.MAX_ANG_ACCEL;
-import static org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.DriveConstants.MAX_ANG_VEL;
-import static org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.DriveConstants.MAX_VEL;
-import static org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.DriveConstants.TRACK_WIDTH;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
@@ -14,25 +8,15 @@ import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositLeftV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositRightV4BToDropCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositRightV4BToIdleCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToAutonBackdropCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDropCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.DisableIntakeSpinnerCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIntakePositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeTransferPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
 import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
-import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequenceBuilder;
 
 @Config
 public class Blue {
@@ -61,7 +45,7 @@ public class Blue {
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToAutonBackdropCommand(bot.deposit).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
                 new DepositRightV4BToIdleCommand(bot.deposit).execute();
                 new DepositLeftV4BToDepositCommand(bot.deposit).execute();
             })
@@ -85,7 +69,7 @@ public class Blue {
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToAutonBackdropCommand(bot.deposit).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .lineToSplineHeading(new Pose2d(backdropX, 37, Math.toRadians(180)))
@@ -110,7 +94,7 @@ public class Blue {
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToAutonBackdropCommand(bot.deposit).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .lineToSplineHeading(new Pose2d(backdropX, 32, Math.toRadians(180)))
@@ -145,7 +129,7 @@ public class Blue {
             })
             .lineTo(new Vector2d(24, 14))
             .addTemporalMarker(() -> {
-                new DepositToAutonBackdropCommand(bot.deposit).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
             })
             .splineToConstantHeading(new Vector2d(backdropX, 46), Math.toRadians(0))
             .waitSeconds(0.5)
@@ -169,7 +153,7 @@ public class Blue {
             .turn(Math.toRadians(-90))
             .lineTo(new Vector2d(24, 12))
             .addTemporalMarker(() -> {
-                new DepositToAutonBackdropCommand(bot.deposit).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .splineToConstantHeading(new Vector2d(backdropX, 38), Math.toRadians(0))
@@ -200,7 +184,7 @@ public class Blue {
             .turn(Math.toRadians(180))
             .lineTo(new Vector2d(24, 14))
             .addTemporalMarker(() -> {
-                new DepositToAutonBackdropCommand(bot.deposit).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .splineToConstantHeading(new Vector2d(backdropX, 34), Math.toRadians(0))
