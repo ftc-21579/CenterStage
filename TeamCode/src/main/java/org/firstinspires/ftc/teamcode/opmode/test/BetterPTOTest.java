@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualExten
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualLiftUpCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ResetPTOCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.DroneLauncher;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
@@ -47,6 +48,9 @@ public class BetterPTOTest extends LinearOpMode {
             }
             if (driver.isDown(GamepadKeys.Button.Y)) {
                 s.schedule(new ManualLiftUpCommand(bot.pto, 0.5));
+            }
+            if (driver.isDown(GamepadKeys.Button.DPAD_DOWN)) {
+                s.schedule(new ResetPTOCommand(bot.pto));
             }
 
             CommandScheduler.getInstance().run();
