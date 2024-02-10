@@ -16,6 +16,9 @@ public class PTO {
         leftMotor = bot.hMap.get(DcMotor.class, "leftPTO");
         rightMotor = bot.hMap.get(DcMotor.class, "rightPTO");
 
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -36,8 +39,8 @@ public class PTO {
         leftMotor.setTargetPosition((int) (leftTarget));
         rightMotor.setTargetPosition((int) (rightTarget));
 
-        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         leftMotor.setPower(power);
         rightMotor.setPower(power);
