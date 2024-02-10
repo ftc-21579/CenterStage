@@ -72,6 +72,7 @@ public class Bot extends Robot {
         intake = new Intake(this);
         launcher = new DroneLauncher(this);
         deposit = new Deposit(this);
+        pto = new PTO(this);
     }
 
 
