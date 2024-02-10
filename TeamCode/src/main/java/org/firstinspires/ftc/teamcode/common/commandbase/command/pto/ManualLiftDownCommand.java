@@ -23,10 +23,10 @@ public class ManualLiftDownCommand extends CommandBase {
         // right = (rightCurrent - increment) * -1
         // the right motor is inverted to spin the correct differential
 
-        int newLeftTarget = (int) (currentPositions[0] +
+        int newLeftTarget = (int) (currentPositions[0] -
                 (Configs.liftIncrement * Configs.LIFT_TICKS_PER_INCH));
-        int newRightTarget = (int) (currentPositions[1] -
-                (Configs.liftIncrement * Configs.LIFT_TICKS_PER_INCH)) * -1;
+        int newRightTarget = (int) (currentPositions[1] +
+                (Configs.liftIncrement * Configs.LIFT_TICKS_PER_INCH));
 
         // bounds checking to avoid skill issues
         if (currentPositions[0] - Configs.liftIncrement < Configs.liftMinPos) {
