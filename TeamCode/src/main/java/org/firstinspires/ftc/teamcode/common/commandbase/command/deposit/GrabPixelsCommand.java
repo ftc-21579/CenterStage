@@ -20,9 +20,6 @@ public class GrabPixelsCommand extends CommandBase {
         deposit.setLeftGripperPosition(Configs.leftGripperGrabPosition);
         deposit.setRightGripperPosition(Configs.rightGripperGrabPosition);
 
-        deposit.leftGripper = GripperState.GRAB;
-        deposit.rightGripper = GripperState.GRAB;
-
         ready = true;
     }
 

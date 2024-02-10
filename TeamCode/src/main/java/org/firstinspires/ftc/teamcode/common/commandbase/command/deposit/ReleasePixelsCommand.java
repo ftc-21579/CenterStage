@@ -20,9 +20,6 @@ public class ReleasePixelsCommand extends CommandBase {
         deposit.setLeftGripperPosition(Configs.leftGripperReleasePosition);
         deposit.setRightGripperPosition(Configs.rightGripperReleasePosition);
 
-        deposit.leftGripper = GripperState.RELEASE;
-        deposit.rightGripper = GripperState.RELEASE;
-
         ready = true;
     }
 

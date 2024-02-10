@@ -57,6 +57,20 @@ public class Deposit {
         rightReleaseServo.setPosition(position);
     }
     /**
+     * get the left gripper's position
+     * @return the position the left gripper is set to
+     */
+    public double getLeftGripperPosition() {
+        return leftReleaseServo.getPosition();
+    }
+    /**
+     * get the right gripper's position
+     * @return the position the right gripper is set to
+     */
+    public double getRightGripperPosition() {
+        return rightReleaseServo.getPosition();
+    }
+    /**
      * Sets the left V4B's position
      * @param position the position to set the left V4B to
      */

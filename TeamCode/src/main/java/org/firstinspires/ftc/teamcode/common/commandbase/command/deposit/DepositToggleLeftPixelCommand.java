@@ -16,12 +16,10 @@ public class DepositToggleLeftPixelCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (deposit.leftGripper == GripperState.GRAB) {
+        if (deposit.getLeftGripperPosition() == Configs.leftGripperGrabPosition) {
             deposit.setLeftGripperPosition(Configs.leftGripperReleasePosition);
-            deposit.leftGripper = GripperState.RELEASE;
         } else {
             deposit.setLeftGripperPosition(Configs.leftGripperGrabPosition);
-            deposit.leftGripper = GripperState.GRAB;
         }
         ready = true;
     }

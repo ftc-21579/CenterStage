@@ -6,14 +6,13 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToAutonBackdropCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToBottomPositionCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ActivateIntakeSpinnerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeCustomHeightCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeDecrementCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ResetPTOCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToTransferStateCommand;
 import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
@@ -41,7 +40,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         .setReversed(false)
                         .splineToConstantHeading(new Vector2d(24, -12), Math.toRadians(180))
                         .addTemporalMarker(() -> {
-                            new DepositToTransferPositionCommand(bot).execute();
+                            new ResetPTOCommand(bot.pto).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .lineTo(new Vector2d(-48, -13))
@@ -68,7 +67,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         })
                         .lineToSplineHeading(new Pose2d(24, -12, Math.toRadians(0)))
                         .addTemporalMarker(() -> {
-                            new DepositToBottomPositionCommand(bot.pto).execute();
+                            new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .splineToConstantHeading(new Vector2d(backdropX, -38), Math.toRadians(0))
@@ -84,7 +83,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         .setReversed(false)
                         .splineToConstantHeading(new Vector2d(24, 12), Math.toRadians(180))
                         .addTemporalMarker(() -> {
-                            new DepositToTransferPositionCommand(bot).execute();
+                            new ResetPTOCommand(bot.pto).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .lineTo(new Vector2d(-48, 13))
@@ -113,7 +112,7 @@ public class AutonCyclePixelsCommand extends CommandBase {
                         })
                         .lineToSplineHeading(new Pose2d(20, 12, Math.toRadians(180)))
                         .addTemporalMarker(() -> {
-                            new DepositToBottomPositionCommand(bot.pto).execute();
+                            new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition).execute();
                             new DepositV4BToDepositCommand(bot.deposit).execute();
                         })
                         .splineToConstantHeading(new Vector2d(backdropX, 38), Math.toRadians(180))

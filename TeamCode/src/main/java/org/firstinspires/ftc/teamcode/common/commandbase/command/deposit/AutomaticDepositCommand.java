@@ -1,3 +1,4 @@
+/*
 package org.firstinspires.ftc.teamcode.common.commandbase.command.deposit;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -18,3 +19,4 @@ public class AutomaticDepositCommand extends InstantCommand {
         );
     }
 }
+*/

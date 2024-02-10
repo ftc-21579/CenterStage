@@ -5,10 +5,10 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToTransferPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ResetPTOCommand;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
 
@@ -41,7 +41,7 @@ public class AutonParkCommand extends CommandBase {
                                 .addTemporalMarker(() -> {
                                     new GrabPixelsCommand(bot.deposit).execute();
                                     new DepositV4BToDepositCommand(bot.deposit).execute();
-                                    new DepositToTransferPositionCommand(bot).execute();
+                                    new ResetPTOCommand(bot.pto).execute();
                                 })
                                 .lineTo(new Vector2d(backdropX - 6, -12))
                                 .build();
@@ -52,7 +52,7 @@ public class AutonParkCommand extends CommandBase {
                                 .addTemporalMarker(() -> {
                                     new GrabPixelsCommand(bot.deposit).execute();
                                     new DepositV4BToDepositCommand(bot.deposit).execute();
-                                    new DepositToTransferPositionCommand(bot).execute();
+                                    new ResetPTOCommand(bot.pto).execute();
                                 })
                                 .lineTo(new Vector2d(backdropX - 6, -60))
                                 .build();
@@ -67,7 +67,7 @@ public class AutonParkCommand extends CommandBase {
                                 .addTemporalMarker(() -> {
                                     new GrabPixelsCommand(bot.deposit).execute();
                                     new DepositV4BToDepositCommand(bot.deposit).execute();
-                                    new DepositToTransferPositionCommand(bot).execute();
+                                    new ResetPTOCommand(bot.pto).execute();
                                 })
                                 .lineTo(new Vector2d(backdropX - 6, 60))
                                 .build();
@@ -78,7 +78,7 @@ public class AutonParkCommand extends CommandBase {
                                 .addTemporalMarker(() -> {
                                     new GrabPixelsCommand(bot.deposit).execute();
                                     new DepositV4BToDepositCommand(bot.deposit).execute();
-                                    new DepositToTransferPositionCommand(bot).execute();
+                                    new ResetPTOCommand(bot.pto).execute();
                                 })
                                 .lineTo(new Vector2d(backdropX - 6, 12))
                                 .build();

@@ -21,9 +21,7 @@ import org.firstinspires.ftc.teamcode.common.centerstage.Side;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonDelayCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonParkCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsCommand;
-//import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Red;
@@ -120,7 +118,6 @@ public class RedAuto extends LinearOpMode {
 
         while (opModeIsActive()) {
             drive.update();
-            new RunLiftPIDCommand(bot.deposit).schedule();
             telemetry.update();
             CommandScheduler.getInstance().run();
         }
