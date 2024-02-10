@@ -44,7 +44,7 @@ public class Configs {
     liftMaxPos = 50000, liftMinPos = 0;
 
     public static double
-    liftIncrement = 1, extensionIncrement = 1,
+    liftIncrement = 10, extensionIncrement = 10,
     liftSpeed = 0.5, extensionSpeed = 0.5,
-    LIFT_TICKS_PER_INCH = 0, EXTENSION_TICKS_PER_INCH = 22.78149; // TODO: THESE VALUES ASAP
+    LIFT_TICKS_PER_INCH = 105.977, EXTENSION_TICKS_PER_INCH = 53.0124;
 }
