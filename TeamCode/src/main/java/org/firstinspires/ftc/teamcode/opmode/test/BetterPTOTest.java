@@ -38,16 +38,16 @@ public class BetterPTOTest extends LinearOpMode {
             driver.readButtons();
 
             if (driver.isDown(GamepadKeys.Button.B)) {
-                s.schedule(new ManualExtensionOutCommand(bot.pto, 0.5));
+                s.schedule(new ManualExtensionOutCommand(bot.pto, 1.0));
             }
             if (driver.isDown(GamepadKeys.Button.X)) {
-                s.schedule(new ManualExtensionInCommand(bot.pto, 0.5));
+                s.schedule(new ManualExtensionInCommand(bot.pto, 1.0));
             }
             if (driver.isDown(GamepadKeys.Button.A)) {
-                s.schedule(new ManualLiftDownCommand(bot.pto, 0.5));
+                s.schedule(new ManualLiftDownCommand(bot.pto, 1.0));
             }
             if (driver.isDown(GamepadKeys.Button.Y)) {
-                s.schedule(new ManualLiftUpCommand(bot.pto, 0.5));
+                s.schedule(new ManualLiftUpCommand(bot.pto, 1.0));
             }
             if (driver.isDown(GamepadKeys.Button.DPAD_DOWN)) {
                 s.schedule(new ResetPTOCommand(bot.pto));

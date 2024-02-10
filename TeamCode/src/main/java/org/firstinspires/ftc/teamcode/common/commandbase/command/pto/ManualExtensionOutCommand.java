@@ -29,7 +29,7 @@ public class ManualExtensionOutCommand extends CommandBase {
                 (Configs.extensionIncrement * Configs.EXTENSION_TICKS_PER_INCH));
 
         // bounds checking to avoid skill issues
-        if (currentPositions[0] + Configs.extensionIncrement > Configs.extensionMaxPos) {
+        if (pto.targetPosition + Configs.extensionIncrement > Configs.extensionMaxPos) {
             return;
         }
 

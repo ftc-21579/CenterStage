@@ -29,7 +29,7 @@ public class ManualLiftDownCommand extends CommandBase {
                 (Configs.liftIncrement * Configs.LIFT_TICKS_PER_INCH));
 
         // bounds checking to avoid skill issues
-        if (currentPositions[0] - Configs.liftIncrement < Configs.liftMinPos) {
+        if (pto.targetPosition - Configs.liftIncrement < Configs.liftMinPos) {
             return;
         }
 

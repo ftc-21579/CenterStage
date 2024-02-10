@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.common.Bot;
 public class PTO {
     Bot bot;
     public DcMotor leftMotor, rightMotor;
+    public int targetPosition = 0;
 
     public PTO(Bot bot) {
         this.bot = bot;
@@ -36,6 +37,7 @@ public class PTO {
      * @param rightTarget the target position for the right motor (ticks)
      */
     public void setMotors(double power, double leftTarget, double rightTarget) {
+        targetPosition = (int) leftTarget;
         leftMotor.setTargetPosition((int) (leftTarget));
         rightMotor.setTargetPosition((int) (rightTarget));
 
