@@ -40,8 +40,8 @@ public class Configs {
         PTO
      */
     public static int
-    extensionMaxPos = 2500, extensionMinPos = 0,
-    liftMaxPos = 2250, liftMinPos = 0;
+    extensionMaxPos = 2080, extensionMinPos = 0,
+    liftMaxPos = 1940, liftMinPos = 0;
 
     public static double
     liftIncrement = 10, extensionIncrement = 10,
