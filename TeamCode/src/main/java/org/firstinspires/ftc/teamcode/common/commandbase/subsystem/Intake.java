@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
 
     Bot bot;
 
-    private final CRServo leftServo, rightServo;
+    private final CRServo leftServo, rightServo, headingServo;
     private final ColorSensor leftSensor, rightSensor;
 
     private final ServoImplEx leftv4bServo, rightv4bServo;
@@ -42,6 +42,7 @@ public class Intake extends SubsystemBase {
 
         leftServo = bot.hMap.get(CRServo.class, "leftIntakeServo");
         rightServo = bot.hMap.get(CRServo.class, "rightIntakeServo");
+        headingServo = bot.hMap.get(CRServo.class, "headingServo");
         //leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
         rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -88,6 +89,10 @@ public class Intake extends SubsystemBase {
      */
     public double getV4BPosition() {
         return (leftv4bServo.getPosition() + rightv4bServo.getPosition()) / 2;
+    }
+
+    public void setHeadingServoPower(double power) {
+        headingServo.setPower(power);
     }
 
     /**

@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.HeadingServoPowerCommand;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +44,11 @@ public class MecanumDrivetrain extends SubsystemBase {
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
         double x = leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
+
+        if (bot.pto.getPositions()[0] > 1000 && bot.getBotState() == BotState.INTAKE) {
+            new HeadingServoPowerCommand(bot.intake, rx);
+            rx = 0.0;
+        }
 
         rx *= 0.8;
 
