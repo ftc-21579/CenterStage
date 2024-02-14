@@ -21,6 +21,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDri
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.LaunchDroneCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drone.ResetDroneLauncherCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.HeadingServoPowerCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeDecrementCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.IntakeIncrementCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.ReverseIntakeSpinnerCommand;
@@ -117,14 +118,13 @@ public class TeleOp extends LinearOpMode {
                         {s.schedule(new ToggleIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
-                        {s.schedule(new IntakeDecrementCommand(intake));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-                        {s.schedule(new IntakeIncrementCommand(intake));}
+                    if (otherDriver.isDown(GamepadKeys.Button.RIGHT_BUMPER))
+                        {s.schedule(new ManualExtensionOutCommand(bot.pto, 1.0));}
+                    if (otherDriver.isDown(GamepadKeys.Button.LEFT_BUMPER))
+                        {s.schedule(new ManualExtensionInCommand(bot.pto, 1.0));}
 
-                    s.schedule(new ManualExtensionInCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
-                    s.schedule(new ManualExtensionOutCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
-
+                    s.schedule(new HeadingServoPowerCommand(intake, otherDriver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                    s.schedule(new HeadingServoPowerCommand(intake, -otherDriver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
                     break;
                 case TRANSFER:
 
@@ -135,23 +135,21 @@ public class TeleOp extends LinearOpMode {
                     if (driver.wasJustPressed(GamepadKeys.Button.B))
                         {s.schedule(new DepositToggleLeftPixelCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
-                    {s.schedule(new DepositToggleV4BCommand(deposit));}
+                        {s.schedule(new DepositToggleV4BCommand(deposit));}
                     if (driver.wasJustPressed(GamepadKeys.Button.X))
                         {s.schedule(new DepositToggleRightPixelCommand(deposit));}
 
-                    s.schedule(new ManualLiftDownCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
-                    s.schedule(new ManualLiftUpCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                    if (driver.isDown(GamepadKeys.Button.RIGHT_BUMPER))
+                        {s.schedule(new ManualLiftUpCommand(bot.pto, 1.0));}
+                    if (driver.isDown(GamepadKeys.Button.LEFT_BUMPER))
+                        {s.schedule(new ManualLiftDownCommand(bot.pto, 1.0));}
 
                     break;
                 case ENDGAME:
-                    if (driver.wasJustPressed(GamepadKeys.Button.B))
-                        {s.schedule(new LaunchDroneCommand(launcher));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.Y))
-                        {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.X))
-                        {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.A))
-                        {s.schedule(new ResetDroneLauncherCommand(launcher));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:
                     break;

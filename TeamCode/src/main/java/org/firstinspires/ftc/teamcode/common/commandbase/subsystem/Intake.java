@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
     Bot bot;
 
     private final CRServo leftServo, rightServo, headingServo;
-    private final ColorSensor leftSensor, rightSensor;
+    //private final ColorSensor leftSensor, rightSensor;
 
     private final ServoImplEx leftv4bServo, rightv4bServo;
 
@@ -46,8 +46,8 @@ public class Intake extends SubsystemBase {
         //leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
         rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
-        rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
+        //leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
+        //rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
         leftv4bServo = bot.hMap.get(ServoImplEx.class, "intakeLeftV4BServo");
         leftv4bServo.setDirection(Servo.Direction.REVERSE);
@@ -100,6 +100,7 @@ public class Intake extends SubsystemBase {
      * @return the color of the pixels {left, right}
      */
     public ArrayList<PixelColor> getPixelColors() {
+        /*
         ArrayList<Integer> leftRGB = new ArrayList<>(Arrays.asList(leftSensor.red(), leftSensor.green(), leftSensor.blue()));
         ArrayList<Integer> rightRGB = new ArrayList<>(Arrays.asList(rightSensor.red(), rightSensor.green(), rightSensor.blue()));
 
@@ -154,6 +155,10 @@ public class Intake extends SubsystemBase {
         bot.telem.addData("Right Green: ", rightSensor.green());
         bot.telem.addData("Right Blue: ", rightSensor.blue());
          */
+        ArrayList<PixelColor> colors = new ArrayList<>();
+        colors.add(PixelColor.NONE);
+        colors.add(PixelColor.NONE);
+
         return colors;
     }
 }
