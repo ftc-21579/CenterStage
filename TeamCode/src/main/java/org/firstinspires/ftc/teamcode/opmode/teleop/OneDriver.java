@@ -110,12 +110,14 @@ public class OneDriver extends LinearOpMode {
                     if (driver.wasJustPressed(GamepadKeys.Button.Y))
                         {s.schedule(new ReverseIntakeSpinnerCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER))
-                        {s.schedule(new IntakeDecrementCommand(intake));}
+                        {s.schedule(new ManualExtensionOutCommand(bot.pto, 1.0));}
+                        //{s.schedule(new IntakeDecrementCommand(intake));}
                     if (driver.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER))
-                        {s.schedule(new IntakeIncrementCommand(intake));}
+                        {s.schedule(new ManualExtensionInCommand(bot.pto, 1.0));}
+                        //{s.schedule(new IntakeIncrementCommand(intake));}
 
-                    s.schedule(new ManualExtensionInCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
-                    s.schedule(new ManualExtensionOutCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
+                    //s.schedule(new ManualExtensionInCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)));
+                    //s.schedule(new ManualExtensionOutCommand(bot.pto, driver.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)));
 
                     break;
                 case TRANSFER:
