@@ -13,7 +13,7 @@ public class ResetPTOCommand extends CommandBase {
 
     @Override
     public void initialize() {
-        pto.setMotors((Configs.liftSpeed + Configs.extensionSpeed) / 2, 0, 0);
+        pto.setMotors((Configs.liftSpeed + Configs.extensionSpeed) / 2, Configs.leftZeroPosition, Configs.rightZeroPosition);
     }
     @Override
     public boolean isFinished() {
