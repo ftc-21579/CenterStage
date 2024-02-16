@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleLeftPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositToggleV4BCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.TeleOpDriveCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.drive.ToggleFieldCentricCommand;
@@ -140,7 +141,10 @@ public class OneDriver extends LinearOpMode {
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));}
-                    if (driver.isDown(GamepadKeys.Button.X)) {s.schedule(new ManualLiftDownCommand(bot.pto, 8.0));}
+                    if (driver.isDown(GamepadKeys.Button.X)) {
+                        s.schedule(new ManualLiftDownCommand(bot.pto, 8.0));
+                        s.schedule(new DepositV4BToIdleCommand(deposit));
+                    }
                     if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:
