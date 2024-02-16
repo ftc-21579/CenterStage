@@ -148,7 +148,7 @@ public class TeleOp extends LinearOpMode {
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
                     if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition));}
+                    if (driver.isDown(GamepadKeys.Button.X)) {s.schedule(new ManualLiftDownCommand(bot.pto, 8.0));}
                     if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:

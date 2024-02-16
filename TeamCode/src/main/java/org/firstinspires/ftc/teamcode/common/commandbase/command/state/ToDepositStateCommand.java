@@ -33,8 +33,10 @@ public class ToDepositStateCommand extends CommandBase {
         } else {
             bot.telem.addLine("To Deposit State Exec");
             new CustomLiftPositionCommand(bot.pto, Configs.liftBottomPosition).schedule();
-            new DepositV4BToDepositCommand(bot.deposit).schedule();
-            ready = true;
+            if (timer.milliseconds() > 500) {
+                new DepositV4BToDepositCommand(bot.deposit).schedule();
+                ready = true;
+            }
         }
     }
 

@@ -24,8 +24,10 @@ public class Configs {
     // Deposit V4B
     public static double
     leftV4bDepositPosition = 0.85, leftV4bTransferPosition = 0.0,
+    leftV4bAboveTransferPosition = 0.07,
     leftV4bIdlePosition = 0.5, leftV4bDropPosition = 1.0,
     rightV4bDepositPosition = 0.15, rightV4bTransferPosition = 1.0,
+    rightV4bAboveTransferPosition = 0.93,
     rightV4bIdlePosition = 0.5, rightV4bDropPosition = 0.0;
 
 
@@ -47,5 +49,5 @@ public class Configs {
     liftIncrement = 2, extensionIncrement = 10,
     liftSpeed = 1.0, extensionSpeed = 1.0,
     LIFT_TICKS_PER_INCH = 105.977, EXTENSION_TICKS_PER_INCH = 53.0124,
-    leftZeroPosition = -40.0, rightZeroPosition = -0.0;
+    leftZeroPosition = -35.0, rightZeroPosition = -5.0;
 }

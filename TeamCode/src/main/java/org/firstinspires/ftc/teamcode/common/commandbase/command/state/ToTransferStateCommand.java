@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BAboveTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToTransferCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
@@ -54,10 +55,12 @@ public class ToTransferStateCommand extends CommandBase {
             } else if (timer.milliseconds() > delay2 && timer.milliseconds() < delay3) {
                 new IntakeTransferPositionCommand(bot.intake).schedule();
 
-            } else {
+            } else if (timer.milliseconds() > delay3 && timer.milliseconds() < 2600) {
                 new IntakeTransferPositionCommand(bot.intake).schedule();
                 new DisableIntakeSpinnerCommand(bot.intake).schedule();
                 new GrabPixelsCommand(bot.deposit).schedule();
+            } else {
+                new DepositV4BAboveTransferCommand(bot.deposit).schedule();
 
                 ready = true;
             }
