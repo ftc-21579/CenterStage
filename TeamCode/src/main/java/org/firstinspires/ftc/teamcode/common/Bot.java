@@ -61,7 +61,7 @@ public class Bot extends Robot {
         );
 
         blinkin = hMap.get(RevBlinkinLedDriver.class, "blinkin");
-        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_RAINBOW_PALETTE);
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.WHITE);
 
         /* Localizer */
         //parallelPod = hMap.get(DcMotorEx.class, "frontLeft");
@@ -78,18 +78,22 @@ public class Bot extends Robot {
 
     public void toIntakeState() {
         botState = BotState.INTAKE;
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
     }
 
     public void toTransferState() {
         botState = BotState.TRANSFER;
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.HOT_PINK);
     }
 
     public void toDepositState() {
         botState = BotState.DEPOSIT;
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
     }
 
     public void toEndgameState() {
         botState = BotState.ENDGAME;
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
     }
 
     public BotState getBotState() {

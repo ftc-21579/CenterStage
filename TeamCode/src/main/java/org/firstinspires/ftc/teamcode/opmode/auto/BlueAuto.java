@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -64,6 +65,7 @@ public class BlueAuto extends LinearOpMode {
         portal.setProcessorEnabled(propPipeline, true);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        bot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
 
         while(!isStarted()) {
             telemetry.clearAll();
@@ -123,6 +125,7 @@ public class BlueAuto extends LinearOpMode {
             drive.update();
             telemetry.update();
             CommandScheduler.getInstance().run();
+            bot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
         }
     }
 }

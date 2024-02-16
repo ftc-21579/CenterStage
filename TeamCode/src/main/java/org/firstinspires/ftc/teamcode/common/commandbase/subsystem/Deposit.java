@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 @Config
 public class Deposit {
 
-    Bot bot;
+    public Bot bot;
     Servo leftReleaseServo, rightReleaseServo, leftV4BServo, rightV4BServo;
 
     public Deposit(Bot bot) {

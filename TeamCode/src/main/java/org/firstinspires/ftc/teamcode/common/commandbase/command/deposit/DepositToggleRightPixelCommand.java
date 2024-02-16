@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.common.commandbase.command.deposit;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 import org.firstinspires.ftc.teamcode.common.Configs;
 import org.firstinspires.ftc.teamcode.common.centerstage.GripperState;
@@ -21,6 +22,7 @@ public class DepositToggleRightPixelCommand extends CommandBase {
         } else {
             deposit.setRightGripperPosition(Configs.rightGripperGrabPosition);
         }
+        deposit.bot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
         ready = true;
     }
 
