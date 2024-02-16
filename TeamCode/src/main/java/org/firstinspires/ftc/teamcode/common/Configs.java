@@ -44,8 +44,8 @@ public class Configs {
     liftMaxPos = 1940, liftMinPos = 0;
 
     public static double
-    liftIncrement = 10, extensionIncrement = 10,
+    liftIncrement = 2, extensionIncrement = 10,
     liftSpeed = 1.0, extensionSpeed = 1.0,
     LIFT_TICKS_PER_INCH = 105.977, EXTENSION_TICKS_PER_INCH = 53.0124,
-    leftZeroPosition = -20.0, rightZeroPosition = -20.0;
+    leftZeroPosition = -40.0, rightZeroPosition = -0.0;
 }

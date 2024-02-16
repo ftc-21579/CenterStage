@@ -18,22 +18,25 @@ public class ManualExtensionInCommand extends CommandBase {
     @Override
     public void initialize() {
         int[] currentPositions = pto.getPositions();
+        int targetPosition;
 
         // left = leftCurrent - increment
         // right = rightCurrent - increment
         // extension is easy and both motors are the same
 
-        int newLeftTarget = (int) (currentPositions[0] -
-                (Configs.extensionIncrement * Configs.EXTENSION_TICKS_PER_INCH));
-        int newRightTarget = (int) (currentPositions[1] -
-                (Configs.extensionIncrement * Configs.EXTENSION_TICKS_PER_INCH));
+        targetPosition = (int) (currentPositions[0] - (Configs.extensionIncrement * Configs.EXTENSION_TICKS_PER_INCH));
+
+        //int newLeftTarget = (int) (currentPositions[0] -
+                //(Configs.extensionIncrement * Configs.EXTENSION_TICKS_PER_INCH));
+        //int newRightTarget = (int) (currentPositions[1] -
+                //(Configs.extensionIncrement * Configs.EXTENSION_TICKS_PER_INCH));
 
         // bounds checking to avoid skill issues
         if (pto.targetPosition - Configs.extensionIncrement < Configs.extensionMinPos) {
             return;
         }
 
-        pto.setMotors(Configs.extensionSpeed * multiplier, newLeftTarget, newRightTarget);
+        pto.setMotors(Configs.extensionSpeed * multiplier, targetPosition, targetPosition);
     }
 
     @Override
