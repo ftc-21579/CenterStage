@@ -140,11 +140,11 @@ public class OneDriver extends LinearOpMode {
                     break;
                 case ENDGAME:
                     if (driver.wasJustPressed(GamepadKeys.Button.B)) {s.schedule(new LaunchDroneCommand(launcher));}
-                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));}
-                    if (driver.isDown(GamepadKeys.Button.X)) {
-                        s.schedule(new ManualLiftDownCommand(bot.pto, 8.0));
+                    if (driver.wasJustPressed(GamepadKeys.Button.Y)) {
+                        s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));
                         s.schedule(new DepositV4BToIdleCommand(deposit));
                     }
+                    if (driver.isDown(GamepadKeys.Button.X)) {s.schedule(new ManualLiftDownCommand(bot.pto, 8.0));}
                     if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:
