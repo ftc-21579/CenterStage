@@ -28,7 +28,9 @@ public class CustomLiftPositionCommand extends CommandBase {
         pto.setMotors(Configs.liftSpeed,
                 (target * Configs.LIFT_TICKS_PER_INCH),
                 (target * Configs.LIFT_TICKS_PER_INCH) * -1);
+
     }
+
 
     @Override
     public boolean isFinished() {

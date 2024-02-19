@@ -112,6 +112,7 @@ public class RedAuto extends LinearOpMode {
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
         new SequentialCommandGroup(
+                new GrabPixelsCommand(bot.deposit),
                 new AutonDelayCommand(bot, drive, timeCount),
                 new PropMovementsCommand(bot, drive, propPosition, Alliance.RED, startSide),
                 //new AutonCyclePixelsCommand(drive, bot, Alliance.RED)

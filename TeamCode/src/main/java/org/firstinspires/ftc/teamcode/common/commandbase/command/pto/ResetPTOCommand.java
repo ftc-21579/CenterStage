@@ -15,6 +15,7 @@ public class ResetPTOCommand extends CommandBase {
     public void initialize() {
         pto.setMotors((Configs.liftSpeed + Configs.extensionSpeed) / 2, Configs.leftZeroPosition, Configs.rightZeroPosition);
     }
+
     @Override
     public boolean isFinished() {
         // if the motor positions are less than 5, close enough to reset position (assumption ofc)

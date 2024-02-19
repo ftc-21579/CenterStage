@@ -12,9 +12,12 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.Deposit
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDropCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToIdleCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleasePixelsCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.ReleaseRightPixelCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.CustomLiftPositionCommand;
 import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ResetPTOCommand;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.trajectorysequence.TrajectorySequence;
 
@@ -41,11 +44,11 @@ public class Blue {
             .lineToSplineHeading(new Pose2d(28, 48, Math.toRadians(45)))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+                new ReleaseRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).schedule();
                 new DepositRightV4BToIdleCommand(bot.deposit).execute();
                 new DepositLeftV4BToDepositCommand(bot.deposit).execute();
             })
@@ -53,6 +56,13 @@ public class Blue {
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 31))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+                new ResetPTOCommand(bot.pto).schedule();
+                //new CustomLiftPositionCommand(bot.pto, Configs.liftTransferPosition).execute();
             })
             .waitSeconds(0.5)
             .build();
@@ -65,17 +75,24 @@ public class Blue {
             .lineToSplineHeading(new Pose2d(26, 38, Math.toRadians(45)))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+                new ReleaseRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).schedule();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .lineToSplineHeading(new Pose2d(backdropX, 37, Math.toRadians(180)))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 31))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+                new ResetPTOCommand(bot.pto).schedule();
+                //new CustomLiftPositionCommand(bot.pto, Configs.liftTransferPosition).execute();
             })
             .waitSeconds(0.5)
             .build();
@@ -90,17 +107,24 @@ public class Blue {
             })
             .waitSeconds(1.0)
             .addTemporalMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+                new ReleaseRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).schedule();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .lineToSplineHeading(new Pose2d(backdropX, 32, Math.toRadians(180)))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 31))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+                new ResetPTOCommand(bot.pto).schedule();
+                //new CustomLiftPositionCommand(bot.pto, Configs.liftTransferPosition).execute();
             })
             .waitSeconds(0.5)
             .build();
@@ -117,7 +141,7 @@ public class Blue {
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+                new ReleaseRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
@@ -129,12 +153,19 @@ public class Blue {
             })
             .lineTo(new Vector2d(24, 14))
             .addTemporalMarker(() -> {
-                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).schedule();
             })
             .splineToConstantHeading(new Vector2d(backdropX, 46), Math.toRadians(0))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 31))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+                new ResetPTOCommand(bot.pto).schedule();
+                //new CustomLiftPositionCommand(bot.pto, Configs.liftTransferPosition).execute();
             })
             .waitSeconds(0.5)
             .build();
@@ -147,19 +178,26 @@ public class Blue {
             })
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+                new ReleaseRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .turn(Math.toRadians(-90))
             .lineTo(new Vector2d(24, 12))
             .addTemporalMarker(() -> {
-                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).schedule();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .splineToConstantHeading(new Vector2d(backdropX, 38), Math.toRadians(0))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 31))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+                new ResetPTOCommand(bot.pto).schedule();
+                //new CustomLiftPositionCommand(bot.pto, Configs.liftTransferPosition).execute();
             })
             .waitSeconds(0.5)
             .build();
@@ -174,7 +212,7 @@ public class Blue {
             .lineToSplineHeading(new Pose2d(rightX + 2, 36, Math.toRadians(0)))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
-                new DepositToggleRightPixelCommand(bot.deposit).execute();
+                new ReleaseRightPixelCommand(bot.deposit).execute();
             })
             .waitSeconds(0.5)
             .lineTo(new Vector2d(rightX, 14))
@@ -184,13 +222,20 @@ public class Blue {
             .turn(Math.toRadians(180))
             .lineTo(new Vector2d(24, 14))
             .addTemporalMarker(() -> {
-                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).execute();
+                new CustomLiftPositionCommand(bot.pto, Configs.liftAutonBackdropPosition).schedule();
                 new DepositV4BToDepositCommand(bot.deposit).execute();
             })
             .splineToConstantHeading(new Vector2d(backdropX, 34), Math.toRadians(0))
             .waitSeconds(0.5)
             .addTemporalMarker(() -> {
                 new ReleasePixelsCommand(bot.deposit).execute();
+            })
+            .waitSeconds(0.5)
+            .lineTo(new Vector2d(backdropX - 6, 31))
+            .addTemporalMarker(() -> {
+                new GrabPixelsCommand(bot.deposit).execute();
+                new ResetPTOCommand(bot.pto).schedule();
+                //new CustomLiftPositionCommand(bot.pto, Configs.liftTransferPosition).execute();
             })
             .waitSeconds(0.5)
             .build();

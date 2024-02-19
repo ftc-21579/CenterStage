@@ -33,6 +33,7 @@ import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualExten
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualExtensionOutCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualLiftDownCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.ManualLiftUpCommand;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.pto.SuperCustomLiftPositionCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToDepositStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToEndgameStateCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.state.ToIntakeStateCommand;
@@ -152,7 +153,7 @@ public class TeleOp extends LinearOpMode {
                         s.schedule(new CustomLiftPositionCommand(bot.pto, Configs.liftHangHeightPosition));
                         s.schedule(new DepositV4BToIdleCommand(deposit));
                     }
-                    if (driver.isDown(GamepadKeys.Button.X)) {s.schedule(new ManualLiftDownCommand(bot.pto, 8.0));}
+                    if (driver.wasJustPressed(GamepadKeys.Button.X)) {s.schedule(new SuperCustomLiftPositionCommand(bot.pto, 370.0, -430.0));}
                     if (driver.wasJustPressed(GamepadKeys.Button.A)) {s.schedule(new ResetDroneLauncherCommand(launcher));}
                     break;
                 default:
