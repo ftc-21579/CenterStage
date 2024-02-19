@@ -2,21 +2,17 @@ package org.firstinspires.ftc.teamcode.common.commandbase.subsystem;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.mineinjava.quail.RobotMovement;
-import com.mineinjava.quail.localization.Localizer;
 import com.mineinjava.quail.pathing.Path;
-import com.mineinjava.quail.pathing.PathFollower;
-import com.mineinjava.quail.pathing.PathSequenceFollower;
-import com.mineinjava.quail.util.MiniPID;
 import com.mineinjava.quail.util.geometry.Pose2d;
 import com.mineinjava.quail.util.geometry.Vec2d;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
+import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
+import org.firstinspires.ftc.teamcode.common.commandbase.command.intake.HeadingServoPowerCommand;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,6 +44,11 @@ public class MecanumDrivetrain extends SubsystemBase {
     public void teleopDrive(Vec2d leftStick, double rx, double multiplier) {
         double x = leftStick.x * multiplier;
         double y = -leftStick.y * multiplier;
+
+        if (bot.pto.getPositions()[0] > 1000 && bot.getBotState() == BotState.INTAKE) {
+            new HeadingServoPowerCommand(bot.intake, rx);
+            rx = 0.0;
+        }
 
         rx *= 0.8;
 

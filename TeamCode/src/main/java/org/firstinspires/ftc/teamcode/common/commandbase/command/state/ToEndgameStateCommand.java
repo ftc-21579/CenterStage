@@ -4,7 +4,7 @@ import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.common.centerstage.BotState;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.DepositV4BToDepositCommand;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 public class ToEndgameStateCommand extends CommandBase {
     private Bot bot;

@@ -7,7 +7,11 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 public class DisableIntakeSpinnerCommand extends InstantCommand {
     public DisableIntakeSpinnerCommand(Intake intake) {
         super(
-                () -> intake.disable()
+                () -> {
+
+                    intake.setSpinnerPower(0.0);
+
+                }
         );
     }
 }

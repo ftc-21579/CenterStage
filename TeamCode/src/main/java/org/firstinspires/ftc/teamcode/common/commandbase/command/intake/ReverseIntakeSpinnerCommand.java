@@ -7,7 +7,11 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 public class ReverseIntakeSpinnerCommand extends InstantCommand {
     public ReverseIntakeSpinnerCommand(Intake i) {
         super(
-                () -> i.reverse()
+                () -> {
+
+                    i.setSpinnerPower(i.getSpinnerPower() * -1);
+
+                }
         );
     }
 }

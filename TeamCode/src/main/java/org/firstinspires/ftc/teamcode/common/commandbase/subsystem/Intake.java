@@ -7,15 +7,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoControllerEx;
-import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.common.Configs;
-import org.firstinspires.ftc.teamcode.common.Util;
 import org.firstinspires.ftc.teamcode.common.centerstage.PixelColor;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,23 +20,13 @@ public class Intake extends SubsystemBase {
 
     Bot bot;
 
-    private CRServo leftServo, rightServo;
-    private ColorSensor leftSensor, rightSensor;
+    private final CRServo leftServo, rightServo, headingServo;
+    //private final ColorSensor leftSensor, rightSensor;
 
-    private ServoImplEx leftv4bServo, rightv4bServo;
-    enum intakeV4BState {
-        INTAKE,
-        TRANSFER,
-        CUSTOM
-    }
+    private final ServoImplEx leftv4bServo, rightv4bServo;
 
-    private intakeV4BState v4bState = intakeV4BState.TRANSFER;
 
-    public static double leftV4bIntakePosition = 1.0, rightV4bIntakePosition = 1.0;
-    public static double leftV4bAboveStackPosition = 0.89, rightV4bAboveStackPosition = 0.89;
-    public static double leftV4bAboveIntakePosition = 0.08, rightV4bAboveIntakePosition = 0.08;
-    public static double leftV4bTransferPosition = 0.0, rightV4bTransferPosition = 0.0;
-
+    // TODO: we need to find a better way to do this
     public static int leftYellowRLower = 2000, leftYellowRUpper = 3000, leftYellowGLower = 3000, leftYellowGUpper = 5000, leftYellowBLower = 500, leftYellowBUpper = 1500;
     public static int leftPurpleRLower = 1000, leftPurpleRUpper = 3000, leftPurpleGLower = 3000, leftPurpleGUpper = 5000, leftPurpleBLower = 5000, leftPurpleBUpper = 7000;
     public static int leftGreenRLower = 500, leftGreenRUpper = 1000, leftGreenGLower = 2000, leftGreenGUpper = 3000, leftGreenBLower = 500, leftGreenBUpper = 1500;
@@ -52,84 +37,27 @@ public class Intake extends SubsystemBase {
     public static int rightGreenRLower = 250, rightGreenRUpper = 750, rightGreenGLower = 1000, rightGreenGUpper = 2000, rightGreenBLower = 250, rightGreenBUpper = 750;
     public static int rightWhiteRLower = 2500, rightWhiteRUpper = 4500, rightWhiteGLower = 3500, rightWhiteGUpper = 5500, rightWhiteBLower = 3000, rightWhiteBUpper = 5000;
 
-    private ArrayList<PixelColor> heldPixels = new ArrayList<PixelColor>();
-
-    enum intakeSpinnerState {
-        ACTIVE,
-        IDLE
-    }
-
-    private intakeSpinnerState spinnerState = intakeSpinnerState.IDLE;
-
     public Intake(Bot bot) {
         this.bot = bot;
 
         leftServo = bot.hMap.get(CRServo.class, "leftIntakeServo");
         rightServo = bot.hMap.get(CRServo.class, "rightIntakeServo");
+        headingServo = bot.hMap.get(CRServo.class, "headingServo");
         //leftServo.setDirection(DcMotorSimple.Direction.REVERSE);
         rightServo.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
-        rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
+        //leftSensor = bot.hMap.get(ColorSensor.class, "leftColorSensor");
+        //rightSensor = bot.hMap.get(ColorSensor.class, "rightColorSensor");
 
         leftv4bServo = bot.hMap.get(ServoImplEx.class, "intakeLeftV4BServo");
         leftv4bServo.setDirection(Servo.Direction.REVERSE);
         rightv4bServo = bot.hMap.get(ServoImplEx.class, "intakeRightV4BServo");
     }
 
-    public void activate() {
-        spinnerState = intakeSpinnerState.ACTIVE;
-        leftServo.setPower(1);
-        rightServo.setPower(1);
-    }
-
-    public void reverse() {
-        spinnerState = intakeSpinnerState.ACTIVE;
-        double p = leftServo.getPower() * -1.0;
-        leftServo.setPower(p);
-        rightServo.setPower(p);
-    }
-
-    public void disable() {
-        spinnerState = intakeSpinnerState.IDLE;
-        leftServo.setPower(0.0);
-        rightServo.setPower(0.0);
-    }
-
-    public void toggleState() {
-        if (spinnerState == intakeSpinnerState.ACTIVE) {
-            disable();
-        } else {
-            activate();
-        }
-    }
-
-    public void v4bIncrement() {
-        leftv4bServo.setPosition(leftv4bServo.getPosition() - 0.01);
-        rightv4bServo.setPosition(rightv4bServo.getPosition() - 0.01);
-
-        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
-        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
-    }
-
-    public void v4bDecrement() {
-        leftv4bServo.setPosition(leftv4bServo.getPosition() + 0.01);
-        rightv4bServo.setPosition(rightv4bServo.getPosition() + 0.01);
-
-        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
-        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
-    }
-
-
-    public void v4bIntakeState() {
-        v4bState = intakeV4BState.INTAKE;
-        leftv4bServo.setPosition(leftV4bIntakePosition);
-        rightv4bServo.setPosition(rightV4bIntakePosition);
-
-        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
-        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
-    }
-
+    /**
+     * Set the height of the V4B servos
+     * @param height the height to set the servos to (0.0 - 1.0)
+     */
     public void v4bCustomHeight(double height) {
         leftv4bServo.setPosition(height);
         rightv4bServo.setPosition(height);
@@ -138,36 +66,41 @@ public class Intake extends SubsystemBase {
         bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
     }
 
-    public void v4bAboveTransferState() {
-        leftv4bServo.setPosition(leftV4bAboveIntakePosition);
-        rightv4bServo.setPosition(rightV4bAboveIntakePosition);
-
-        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
-        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
+    /**
+     * Set the power of the spinner
+     * @param power the power to set the spinner to (-1.0 - 1.0)
+     */
+    public void setSpinnerPower(double power) {
+        leftServo.setPower(power);
+        rightServo.setPower(power);
     }
 
-    public void v4bTransferState() {
-        v4bState = intakeV4BState.TRANSFER;
-        leftv4bServo.setPosition(leftV4bTransferPosition);
-        rightv4bServo.setPosition(rightV4bTransferPosition);
-
-        bot.telem.addData("Left Intake V4B Servo Position: ", leftv4bServo.getPosition());
-        bot.telem.addData("Right Intake V4B Servo Position: ", rightv4bServo.getPosition());
+    /**
+     * Get the power of the spinner
+     * @return the power of the spinner (-1.0 - 1.0)
+     */
+    public double getSpinnerPower() {
+        return (leftServo.getPower() + rightServo.getPower()) / 2;
     }
 
-    public void v4bToggleState() {
-        if (v4bState != intakeV4BState.TRANSFER) {
-            v4bTransferState();
-        } else {
-            v4bIntakeState();
-        }
+    /**
+     * Get the position of the V4B servos
+     * @return the position of the V4B servos (0.0 - 1.0)
+     */
+    public double getV4BPosition() {
+        return (leftv4bServo.getPosition() + rightv4bServo.getPosition()) / 2;
     }
 
-    public void updatePixelColors() {
-        heldPixels = getPixelColors();
+    public void setHeadingServoPower(double power) {
+        headingServo.setPower(power);
     }
 
+    /**
+     * Get the color of the pixels from the color sensors in the intake hopper
+     * @return the color of the pixels {left, right}
+     */
     public ArrayList<PixelColor> getPixelColors() {
+        /*
         ArrayList<Integer> leftRGB = new ArrayList<>(Arrays.asList(leftSensor.red(), leftSensor.green(), leftSensor.blue()));
         ArrayList<Integer> rightRGB = new ArrayList<>(Arrays.asList(rightSensor.red(), rightSensor.green(), rightSensor.blue()));
 
@@ -214,12 +147,18 @@ public class Intake extends SubsystemBase {
         }
 
         bot.telem.addData("Colors", "Left: " + colors.get(0) + " Right: " + colors.get(1));
-        //bot.telem.addData("Left Red: ", leftSensor.red());
-        //bot.telem.addData("Left Green: ", leftSensor.green());
-        //bot.telem.addData("Left Blue: ", leftSensor.blue());
-        //bot.telem.addData("Right Red: ", rightSensor.red());
-        //bot.telem.addData("Right Green: ", rightSensor.green());
-        //bot.telem.addData("Right Blue: ", rightSensor.blue());
+        /*
+        bot.telem.addData("Left Red: ", leftSensor.red());
+        bot.telem.addData("Left Green: ", leftSensor.green());
+        bot.telem.addData("Left Blue: ", leftSensor.blue());
+        bot.telem.addData("Right Red: ", rightSensor.red());
+        bot.telem.addData("Right Green: ", rightSensor.green());
+        bot.telem.addData("Right Blue: ", rightSensor.blue());
+         */
+        ArrayList<PixelColor> colors = new ArrayList<>();
+        colors.add(PixelColor.NONE);
+        colors.add(PixelColor.NONE);
+
         return colors;
     }
 }

@@ -5,29 +5,23 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 
 import org.firstinspires.ftc.teamcode.common.Configs;
-import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
-import org.firstinspires.ftc.teamcode.common.centerstage.GripperState;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 
-public class ReleasePixelsCommand extends CommandBase {
-    private Deposit deposit;
-    private boolean ready = false;
-    public ReleasePixelsCommand(Deposit d) {
+public class ReleaseRightPixelCommand extends CommandBase {
+
+    Deposit deposit;
+    public ReleaseRightPixelCommand (Deposit d) {
         this.deposit = d;
     }
 
     @Override
     public void execute() {
-        deposit.setLeftGripperPosition(Configs.leftGripperReleasePosition);
         deposit.setRightGripperPosition(Configs.rightGripperReleasePosition);
-
         deposit.bot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-
-        ready = true;
     }
 
     @Override
     public boolean isFinished() {
-        return ready;
+        return true;
     }
 }

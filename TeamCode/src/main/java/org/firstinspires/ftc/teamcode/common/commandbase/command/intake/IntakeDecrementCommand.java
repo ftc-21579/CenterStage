@@ -7,7 +7,11 @@ import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Intake;
 public class IntakeDecrementCommand extends InstantCommand {
     public IntakeDecrementCommand(Intake intake) {
         super(
-                () -> intake.v4bDecrement()
+                () -> {
+
+                    intake.v4bCustomHeight(intake.getV4BPosition() - 0.1);
+
+                }
         );
     }
 }

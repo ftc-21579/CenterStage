@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -18,15 +19,11 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.common.centerstage.Alliance;
 import org.firstinspires.ftc.teamcode.common.centerstage.PropDetector;
 import org.firstinspires.ftc.teamcode.common.centerstage.Side;
-import org.firstinspires.ftc.teamcode.common.centerstage.Time;
-import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonCyclePixelsCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonDelayCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.AutonParkCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.auto.PropMovementsCommand;
-//import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
 import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.GrabPixelsCommand;
-import org.firstinspires.ftc.teamcode.common.commandbase.command.deposit.RunLiftPIDCommand;
-import org.firstinspires.ftc.teamcode.common.drive.drive.Bot;
+import org.firstinspires.ftc.teamcode.common.Bot;
 import org.firstinspires.ftc.teamcode.common.drive.roadrunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.opmode.auto.Trajectories.Red;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -66,6 +63,7 @@ public class RedAuto extends LinearOpMode {
         portal.setProcessorEnabled(propPipeline, true);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        bot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
 
         while(!isStarted()) {
             telemetry.clearAll();
@@ -114,6 +112,7 @@ public class RedAuto extends LinearOpMode {
 
         // get prop using propPosition (LEFT, RIGHT, CENTER)
         new SequentialCommandGroup(
+                new GrabPixelsCommand(bot.deposit),
                 new AutonDelayCommand(bot, drive, timeCount),
                 new PropMovementsCommand(bot, drive, propPosition, Alliance.RED, startSide),
                 //new AutonCyclePixelsCommand(drive, bot, Alliance.RED)
@@ -122,9 +121,9 @@ public class RedAuto extends LinearOpMode {
 
         while (opModeIsActive()) {
             drive.update();
-            new RunLiftPIDCommand(bot.deposit).schedule();
             telemetry.update();
             CommandScheduler.getInstance().run();
+            bot.blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
         }
     }
 }

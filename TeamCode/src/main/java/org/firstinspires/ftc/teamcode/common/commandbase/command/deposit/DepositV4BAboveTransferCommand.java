@@ -1,25 +1,22 @@
 package org.firstinspires.ftc.teamcode.common.commandbase.command.deposit;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.common.Configs;
-import org.firstinspires.ftc.teamcode.common.centerstage.DepositState;
-import org.firstinspires.ftc.teamcode.common.centerstage.GripperState;
 import org.firstinspires.ftc.teamcode.common.commandbase.subsystem.Deposit;
 
-public class GrabPixelsCommand extends CommandBase {
+public class DepositV4BAboveTransferCommand extends CommandBase {
+
     private Deposit deposit;
     private boolean ready = false;
-    public GrabPixelsCommand(Deposit d) {
+    public DepositV4BAboveTransferCommand(Deposit d) {
         this.deposit = d;
     }
 
     @Override
     public void execute() {
-        deposit.setLeftGripperPosition(Configs.leftGripperGrabPosition);
-        deposit.setRightGripperPosition(Configs.rightGripperGrabPosition);
-
+        deposit.setLeftV4BPosition(Configs.leftV4bAboveTransferPosition);
+        deposit.setRightV4BPosition(Configs.rightV4bAboveTransferPosition);
         ready = true;
     }
 
