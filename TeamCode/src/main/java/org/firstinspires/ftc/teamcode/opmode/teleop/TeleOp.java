@@ -51,6 +51,7 @@ import java.util.List;
 public class TeleOp extends LinearOpMode {
     private int loopCount = 0, a = 0;
 
+    // runs robot code hehehehehehehehehehehehehehehehehehe
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());

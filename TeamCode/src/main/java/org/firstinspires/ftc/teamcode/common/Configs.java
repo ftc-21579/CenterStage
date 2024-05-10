@@ -49,5 +49,5 @@ public class Configs {
     liftIncrement = 2, extensionIncrement = 10,
     liftSpeed = 1.0, extensionSpeed = 1.0,
     LIFT_TICKS_PER_INCH = 105.977, EXTENSION_TICKS_PER_INCH = 53.0124,
-    leftZeroPosition = -50.0, rightZeroPosition = -10.0;
+    leftZeroPosition = -35.0, rightZeroPosition = -25.0;
 }
